@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package nfs_fuse;
+
+// Interface exported by the server.
+service NFSFuse
+{
+    rpc getattr (GetAttrRequestParams) returns (GetAttrResponseParams) {}
+    rpc readdir (ReadDirRequestParams) returns (ReadDirResponseParams) {}
+    rpc mkdir (MkDirRequestParams) returns (VoidMessage) {}
+    rpc rmdir (RmDirRequestParams) returns (VoidMessage) {}
+    rpc create (CreateRequestParams) returns (VoidMessage) {}
+    rpc delete (DeleteRequestParams) returns (VoidMessage) {}
+    rpc open (OpenRequestParams) returns (OpenResponseParams) {}
+    rpc read (ReadRequestParams) returns (ReadResponseParams) {}
+    rpc write (WriteRequestParams) returns (VoidMessage) {}
+    rpc lookup (LookupRequestParams) returns (LookupResponseParams) {}
+}
+
+message VoidMessage
+{
+}
+
+message GetAttrRequestParams
+{
+    string path = 1;
+}
+
+message GetAttrResponseParams
+{
+    int32 mode = 1;
+    int32 nlink = 2;
+    int32 uid = 3;
+    int32 guid = 4;
+    int64 size = 5;
+}
+
+message ReadDirRequestParams
+{
+    string path = 1;
+}
+
+message ReadDirResponseParams
+{
+    repeated string filenames = 1;
+}
+
+message MkDirRequestParams
+{
+    string path = 1;
+}
+
+message CreateRequestParams
+{
+    string path = 1;
+}
+
+message DeleteRequestParams
+{
+    string path = 1;
+}
+
+message RmDirRequestParams
+{
+    string path = 1;
+}
+
+message OpenRequestParams {
+    string path = 1;
+}
+
+message OpenResponseParams {
+    int32 fileHandle = 1;
+    int32 uid = 2;
+}
+
+message ReadRequestParams {
+    string path = 1;
+}
+
+message ReadResponseParams {
+    string text = 1;
+}
+
+message WriteRequestParams {
+    string bytes = 1;
+    string path = 2;
+}
+
+message LookupRequestParams {
+    string path = 1;
+}
+
+message LookupResponseParams {
+    int32 fileHandle = 1;
+    int32 uid = 2;
+}
