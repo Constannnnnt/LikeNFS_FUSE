@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package nfs_fuse;
+package nfsFuse;
 
 // Interface exported by the server.
 service NFSFuse
@@ -10,24 +10,21 @@ service NFSFuse
     rpc mkdir (MkDirRequestParams) returns (VoidMessage) {}
     rpc rmdir (RmDirRequestParams) returns (VoidMessage) {}
     rpc create (CreateRequestParams) returns (VoidMessage) {}
-    rpc delete (DeleteRequestParams) returns (VoidMessage) {}
+    rpc remove (DeleteRequestParams) returns (VoidMessage) {}
     rpc open (OpenRequestParams) returns (OpenResponseParams) {}
     rpc read (ReadRequestParams) returns (ReadResponseParams) {}
     rpc write (WriteRequestParams) returns (VoidMessage) {}
     rpc lookup (LookupRequestParams) returns (LookupResponseParams) {}
 }
 
-message VoidMessage
-{
-}
+message VoidMessage {
+} 
 
-message GetAttrRequestParams
-{
+message GetAttrRequestParams {
     string path = 1;
 }
 
-message GetAttrResponseParams
-{
+message GetAttrResponseParams {
     int32 mode = 1;
     int32 nlink = 2;
     int32 uid = 3;
@@ -35,33 +32,27 @@ message GetAttrResponseParams
     int64 size = 5;
 }
 
-message ReadDirRequestParams
-{
+message ReadDirRequestParams {
     string path = 1;
 }
 
-message ReadDirResponseParams
-{
+message ReadDirResponseParams {
     repeated string filenames = 1;
 }
 
-message MkDirRequestParams
-{
+message MkDirRequestParams {
     string path = 1;
 }
 
-message CreateRequestParams
-{
+message CreateRequestParams {
     string path = 1;
 }
 
-message DeleteRequestParams
-{
+message DeleteRequestParams {
     string path = 1;
 }
 
-message RmDirRequestParams
-{
+message RmDirRequestParams {
     string path = 1;
 }
 
