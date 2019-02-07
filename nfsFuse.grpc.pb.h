@@ -45,12 +45,14 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::GetAttrResponseParams>> PrepareAsyncgetattr(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::GetAttrResponseParams>>(PrepareAsyncgetattrRaw(context, request, cq));
     }
-    virtual ::grpc::Status readdir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::nfsFuse::ReadDirResponseParams* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadDirResponseParams>> Asyncreaddir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadDirResponseParams>>(AsyncreaddirRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::nfsFuse::ReadDirResponseParams>> readdir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::nfsFuse::ReadDirResponseParams>>(readdirRaw(context, request));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadDirResponseParams>> PrepareAsyncreaddir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadDirResponseParams>>(PrepareAsyncreaddirRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::nfsFuse::ReadDirResponseParams>> Asyncreaddir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::nfsFuse::ReadDirResponseParams>>(AsyncreaddirRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::nfsFuse::ReadDirResponseParams>> PrepareAsyncreaddir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::nfsFuse::ReadDirResponseParams>>(PrepareAsyncreaddirRaw(context, request, cq));
     }
     virtual ::grpc::Status mkdir(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams& request, ::nfsFuse::VoidMessage* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>> Asyncmkdir(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams& request, ::grpc::CompletionQueue* cq) {
@@ -66,19 +68,12 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>> PrepareAsyncrmdir(::grpc::ClientContext* context, const ::nfsFuse::RmDirRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>>(PrepareAsyncrmdirRaw(context, request, cq));
     }
-    virtual ::grpc::Status create(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::nfsFuse::VoidMessage* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>> Asynccreate(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>>(AsynccreateRaw(context, request, cq));
+    virtual ::grpc::Status create(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::nfsFuse::CreateResponseParams* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CreateResponseParams>> Asynccreate(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CreateResponseParams>>(AsynccreateRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>> PrepareAsynccreate(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>>(PrepareAsynccreateRaw(context, request, cq));
-    }
-    virtual ::grpc::Status remove(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::nfsFuse::VoidMessage* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>> Asyncremove(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>>(AsyncremoveRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>> PrepareAsyncremove(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>>(PrepareAsyncremoveRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CreateResponseParams>> PrepareAsynccreate(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CreateResponseParams>>(PrepareAsynccreateRaw(context, request, cq));
     }
     virtual ::grpc::Status open(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams& request, ::nfsFuse::OpenResponseParams* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::OpenResponseParams>> Asyncopen(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams& request, ::grpc::CompletionQueue* cq) {
@@ -94,56 +89,44 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadResponseParams>> PrepareAsyncread(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadResponseParams>>(PrepareAsyncreadRaw(context, request, cq));
     }
-    virtual ::grpc::Status write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::nfsFuse::VoidMessage* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>> Asyncwrite(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>>(AsyncwriteRaw(context, request, cq));
+    virtual ::grpc::Status write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::nfsFuse::WriteReponseParams* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteReponseParams>> Asyncwrite(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteReponseParams>>(AsyncwriteRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>> PrepareAsyncwrite(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>>(PrepareAsyncwriteRaw(context, request, cq));
-    }
-    virtual ::grpc::Status lookup(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::nfsFuse::LookupResponseParams* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::LookupResponseParams>> Asynclookup(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::LookupResponseParams>>(AsynclookupRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::LookupResponseParams>> PrepareAsynclookup(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::LookupResponseParams>>(PrepareAsynclookupRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteReponseParams>> PrepareAsyncwrite(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteReponseParams>>(PrepareAsyncwriteRaw(context, request, cq));
     }
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
       virtual void getattr(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams* request, ::nfsFuse::GetAttrResponseParams* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void readdir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void readdir(::grpc::ClientContext* context, ::nfsFuse::ReadDirRequestParams* request, ::grpc::experimental::ClientReadReactor< ::nfsFuse::ReadDirResponseParams>* reactor) = 0;
       virtual void mkdir(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) = 0;
       virtual void rmdir(::grpc::ClientContext* context, const ::nfsFuse::RmDirRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void create(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void remove(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void create(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response, std::function<void(::grpc::Status)>) = 0;
       virtual void open(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams* request, ::nfsFuse::OpenResponseParams* response, std::function<void(::grpc::Status)>) = 0;
       virtual void read(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams* request, ::nfsFuse::ReadResponseParams* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void lookup(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response, std::function<void(::grpc::Status)>) = 0;
     };
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::GetAttrResponseParams>* AsyncgetattrRaw(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::GetAttrResponseParams>* PrepareAsyncgetattrRaw(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadDirResponseParams>* AsyncreaddirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadDirResponseParams>* PrepareAsyncreaddirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::nfsFuse::ReadDirResponseParams>* readdirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::nfsFuse::ReadDirResponseParams>* AsyncreaddirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::nfsFuse::ReadDirResponseParams>* PrepareAsyncreaddirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* AsyncmkdirRaw(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* PrepareAsyncmkdirRaw(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* AsyncrmdirRaw(::grpc::ClientContext* context, const ::nfsFuse::RmDirRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* PrepareAsyncrmdirRaw(::grpc::ClientContext* context, const ::nfsFuse::RmDirRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* AsynccreateRaw(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* PrepareAsynccreateRaw(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* AsyncremoveRaw(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* PrepareAsyncremoveRaw(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CreateResponseParams>* AsynccreateRaw(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CreateResponseParams>* PrepareAsynccreateRaw(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::OpenResponseParams>* AsyncopenRaw(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::OpenResponseParams>* PrepareAsyncopenRaw(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadResponseParams>* AsyncreadRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadResponseParams>* PrepareAsyncreadRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* AsyncwriteRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* PrepareAsyncwriteRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::LookupResponseParams>* AsynclookupRaw(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::LookupResponseParams>* PrepareAsynclookupRaw(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteReponseParams>* AsyncwriteRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteReponseParams>* PrepareAsyncwriteRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -155,12 +138,14 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::GetAttrResponseParams>> PrepareAsyncgetattr(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::GetAttrResponseParams>>(PrepareAsyncgetattrRaw(context, request, cq));
     }
-    ::grpc::Status readdir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::nfsFuse::ReadDirResponseParams* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadDirResponseParams>> Asyncreaddir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadDirResponseParams>>(AsyncreaddirRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientReader< ::nfsFuse::ReadDirResponseParams>> readdir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::nfsFuse::ReadDirResponseParams>>(readdirRaw(context, request));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadDirResponseParams>> PrepareAsyncreaddir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadDirResponseParams>>(PrepareAsyncreaddirRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::nfsFuse::ReadDirResponseParams>> Asyncreaddir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::nfsFuse::ReadDirResponseParams>>(AsyncreaddirRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::nfsFuse::ReadDirResponseParams>> PrepareAsyncreaddir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::nfsFuse::ReadDirResponseParams>>(PrepareAsyncreaddirRaw(context, request, cq));
     }
     ::grpc::Status mkdir(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams& request, ::nfsFuse::VoidMessage* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>> Asyncmkdir(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams& request, ::grpc::CompletionQueue* cq) {
@@ -176,19 +161,12 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>> PrepareAsyncrmdir(::grpc::ClientContext* context, const ::nfsFuse::RmDirRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>>(PrepareAsyncrmdirRaw(context, request, cq));
     }
-    ::grpc::Status create(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::nfsFuse::VoidMessage* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>> Asynccreate(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>>(AsynccreateRaw(context, request, cq));
+    ::grpc::Status create(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::nfsFuse::CreateResponseParams* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CreateResponseParams>> Asynccreate(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CreateResponseParams>>(AsynccreateRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>> PrepareAsynccreate(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>>(PrepareAsynccreateRaw(context, request, cq));
-    }
-    ::grpc::Status remove(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::nfsFuse::VoidMessage* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>> Asyncremove(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>>(AsyncremoveRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>> PrepareAsyncremove(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>>(PrepareAsyncremoveRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CreateResponseParams>> PrepareAsynccreate(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CreateResponseParams>>(PrepareAsynccreateRaw(context, request, cq));
     }
     ::grpc::Status open(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams& request, ::nfsFuse::OpenResponseParams* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::OpenResponseParams>> Asyncopen(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams& request, ::grpc::CompletionQueue* cq) {
@@ -204,33 +182,24 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadResponseParams>> PrepareAsyncread(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadResponseParams>>(PrepareAsyncreadRaw(context, request, cq));
     }
-    ::grpc::Status write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::nfsFuse::VoidMessage* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>> Asyncwrite(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>>(AsyncwriteRaw(context, request, cq));
+    ::grpc::Status write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::nfsFuse::WriteReponseParams* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteReponseParams>> Asyncwrite(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteReponseParams>>(AsyncwriteRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>> PrepareAsyncwrite(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>>(PrepareAsyncwriteRaw(context, request, cq));
-    }
-    ::grpc::Status lookup(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::nfsFuse::LookupResponseParams* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::LookupResponseParams>> Asynclookup(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::LookupResponseParams>>(AsynclookupRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::LookupResponseParams>> PrepareAsynclookup(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::LookupResponseParams>>(PrepareAsynclookupRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteReponseParams>> PrepareAsyncwrite(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteReponseParams>>(PrepareAsyncwriteRaw(context, request, cq));
     }
     class experimental_async final :
       public StubInterface::experimental_async_interface {
      public:
       void getattr(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams* request, ::nfsFuse::GetAttrResponseParams* response, std::function<void(::grpc::Status)>) override;
-      void readdir(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response, std::function<void(::grpc::Status)>) override;
+      void readdir(::grpc::ClientContext* context, ::nfsFuse::ReadDirRequestParams* request, ::grpc::experimental::ClientReadReactor< ::nfsFuse::ReadDirResponseParams>* reactor) override;
       void mkdir(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) override;
       void rmdir(::grpc::ClientContext* context, const ::nfsFuse::RmDirRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) override;
-      void create(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) override;
-      void remove(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) override;
+      void create(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response, std::function<void(::grpc::Status)>) override;
       void open(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams* request, ::nfsFuse::OpenResponseParams* response, std::function<void(::grpc::Status)>) override;
       void read(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams* request, ::nfsFuse::ReadResponseParams* response, std::function<void(::grpc::Status)>) override;
-      void write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) override;
-      void lookup(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response, std::function<void(::grpc::Status)>) override;
+      void write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response, std::function<void(::grpc::Status)>) override;
      private:
       friend class Stub;
       explicit experimental_async(Stub* stub): stub_(stub) { }
@@ -244,34 +213,29 @@ class NFSFuse final {
     class experimental_async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::GetAttrResponseParams>* AsyncgetattrRaw(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::GetAttrResponseParams>* PrepareAsyncgetattrRaw(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadDirResponseParams>* AsyncreaddirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadDirResponseParams>* PrepareAsyncreaddirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::nfsFuse::ReadDirResponseParams>* readdirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request) override;
+    ::grpc::ClientAsyncReader< ::nfsFuse::ReadDirResponseParams>* AsyncreaddirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::nfsFuse::ReadDirResponseParams>* PrepareAsyncreaddirRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadDirRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* AsyncmkdirRaw(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* PrepareAsyncmkdirRaw(::grpc::ClientContext* context, const ::nfsFuse::MkDirRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* AsyncrmdirRaw(::grpc::ClientContext* context, const ::nfsFuse::RmDirRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* PrepareAsyncrmdirRaw(::grpc::ClientContext* context, const ::nfsFuse::RmDirRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* AsynccreateRaw(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* PrepareAsynccreateRaw(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* AsyncremoveRaw(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* PrepareAsyncremoveRaw(::grpc::ClientContext* context, const ::nfsFuse::DeleteRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::CreateResponseParams>* AsynccreateRaw(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::CreateResponseParams>* PrepareAsynccreateRaw(::grpc::ClientContext* context, const ::nfsFuse::CreateRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::OpenResponseParams>* AsyncopenRaw(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::OpenResponseParams>* PrepareAsyncopenRaw(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadResponseParams>* AsyncreadRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadResponseParams>* PrepareAsyncreadRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* AsyncwriteRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* PrepareAsyncwriteRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::LookupResponseParams>* AsynclookupRaw(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::nfsFuse::LookupResponseParams>* PrepareAsynclookupRaw(::grpc::ClientContext* context, const ::nfsFuse::LookupRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteReponseParams>* AsyncwriteRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteReponseParams>* PrepareAsyncwriteRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_getattr_;
     const ::grpc::internal::RpcMethod rpcmethod_readdir_;
     const ::grpc::internal::RpcMethod rpcmethod_mkdir_;
     const ::grpc::internal::RpcMethod rpcmethod_rmdir_;
     const ::grpc::internal::RpcMethod rpcmethod_create_;
-    const ::grpc::internal::RpcMethod rpcmethod_remove_;
     const ::grpc::internal::RpcMethod rpcmethod_open_;
     const ::grpc::internal::RpcMethod rpcmethod_read_;
     const ::grpc::internal::RpcMethod rpcmethod_write_;
-    const ::grpc::internal::RpcMethod rpcmethod_lookup_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -280,15 +244,13 @@ class NFSFuse final {
     Service();
     virtual ~Service();
     virtual ::grpc::Status getattr(::grpc::ServerContext* context, const ::nfsFuse::GetAttrRequestParams* request, ::nfsFuse::GetAttrResponseParams* response);
-    virtual ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response);
+    virtual ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::grpc::ServerWriter< ::nfsFuse::ReadDirResponseParams>* writer);
     virtual ::grpc::Status mkdir(::grpc::ServerContext* context, const ::nfsFuse::MkDirRequestParams* request, ::nfsFuse::VoidMessage* response);
     virtual ::grpc::Status rmdir(::grpc::ServerContext* context, const ::nfsFuse::RmDirRequestParams* request, ::nfsFuse::VoidMessage* response);
-    virtual ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response);
-    virtual ::grpc::Status remove(::grpc::ServerContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response);
+    virtual ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response);
     virtual ::grpc::Status open(::grpc::ServerContext* context, const ::nfsFuse::OpenRequestParams* request, ::nfsFuse::OpenResponseParams* response);
     virtual ::grpc::Status read(::grpc::ServerContext* context, const ::nfsFuse::ReadRequestParams* request, ::nfsFuse::ReadResponseParams* response);
-    virtual ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response);
-    virtual ::grpc::Status lookup(::grpc::ServerContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response);
+    virtual ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_getattr : public BaseClass {
@@ -322,12 +284,12 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response) override {
+    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::grpc::ServerWriter< ::nfsFuse::ReadDirResponseParams>* writer) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void Requestreaddir(::grpc::ServerContext* context, ::nfsFuse::ReadDirRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::ReadDirResponseParams>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    void Requestreaddir(::grpc::ServerContext* context, ::nfsFuse::ReadDirRequestParams* request, ::grpc::ServerAsyncWriter< ::nfsFuse::ReadDirResponseParams>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(1, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -382,32 +344,12 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void Requestcreate(::grpc::ServerContext* context, ::nfsFuse::CreateRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::VoidMessage>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void Requestcreate(::grpc::ServerContext* context, ::nfsFuse::CreateRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::CreateResponseParams>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_remove : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithAsyncMethod_remove() {
-      ::grpc::Service::MarkMethodAsync(5);
-    }
-    ~WithAsyncMethod_remove() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status remove(::grpc::ServerContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void Requestremove(::grpc::ServerContext* context, ::nfsFuse::DeleteRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::VoidMessage>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -416,7 +358,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_open() {
-      ::grpc::Service::MarkMethodAsync(6);
+      ::grpc::Service::MarkMethodAsync(5);
     }
     ~WithAsyncMethod_open() override {
       BaseClassMustBeDerivedFromService(this);
@@ -427,7 +369,7 @@ class NFSFuse final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void Requestopen(::grpc::ServerContext* context, ::nfsFuse::OpenRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::OpenResponseParams>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -436,7 +378,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_read() {
-      ::grpc::Service::MarkMethodAsync(7);
+      ::grpc::Service::MarkMethodAsync(6);
     }
     ~WithAsyncMethod_read() override {
       BaseClassMustBeDerivedFromService(this);
@@ -447,7 +389,7 @@ class NFSFuse final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void Requestread(::grpc::ServerContext* context, ::nfsFuse::ReadRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::ReadResponseParams>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -456,41 +398,21 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_write() {
-      ::grpc::Service::MarkMethodAsync(8);
+      ::grpc::Service::MarkMethodAsync(7);
     }
     ~WithAsyncMethod_write() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void Requestwrite(::grpc::ServerContext* context, ::nfsFuse::WriteRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::VoidMessage>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+    void Requestwrite(::grpc::ServerContext* context, ::nfsFuse::WriteRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::WriteReponseParams>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  template <class BaseClass>
-  class WithAsyncMethod_lookup : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithAsyncMethod_lookup() {
-      ::grpc::Service::MarkMethodAsync(9);
-    }
-    ~WithAsyncMethod_lookup() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status lookup(::grpc::ServerContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void Requestlookup(::grpc::ServerContext* context, ::nfsFuse::LookupRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::LookupResponseParams>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  typedef WithAsyncMethod_getattr<WithAsyncMethod_readdir<WithAsyncMethod_mkdir<WithAsyncMethod_rmdir<WithAsyncMethod_create<WithAsyncMethod_remove<WithAsyncMethod_open<WithAsyncMethod_read<WithAsyncMethod_write<WithAsyncMethod_lookup<Service > > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_getattr<WithAsyncMethod_readdir<WithAsyncMethod_mkdir<WithAsyncMethod_rmdir<WithAsyncMethod_create<WithAsyncMethod_open<WithAsyncMethod_read<WithAsyncMethod_write<Service > > > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_getattr : public BaseClass {
    private:
@@ -523,23 +445,20 @@ class NFSFuse final {
    public:
     ExperimentalWithCallbackMethod_readdir() {
       ::grpc::Service::experimental().MarkMethodCallback(1,
-        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::ReadDirRequestParams, ::nfsFuse::ReadDirResponseParams>(
-          [this](::grpc::ServerContext* context,
-                 const ::nfsFuse::ReadDirRequestParams* request,
-                 ::nfsFuse::ReadDirResponseParams* response,
-                 ::grpc::experimental::ServerCallbackRpcController* controller) {
-                   return this->readdir(context, request, response, controller);
-                 }));
+        new ::grpc::internal::CallbackServerStreamingHandler< ::nfsFuse::ReadDirRequestParams, ::nfsFuse::ReadDirResponseParams>(
+          [this] { return this->readdir(); }));
     }
     ~ExperimentalWithCallbackMethod_readdir() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response) override {
+    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::grpc::ServerWriter< ::nfsFuse::ReadDirResponseParams>* writer) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual ::grpc::experimental::ServerWriteReactor< ::nfsFuse::ReadDirRequestParams, ::nfsFuse::ReadDirResponseParams>* readdir() {
+      return new ::grpc::internal::UnimplementedWriteReactor<
+        ::nfsFuse::ReadDirRequestParams, ::nfsFuse::ReadDirResponseParams>;}
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_mkdir : public BaseClass {
@@ -598,10 +517,10 @@ class NFSFuse final {
    public:
     ExperimentalWithCallbackMethod_create() {
       ::grpc::Service::experimental().MarkMethodCallback(4,
-        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::CreateRequestParams, ::nfsFuse::VoidMessage>(
+        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::CreateRequestParams, ::nfsFuse::CreateResponseParams>(
           [this](::grpc::ServerContext* context,
                  const ::nfsFuse::CreateRequestParams* request,
-                 ::nfsFuse::VoidMessage* response,
+                 ::nfsFuse::CreateResponseParams* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->create(context, request, response, controller);
                  }));
@@ -610,36 +529,11 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
-  };
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_remove : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    ExperimentalWithCallbackMethod_remove() {
-      ::grpc::Service::experimental().MarkMethodCallback(5,
-        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::DeleteRequestParams, ::nfsFuse::VoidMessage>(
-          [this](::grpc::ServerContext* context,
-                 const ::nfsFuse::DeleteRequestParams* request,
-                 ::nfsFuse::VoidMessage* response,
-                 ::grpc::experimental::ServerCallbackRpcController* controller) {
-                   return this->remove(context, request, response, controller);
-                 }));
-    }
-    ~ExperimentalWithCallbackMethod_remove() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status remove(::grpc::ServerContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual void remove(::grpc::ServerContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_open : public BaseClass {
@@ -647,7 +541,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     ExperimentalWithCallbackMethod_open() {
-      ::grpc::Service::experimental().MarkMethodCallback(6,
+      ::grpc::Service::experimental().MarkMethodCallback(5,
         new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::OpenRequestParams, ::nfsFuse::OpenResponseParams>(
           [this](::grpc::ServerContext* context,
                  const ::nfsFuse::OpenRequestParams* request,
@@ -672,7 +566,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     ExperimentalWithCallbackMethod_read() {
-      ::grpc::Service::experimental().MarkMethodCallback(7,
+      ::grpc::Service::experimental().MarkMethodCallback(6,
         new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::ReadRequestParams, ::nfsFuse::ReadResponseParams>(
           [this](::grpc::ServerContext* context,
                  const ::nfsFuse::ReadRequestParams* request,
@@ -697,11 +591,11 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     ExperimentalWithCallbackMethod_write() {
-      ::grpc::Service::experimental().MarkMethodCallback(8,
-        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::WriteRequestParams, ::nfsFuse::VoidMessage>(
+      ::grpc::Service::experimental().MarkMethodCallback(7,
+        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::WriteRequestParams, ::nfsFuse::WriteReponseParams>(
           [this](::grpc::ServerContext* context,
                  const ::nfsFuse::WriteRequestParams* request,
-                 ::nfsFuse::VoidMessage* response,
+                 ::nfsFuse::WriteReponseParams* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->write(context, request, response, controller);
                  }));
@@ -710,38 +604,13 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
-  template <class BaseClass>
-  class ExperimentalWithCallbackMethod_lookup : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    ExperimentalWithCallbackMethod_lookup() {
-      ::grpc::Service::experimental().MarkMethodCallback(9,
-        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::LookupRequestParams, ::nfsFuse::LookupResponseParams>(
-          [this](::grpc::ServerContext* context,
-                 const ::nfsFuse::LookupRequestParams* request,
-                 ::nfsFuse::LookupResponseParams* response,
-                 ::grpc::experimental::ServerCallbackRpcController* controller) {
-                   return this->lookup(context, request, response, controller);
-                 }));
-    }
-    ~ExperimentalWithCallbackMethod_lookup() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status lookup(::grpc::ServerContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual void lookup(::grpc::ServerContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
-  };
-  typedef ExperimentalWithCallbackMethod_getattr<ExperimentalWithCallbackMethod_readdir<ExperimentalWithCallbackMethod_mkdir<ExperimentalWithCallbackMethod_rmdir<ExperimentalWithCallbackMethod_create<ExperimentalWithCallbackMethod_remove<ExperimentalWithCallbackMethod_open<ExperimentalWithCallbackMethod_read<ExperimentalWithCallbackMethod_write<ExperimentalWithCallbackMethod_lookup<Service > > > > > > > > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_getattr<ExperimentalWithCallbackMethod_readdir<ExperimentalWithCallbackMethod_mkdir<ExperimentalWithCallbackMethod_rmdir<ExperimentalWithCallbackMethod_create<ExperimentalWithCallbackMethod_open<ExperimentalWithCallbackMethod_read<ExperimentalWithCallbackMethod_write<Service > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_getattr : public BaseClass {
    private:
@@ -771,7 +640,7 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response) override {
+    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::grpc::ServerWriter< ::nfsFuse::ReadDirResponseParams>* writer) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -822,24 +691,7 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_remove : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithGenericMethod_remove() {
-      ::grpc::Service::MarkMethodGeneric(5);
-    }
-    ~WithGenericMethod_remove() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status remove(::grpc::ServerContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -850,7 +702,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_open() {
-      ::grpc::Service::MarkMethodGeneric(6);
+      ::grpc::Service::MarkMethodGeneric(5);
     }
     ~WithGenericMethod_open() override {
       BaseClassMustBeDerivedFromService(this);
@@ -867,7 +719,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_read() {
-      ::grpc::Service::MarkMethodGeneric(7);
+      ::grpc::Service::MarkMethodGeneric(6);
     }
     ~WithGenericMethod_read() override {
       BaseClassMustBeDerivedFromService(this);
@@ -884,30 +736,13 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_write() {
-      ::grpc::Service::MarkMethodGeneric(8);
+      ::grpc::Service::MarkMethodGeneric(7);
     }
     ~WithGenericMethod_write() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_lookup : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithGenericMethod_lookup() {
-      ::grpc::Service::MarkMethodGeneric(9);
-    }
-    ~WithGenericMethod_lookup() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status lookup(::grpc::ServerContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response) override {
+    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -944,12 +779,12 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response) override {
+    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::grpc::ServerWriter< ::nfsFuse::ReadDirResponseParams>* writer) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void Requestreaddir(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    void Requestreaddir(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(1, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1004,7 +839,7 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1013,32 +848,12 @@ class NFSFuse final {
     }
   };
   template <class BaseClass>
-  class WithRawMethod_remove : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithRawMethod_remove() {
-      ::grpc::Service::MarkMethodRaw(5);
-    }
-    ~WithRawMethod_remove() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status remove(::grpc::ServerContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void Requestremove(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
   class WithRawMethod_open : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_open() {
-      ::grpc::Service::MarkMethodRaw(6);
+      ::grpc::Service::MarkMethodRaw(5);
     }
     ~WithRawMethod_open() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1049,7 +864,7 @@ class NFSFuse final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void Requestopen(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1058,7 +873,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_read() {
-      ::grpc::Service::MarkMethodRaw(7);
+      ::grpc::Service::MarkMethodRaw(6);
     }
     ~WithRawMethod_read() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1069,7 +884,7 @@ class NFSFuse final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void Requestread(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1078,38 +893,18 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_write() {
-      ::grpc::Service::MarkMethodRaw(8);
+      ::grpc::Service::MarkMethodRaw(7);
     }
     ~WithRawMethod_write() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void Requestwrite(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_lookup : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithRawMethod_lookup() {
-      ::grpc::Service::MarkMethodRaw(9);
-    }
-    ~WithRawMethod_lookup() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status lookup(::grpc::ServerContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void Requestlookup(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1144,23 +939,20 @@ class NFSFuse final {
    public:
     ExperimentalWithRawCallbackMethod_readdir() {
       ::grpc::Service::experimental().MarkMethodRawCallback(1,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-          [this](::grpc::ServerContext* context,
-                 const ::grpc::ByteBuffer* request,
-                 ::grpc::ByteBuffer* response,
-                 ::grpc::experimental::ServerCallbackRpcController* controller) {
-                   this->readdir(context, request, response, controller);
-                 }));
+        new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+          [this] { return this->readdir(); }));
     }
     ~ExperimentalWithRawCallbackMethod_readdir() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response) override {
+    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::grpc::ServerWriter< ::nfsFuse::ReadDirResponseParams>* writer) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void readdir(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual ::grpc::experimental::ServerWriteReactor< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* readdir() {
+      return new ::grpc::internal::UnimplementedWriteReactor<
+        ::grpc::ByteBuffer, ::grpc::ByteBuffer>;}
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_mkdir : public BaseClass {
@@ -1231,36 +1023,11 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual void create(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
-  };
-  template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_remove : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    ExperimentalWithRawCallbackMethod_remove() {
-      ::grpc::Service::experimental().MarkMethodRawCallback(5,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-          [this](::grpc::ServerContext* context,
-                 const ::grpc::ByteBuffer* request,
-                 ::grpc::ByteBuffer* response,
-                 ::grpc::experimental::ServerCallbackRpcController* controller) {
-                   this->remove(context, request, response, controller);
-                 }));
-    }
-    ~ExperimentalWithRawCallbackMethod_remove() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status remove(::grpc::ServerContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual void remove(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_open : public BaseClass {
@@ -1268,7 +1035,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     ExperimentalWithRawCallbackMethod_open() {
-      ::grpc::Service::experimental().MarkMethodRawCallback(6,
+      ::grpc::Service::experimental().MarkMethodRawCallback(5,
         new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
@@ -1293,7 +1060,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     ExperimentalWithRawCallbackMethod_read() {
-      ::grpc::Service::experimental().MarkMethodRawCallback(7,
+      ::grpc::Service::experimental().MarkMethodRawCallback(6,
         new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
@@ -1318,7 +1085,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     ExperimentalWithRawCallbackMethod_write() {
-      ::grpc::Service::experimental().MarkMethodRawCallback(8,
+      ::grpc::Service::experimental().MarkMethodRawCallback(7,
         new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
@@ -1331,36 +1098,11 @@ class NFSFuse final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual void write(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
-  };
-  template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_lookup : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    ExperimentalWithRawCallbackMethod_lookup() {
-      ::grpc::Service::experimental().MarkMethodRawCallback(9,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-          [this](::grpc::ServerContext* context,
-                 const ::grpc::ByteBuffer* request,
-                 ::grpc::ByteBuffer* response,
-                 ::grpc::experimental::ServerCallbackRpcController* controller) {
-                   this->lookup(context, request, response, controller);
-                 }));
-    }
-    ~ExperimentalWithRawCallbackMethod_lookup() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status lookup(::grpc::ServerContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual void lookup(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_getattr : public BaseClass {
@@ -1381,26 +1123,6 @@ class NFSFuse final {
     }
     // replace default version of method with streamed unary
     virtual ::grpc::Status Streamedgetattr(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::GetAttrRequestParams,::nfsFuse::GetAttrResponseParams>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_readdir : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithStreamedUnaryMethod_readdir() {
-      ::grpc::Service::MarkMethodStreamed(1,
-        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::ReadDirRequestParams, ::nfsFuse::ReadDirResponseParams>(std::bind(&WithStreamedUnaryMethod_readdir<BaseClass>::Streamedreaddir, this, std::placeholders::_1, std::placeholders::_2)));
-    }
-    ~WithStreamedUnaryMethod_readdir() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::nfsFuse::ReadDirResponseParams* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status Streamedreaddir(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::ReadDirRequestParams,::nfsFuse::ReadDirResponseParams>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_mkdir : public BaseClass {
@@ -1449,38 +1171,18 @@ class NFSFuse final {
    public:
     WithStreamedUnaryMethod_create() {
       ::grpc::Service::MarkMethodStreamed(4,
-        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::CreateRequestParams, ::nfsFuse::VoidMessage>(std::bind(&WithStreamedUnaryMethod_create<BaseClass>::Streamedcreate, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::CreateRequestParams, ::nfsFuse::CreateResponseParams>(std::bind(&WithStreamedUnaryMethod_create<BaseClass>::Streamedcreate, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_create() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status create(::grpc::ServerContext* context, const ::nfsFuse::CreateRequestParams* request, ::nfsFuse::CreateResponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status Streamedcreate(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::CreateRequestParams,::nfsFuse::VoidMessage>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_remove : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithStreamedUnaryMethod_remove() {
-      ::grpc::Service::MarkMethodStreamed(5,
-        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::DeleteRequestParams, ::nfsFuse::VoidMessage>(std::bind(&WithStreamedUnaryMethod_remove<BaseClass>::Streamedremove, this, std::placeholders::_1, std::placeholders::_2)));
-    }
-    ~WithStreamedUnaryMethod_remove() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status remove(::grpc::ServerContext* context, const ::nfsFuse::DeleteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status Streamedremove(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::DeleteRequestParams,::nfsFuse::VoidMessage>* server_unary_streamer) = 0;
+    virtual ::grpc::Status Streamedcreate(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::CreateRequestParams,::nfsFuse::CreateResponseParams>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_open : public BaseClass {
@@ -1488,7 +1190,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_open() {
-      ::grpc::Service::MarkMethodStreamed(6,
+      ::grpc::Service::MarkMethodStreamed(5,
         new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::OpenRequestParams, ::nfsFuse::OpenResponseParams>(std::bind(&WithStreamedUnaryMethod_open<BaseClass>::Streamedopen, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_open() override {
@@ -1508,7 +1210,7 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_read() {
-      ::grpc::Service::MarkMethodStreamed(7,
+      ::grpc::Service::MarkMethodStreamed(6,
         new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::ReadRequestParams, ::nfsFuse::ReadResponseParams>(std::bind(&WithStreamedUnaryMethod_read<BaseClass>::Streamedread, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_read() override {
@@ -1528,43 +1230,43 @@ class NFSFuse final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_write() {
-      ::grpc::Service::MarkMethodStreamed(8,
-        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::WriteRequestParams, ::nfsFuse::VoidMessage>(std::bind(&WithStreamedUnaryMethod_write<BaseClass>::Streamedwrite, this, std::placeholders::_1, std::placeholders::_2)));
+      ::grpc::Service::MarkMethodStreamed(7,
+        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::WriteRequestParams, ::nfsFuse::WriteReponseParams>(std::bind(&WithStreamedUnaryMethod_write<BaseClass>::Streamedwrite, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_write() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+    ::grpc::Status write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteReponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status Streamedwrite(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::WriteRequestParams,::nfsFuse::VoidMessage>* server_unary_streamer) = 0;
+    virtual ::grpc::Status Streamedwrite(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::WriteRequestParams,::nfsFuse::WriteReponseParams>* server_unary_streamer) = 0;
   };
+  typedef WithStreamedUnaryMethod_getattr<WithStreamedUnaryMethod_mkdir<WithStreamedUnaryMethod_rmdir<WithStreamedUnaryMethod_create<WithStreamedUnaryMethod_open<WithStreamedUnaryMethod_read<WithStreamedUnaryMethod_write<Service > > > > > > > StreamedUnaryService;
   template <class BaseClass>
-  class WithStreamedUnaryMethod_lookup : public BaseClass {
+  class WithSplitStreamingMethod_readdir : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithStreamedUnaryMethod_lookup() {
-      ::grpc::Service::MarkMethodStreamed(9,
-        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::LookupRequestParams, ::nfsFuse::LookupResponseParams>(std::bind(&WithStreamedUnaryMethod_lookup<BaseClass>::Streamedlookup, this, std::placeholders::_1, std::placeholders::_2)));
+    WithSplitStreamingMethod_readdir() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::SplitServerStreamingHandler< ::nfsFuse::ReadDirRequestParams, ::nfsFuse::ReadDirResponseParams>(std::bind(&WithSplitStreamingMethod_readdir<BaseClass>::Streamedreaddir, this, std::placeholders::_1, std::placeholders::_2)));
     }
-    ~WithStreamedUnaryMethod_lookup() override {
+    ~WithSplitStreamingMethod_readdir() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status lookup(::grpc::ServerContext* context, const ::nfsFuse::LookupRequestParams* request, ::nfsFuse::LookupResponseParams* response) override {
+    ::grpc::Status readdir(::grpc::ServerContext* context, const ::nfsFuse::ReadDirRequestParams* request, ::grpc::ServerWriter< ::nfsFuse::ReadDirResponseParams>* writer) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status Streamedlookup(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::LookupRequestParams,::nfsFuse::LookupResponseParams>* server_unary_streamer) = 0;
+    // replace default version of method with split streamed
+    virtual ::grpc::Status Streamedreaddir(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::nfsFuse::ReadDirRequestParams,::nfsFuse::ReadDirResponseParams>* server_split_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_getattr<WithStreamedUnaryMethod_readdir<WithStreamedUnaryMethod_mkdir<WithStreamedUnaryMethod_rmdir<WithStreamedUnaryMethod_create<WithStreamedUnaryMethod_remove<WithStreamedUnaryMethod_open<WithStreamedUnaryMethod_read<WithStreamedUnaryMethod_write<WithStreamedUnaryMethod_lookup<Service > > > > > > > > > > StreamedUnaryService;
-  typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_getattr<WithStreamedUnaryMethod_readdir<WithStreamedUnaryMethod_mkdir<WithStreamedUnaryMethod_rmdir<WithStreamedUnaryMethod_create<WithStreamedUnaryMethod_remove<WithStreamedUnaryMethod_open<WithStreamedUnaryMethod_read<WithStreamedUnaryMethod_write<WithStreamedUnaryMethod_lookup<Service > > > > > > > > > > StreamedService;
+  typedef WithSplitStreamingMethod_readdir<Service > SplitStreamedService;
+  typedef WithStreamedUnaryMethod_getattr<WithSplitStreamingMethod_readdir<WithStreamedUnaryMethod_mkdir<WithStreamedUnaryMethod_rmdir<WithStreamedUnaryMethod_create<WithStreamedUnaryMethod_open<WithStreamedUnaryMethod_read<WithStreamedUnaryMethod_write<Service > > > > > > > > StreamedService;
 };
 
 }  // namespace nfsFuse

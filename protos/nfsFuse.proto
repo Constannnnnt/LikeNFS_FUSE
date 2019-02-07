@@ -3,21 +3,20 @@ syntax = "proto3";
 package nfsFuse;
 
 // Interface exported by the server.
-service NFSFuse
-{
+service NFSFuse {
     rpc getattr (GetAttrRequestParams) returns (GetAttrResponseParams) {}
-    rpc readdir (ReadDirRequestParams) returns (ReadDirResponseParams) {}
+    rpc readdir (ReadDirRequestParams) returns (stream ReadDirResponseParams) {}
     rpc mkdir (MkDirRequestParams) returns (VoidMessage) {}
     rpc rmdir (RmDirRequestParams) returns (VoidMessage) {}
-    rpc create (CreateRequestParams) returns (VoidMessage) {}
-    rpc remove (DeleteRequestParams) returns (VoidMessage) {}
+    rpc create (CreateRequestParams) returns (CreateResponseParams) {}
     rpc open (OpenRequestParams) returns (OpenResponseParams) {}
     rpc read (ReadRequestParams) returns (ReadResponseParams) {}
-    rpc write (WriteRequestParams) returns (VoidMessage) {}
-    rpc lookup (LookupRequestParams) returns (LookupResponseParams) {}
+    rpc write (WriteRequestParams) returns (WriteReponseParams) {}
 }
 
 message VoidMessage {
+    string ret = 1;  // returned message
+    int32 err = 2; // error message
 } 
 
 message GetAttrRequestParams {
@@ -25,64 +24,98 @@ message GetAttrRequestParams {
 }
 
 message GetAttrResponseParams {
-    int32 mode = 1;
-    int32 nlink = 2;
-    int32 uid = 3;
-    int32 guid = 4;
-    int64 size = 5;
+    uint32 dev = 1;       // id of device containing file
+    uint32 inode = 2;     // inode number
+    int32 mode = 3;       // protection
+    uint32 nlink = 4;     // number of hard links
+    uint32 uid = 5;       // user id of owner
+    uint32 guid = 6;      // group id of owner
+    sint64 size = 7;      // total size, in bytes
+    sint64 blocksize = 8; // blocksize for file system I/O
+    sint64 nblock = 9;    // number of 512B blocks allocated;
+    int32 latime = 10;    // time of last access
+    int32 mtime = 11;     // time of last modification
+    int32 ctime = 12;     // time of last status change
+    int32 err = 13;       // error message 
 }
 
 message ReadDirRequestParams {
-    string path = 1;
+    string path = 1;   // path, filename
 }
 
 message ReadDirResponseParams {
-    repeated string filenames = 1;
+    uint32 dinode = 1; // inode number of the data
+    string dname = 2;  // name of the file
+    uint32 dtype = 3;  // type of the file
+    int32 err = 4;     // error message
 }
 
 message MkDirRequestParams {
     string path = 1;
+    int32 mode = 2;
 }
 
 message CreateRequestParams {
     string path = 1;
+    int32 mode = 2;
+    int32 flags = 3;
 }
 
-message DeleteRequestParams {
-    string path = 1;
+message CreateResponseParams { 
+    int32 flags = 1;
+    int32 fh = 2;
+    uint32 oldfh = 3;
+    uint64 lockowner = 4;
+    uint32 pollevent = 5;
+    int32 err = 6;
 }
+
 
 message RmDirRequestParams {
     string path = 1;
+    int32 mode = 2;
 }
 
 message OpenRequestParams {
-    string path = 1;
+    string path = 1;    // file path
+    int32 flags = 2;
+    int32 fh = 3;
+    uint32 oldfh = 4;
+    uint64 lockowner = 5;
+    uint32 pollevent = 6;
+    int32 err = 7;
 }
 
 message OpenResponseParams {
-    int32 fileHandle = 1;
-    int32 uid = 2;
+    string path = 1;    // file path
+    int32 flags = 2;
+    int32 fh = 3;
+    uint32 oldfh = 4;
+    uint64 lockowner = 5;
+    uint32 pollevent = 6;
+    int32 err = 7;
 }
 
 message ReadRequestParams {
     string path = 1;
+    uint32 size = 2;
+    int64 offset = 3;
 }
 
 message ReadResponseParams {
-    string text = 1;
+    bytes buffer = 1;
+    int32 bufferlength = 2;
+    int32 err = 3;
 }
 
 message WriteRequestParams {
-    string bytes = 1;
+    bytes  buffer = 1;
     string path = 2;
+    uint32 bufferlength = 3;
+    int32 offset = 4;
 }
 
-message LookupRequestParams {
-    string path = 1;
-}
-
-message LookupResponseParams {
-    int32 fileHandle = 1;
-    int32 uid = 2;
+message WriteReponseParams {
+    int32 bufferlength = 1;
+    int32 err = 2;
 }

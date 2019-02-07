@@ -41,7 +41,7 @@ struct TableStruct_nfsFuse_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::google::protobuf::internal::ParseTable schema[16]
+  static const ::google::protobuf::internal::ParseTable schema[15]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
@@ -52,21 +52,15 @@ namespace nfsFuse {
 class CreateRequestParams;
 class CreateRequestParamsDefaultTypeInternal;
 extern CreateRequestParamsDefaultTypeInternal _CreateRequestParams_default_instance_;
-class DeleteRequestParams;
-class DeleteRequestParamsDefaultTypeInternal;
-extern DeleteRequestParamsDefaultTypeInternal _DeleteRequestParams_default_instance_;
+class CreateResponseParams;
+class CreateResponseParamsDefaultTypeInternal;
+extern CreateResponseParamsDefaultTypeInternal _CreateResponseParams_default_instance_;
 class GetAttrRequestParams;
 class GetAttrRequestParamsDefaultTypeInternal;
 extern GetAttrRequestParamsDefaultTypeInternal _GetAttrRequestParams_default_instance_;
 class GetAttrResponseParams;
 class GetAttrResponseParamsDefaultTypeInternal;
 extern GetAttrResponseParamsDefaultTypeInternal _GetAttrResponseParams_default_instance_;
-class LookupRequestParams;
-class LookupRequestParamsDefaultTypeInternal;
-extern LookupRequestParamsDefaultTypeInternal _LookupRequestParams_default_instance_;
-class LookupResponseParams;
-class LookupResponseParamsDefaultTypeInternal;
-extern LookupResponseParamsDefaultTypeInternal _LookupResponseParams_default_instance_;
 class MkDirRequestParams;
 class MkDirRequestParamsDefaultTypeInternal;
 extern MkDirRequestParamsDefaultTypeInternal _MkDirRequestParams_default_instance_;
@@ -94,6 +88,9 @@ extern RmDirRequestParamsDefaultTypeInternal _RmDirRequestParams_default_instanc
 class VoidMessage;
 class VoidMessageDefaultTypeInternal;
 extern VoidMessageDefaultTypeInternal _VoidMessage_default_instance_;
+class WriteReponseParams;
+class WriteReponseParamsDefaultTypeInternal;
+extern WriteReponseParamsDefaultTypeInternal _WriteReponseParams_default_instance_;
 class WriteRequestParams;
 class WriteRequestParamsDefaultTypeInternal;
 extern WriteRequestParamsDefaultTypeInternal _WriteRequestParams_default_instance_;
@@ -101,11 +98,9 @@ extern WriteRequestParamsDefaultTypeInternal _WriteRequestParams_default_instanc
 namespace google {
 namespace protobuf {
 template<> ::nfsFuse::CreateRequestParams* Arena::CreateMaybeMessage<::nfsFuse::CreateRequestParams>(Arena*);
-template<> ::nfsFuse::DeleteRequestParams* Arena::CreateMaybeMessage<::nfsFuse::DeleteRequestParams>(Arena*);
+template<> ::nfsFuse::CreateResponseParams* Arena::CreateMaybeMessage<::nfsFuse::CreateResponseParams>(Arena*);
 template<> ::nfsFuse::GetAttrRequestParams* Arena::CreateMaybeMessage<::nfsFuse::GetAttrRequestParams>(Arena*);
 template<> ::nfsFuse::GetAttrResponseParams* Arena::CreateMaybeMessage<::nfsFuse::GetAttrResponseParams>(Arena*);
-template<> ::nfsFuse::LookupRequestParams* Arena::CreateMaybeMessage<::nfsFuse::LookupRequestParams>(Arena*);
-template<> ::nfsFuse::LookupResponseParams* Arena::CreateMaybeMessage<::nfsFuse::LookupResponseParams>(Arena*);
 template<> ::nfsFuse::MkDirRequestParams* Arena::CreateMaybeMessage<::nfsFuse::MkDirRequestParams>(Arena*);
 template<> ::nfsFuse::OpenRequestParams* Arena::CreateMaybeMessage<::nfsFuse::OpenRequestParams>(Arena*);
 template<> ::nfsFuse::OpenResponseParams* Arena::CreateMaybeMessage<::nfsFuse::OpenResponseParams>(Arena*);
@@ -115,6 +110,7 @@ template<> ::nfsFuse::ReadRequestParams* Arena::CreateMaybeMessage<::nfsFuse::Re
 template<> ::nfsFuse::ReadResponseParams* Arena::CreateMaybeMessage<::nfsFuse::ReadResponseParams>(Arena*);
 template<> ::nfsFuse::RmDirRequestParams* Arena::CreateMaybeMessage<::nfsFuse::RmDirRequestParams>(Arena*);
 template<> ::nfsFuse::VoidMessage* Arena::CreateMaybeMessage<::nfsFuse::VoidMessage>(Arena*);
+template<> ::nfsFuse::WriteReponseParams* Arena::CreateMaybeMessage<::nfsFuse::WriteReponseParams>(Arena*);
 template<> ::nfsFuse::WriteRequestParams* Arena::CreateMaybeMessage<::nfsFuse::WriteRequestParams>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -217,11 +213,33 @@ class VoidMessage final :
 
   // accessors -------------------------------------------------------
 
+  // string ret = 1;
+  void clear_ret();
+  static const int kRetFieldNumber = 1;
+  const ::std::string& ret() const;
+  void set_ret(const ::std::string& value);
+  #if LANG_CXX11
+  void set_ret(::std::string&& value);
+  #endif
+  void set_ret(const char* value);
+  void set_ret(const char* value, size_t size);
+  ::std::string* mutable_ret();
+  ::std::string* release_ret();
+  void set_allocated_ret(::std::string* ret);
+
+  // int32 err = 2;
+  void clear_err();
+  static const int kErrFieldNumber = 2;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:nfsFuse.VoidMessage)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr ret_;
+  ::google::protobuf::int32 err_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -442,46 +460,102 @@ class GetAttrResponseParams final :
 
   // accessors -------------------------------------------------------
 
-  // int32 mode = 1;
+  // uint32 dev = 1;
+  void clear_dev();
+  static const int kDevFieldNumber = 1;
+  ::google::protobuf::uint32 dev() const;
+  void set_dev(::google::protobuf::uint32 value);
+
+  // uint32 inode = 2;
+  void clear_inode();
+  static const int kInodeFieldNumber = 2;
+  ::google::protobuf::uint32 inode() const;
+  void set_inode(::google::protobuf::uint32 value);
+
+  // int32 mode = 3;
   void clear_mode();
-  static const int kModeFieldNumber = 1;
+  static const int kModeFieldNumber = 3;
   ::google::protobuf::int32 mode() const;
   void set_mode(::google::protobuf::int32 value);
 
-  // int32 nlink = 2;
+  // uint32 nlink = 4;
   void clear_nlink();
-  static const int kNlinkFieldNumber = 2;
-  ::google::protobuf::int32 nlink() const;
-  void set_nlink(::google::protobuf::int32 value);
+  static const int kNlinkFieldNumber = 4;
+  ::google::protobuf::uint32 nlink() const;
+  void set_nlink(::google::protobuf::uint32 value);
 
-  // int32 uid = 3;
+  // uint32 uid = 5;
   void clear_uid();
-  static const int kUidFieldNumber = 3;
-  ::google::protobuf::int32 uid() const;
-  void set_uid(::google::protobuf::int32 value);
+  static const int kUidFieldNumber = 5;
+  ::google::protobuf::uint32 uid() const;
+  void set_uid(::google::protobuf::uint32 value);
 
-  // int32 guid = 4;
+  // uint32 guid = 6;
   void clear_guid();
-  static const int kGuidFieldNumber = 4;
-  ::google::protobuf::int32 guid() const;
-  void set_guid(::google::protobuf::int32 value);
+  static const int kGuidFieldNumber = 6;
+  ::google::protobuf::uint32 guid() const;
+  void set_guid(::google::protobuf::uint32 value);
 
-  // int64 size = 5;
+  // sint64 size = 7;
   void clear_size();
-  static const int kSizeFieldNumber = 5;
+  static const int kSizeFieldNumber = 7;
   ::google::protobuf::int64 size() const;
   void set_size(::google::protobuf::int64 value);
+
+  // sint64 blocksize = 8;
+  void clear_blocksize();
+  static const int kBlocksizeFieldNumber = 8;
+  ::google::protobuf::int64 blocksize() const;
+  void set_blocksize(::google::protobuf::int64 value);
+
+  // sint64 nblock = 9;
+  void clear_nblock();
+  static const int kNblockFieldNumber = 9;
+  ::google::protobuf::int64 nblock() const;
+  void set_nblock(::google::protobuf::int64 value);
+
+  // int32 latime = 10;
+  void clear_latime();
+  static const int kLatimeFieldNumber = 10;
+  ::google::protobuf::int32 latime() const;
+  void set_latime(::google::protobuf::int32 value);
+
+  // int32 mtime = 11;
+  void clear_mtime();
+  static const int kMtimeFieldNumber = 11;
+  ::google::protobuf::int32 mtime() const;
+  void set_mtime(::google::protobuf::int32 value);
+
+  // int32 ctime = 12;
+  void clear_ctime();
+  static const int kCtimeFieldNumber = 12;
+  ::google::protobuf::int32 ctime() const;
+  void set_ctime(::google::protobuf::int32 value);
+
+  // int32 err = 13;
+  void clear_err();
+  static const int kErrFieldNumber = 13;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:nfsFuse.GetAttrResponseParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 dev_;
+  ::google::protobuf::uint32 inode_;
   ::google::protobuf::int32 mode_;
-  ::google::protobuf::int32 nlink_;
-  ::google::protobuf::int32 uid_;
-  ::google::protobuf::int32 guid_;
+  ::google::protobuf::uint32 nlink_;
+  ::google::protobuf::uint32 uid_;
+  ::google::protobuf::uint32 guid_;
   ::google::protobuf::int64 size_;
+  ::google::protobuf::int64 blocksize_;
+  ::google::protobuf::int64 nblock_;
+  ::google::protobuf::int32 latime_;
+  ::google::protobuf::int32 mtime_;
+  ::google::protobuf::int32 ctime_;
+  ::google::protobuf::int32 err_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -702,34 +776,47 @@ class ReadDirResponseParams final :
 
   // accessors -------------------------------------------------------
 
-  // repeated string filenames = 1;
-  int filenames_size() const;
-  void clear_filenames();
-  static const int kFilenamesFieldNumber = 1;
-  const ::std::string& filenames(int index) const;
-  ::std::string* mutable_filenames(int index);
-  void set_filenames(int index, const ::std::string& value);
+  // string dname = 2;
+  void clear_dname();
+  static const int kDnameFieldNumber = 2;
+  const ::std::string& dname() const;
+  void set_dname(const ::std::string& value);
   #if LANG_CXX11
-  void set_filenames(int index, ::std::string&& value);
+  void set_dname(::std::string&& value);
   #endif
-  void set_filenames(int index, const char* value);
-  void set_filenames(int index, const char* value, size_t size);
-  ::std::string* add_filenames();
-  void add_filenames(const ::std::string& value);
-  #if LANG_CXX11
-  void add_filenames(::std::string&& value);
-  #endif
-  void add_filenames(const char* value);
-  void add_filenames(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField<::std::string>& filenames() const;
-  ::google::protobuf::RepeatedPtrField<::std::string>* mutable_filenames();
+  void set_dname(const char* value);
+  void set_dname(const char* value, size_t size);
+  ::std::string* mutable_dname();
+  ::std::string* release_dname();
+  void set_allocated_dname(::std::string* dname);
+
+  // uint32 dinode = 1;
+  void clear_dinode();
+  static const int kDinodeFieldNumber = 1;
+  ::google::protobuf::uint32 dinode() const;
+  void set_dinode(::google::protobuf::uint32 value);
+
+  // uint32 dtype = 3;
+  void clear_dtype();
+  static const int kDtypeFieldNumber = 3;
+  ::google::protobuf::uint32 dtype() const;
+  void set_dtype(::google::protobuf::uint32 value);
+
+  // int32 err = 4;
+  void clear_err();
+  static const int kErrFieldNumber = 4;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:nfsFuse.ReadDirResponseParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField<::std::string> filenames_;
+  ::google::protobuf::internal::ArenaStringPtr dname_;
+  ::google::protobuf::uint32 dinode_;
+  ::google::protobuf::uint32 dtype_;
+  ::google::protobuf::int32 err_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -844,12 +931,19 @@ class MkDirRequestParams final :
   ::std::string* release_path();
   void set_allocated_path(::std::string* path);
 
+  // int32 mode = 2;
+  void clear_mode();
+  static const int kModeFieldNumber = 2;
+  ::google::protobuf::int32 mode() const;
+  void set_mode(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:nfsFuse.MkDirRequestParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr path_;
+  ::google::protobuf::int32 mode_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -964,36 +1058,50 @@ class CreateRequestParams final :
   ::std::string* release_path();
   void set_allocated_path(::std::string* path);
 
+  // int32 mode = 2;
+  void clear_mode();
+  static const int kModeFieldNumber = 2;
+  ::google::protobuf::int32 mode() const;
+  void set_mode(::google::protobuf::int32 value);
+
+  // int32 flags = 3;
+  void clear_flags();
+  static const int kFlagsFieldNumber = 3;
+  ::google::protobuf::int32 flags() const;
+  void set_flags(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:nfsFuse.CreateRequestParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr path_;
+  ::google::protobuf::int32 mode_;
+  ::google::protobuf::int32 flags_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
 // -------------------------------------------------------------------
 
-class DeleteRequestParams final :
-    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.DeleteRequestParams) */ {
+class CreateResponseParams final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.CreateResponseParams) */ {
  public:
-  DeleteRequestParams();
-  virtual ~DeleteRequestParams();
+  CreateResponseParams();
+  virtual ~CreateResponseParams();
 
-  DeleteRequestParams(const DeleteRequestParams& from);
+  CreateResponseParams(const CreateResponseParams& from);
 
-  inline DeleteRequestParams& operator=(const DeleteRequestParams& from) {
+  inline CreateResponseParams& operator=(const CreateResponseParams& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  DeleteRequestParams(DeleteRequestParams&& from) noexcept
-    : DeleteRequestParams() {
+  CreateResponseParams(CreateResponseParams&& from) noexcept
+    : CreateResponseParams() {
     *this = ::std::move(from);
   }
 
-  inline DeleteRequestParams& operator=(DeleteRequestParams&& from) noexcept {
+  inline CreateResponseParams& operator=(CreateResponseParams&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1005,34 +1113,34 @@ class DeleteRequestParams final :
   static const ::google::protobuf::Descriptor* descriptor() {
     return default_instance().GetDescriptor();
   }
-  static const DeleteRequestParams& default_instance();
+  static const CreateResponseParams& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const DeleteRequestParams* internal_default_instance() {
-    return reinterpret_cast<const DeleteRequestParams*>(
-               &_DeleteRequestParams_default_instance_);
+  static inline const CreateResponseParams* internal_default_instance() {
+    return reinterpret_cast<const CreateResponseParams*>(
+               &_CreateResponseParams_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     7;
 
-  void Swap(DeleteRequestParams* other);
-  friend void swap(DeleteRequestParams& a, DeleteRequestParams& b) {
+  void Swap(CreateResponseParams* other);
+  friend void swap(CreateResponseParams& a, CreateResponseParams& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline DeleteRequestParams* New() const final {
-    return CreateMaybeMessage<DeleteRequestParams>(nullptr);
+  inline CreateResponseParams* New() const final {
+    return CreateMaybeMessage<CreateResponseParams>(nullptr);
   }
 
-  DeleteRequestParams* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<DeleteRequestParams>(arena);
+  CreateResponseParams* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CreateResponseParams>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const DeleteRequestParams& from);
-  void MergeFrom(const DeleteRequestParams& from);
+  void CopyFrom(const CreateResponseParams& from);
+  void MergeFrom(const CreateResponseParams& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -1054,7 +1162,7 @@ class DeleteRequestParams final :
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(DeleteRequestParams* other);
+  void InternalSwap(CreateResponseParams* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return nullptr;
@@ -1070,26 +1178,53 @@ class DeleteRequestParams final :
 
   // accessors -------------------------------------------------------
 
-  // string path = 1;
-  void clear_path();
-  static const int kPathFieldNumber = 1;
-  const ::std::string& path() const;
-  void set_path(const ::std::string& value);
-  #if LANG_CXX11
-  void set_path(::std::string&& value);
-  #endif
-  void set_path(const char* value);
-  void set_path(const char* value, size_t size);
-  ::std::string* mutable_path();
-  ::std::string* release_path();
-  void set_allocated_path(::std::string* path);
+  // int32 flags = 1;
+  void clear_flags();
+  static const int kFlagsFieldNumber = 1;
+  ::google::protobuf::int32 flags() const;
+  void set_flags(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:nfsFuse.DeleteRequestParams)
+  // int32 fh = 2;
+  void clear_fh();
+  static const int kFhFieldNumber = 2;
+  ::google::protobuf::int32 fh() const;
+  void set_fh(::google::protobuf::int32 value);
+
+  // uint64 lockowner = 4;
+  void clear_lockowner();
+  static const int kLockownerFieldNumber = 4;
+  ::google::protobuf::uint64 lockowner() const;
+  void set_lockowner(::google::protobuf::uint64 value);
+
+  // uint32 oldfh = 3;
+  void clear_oldfh();
+  static const int kOldfhFieldNumber = 3;
+  ::google::protobuf::uint32 oldfh() const;
+  void set_oldfh(::google::protobuf::uint32 value);
+
+  // uint32 pollevent = 5;
+  void clear_pollevent();
+  static const int kPolleventFieldNumber = 5;
+  ::google::protobuf::uint32 pollevent() const;
+  void set_pollevent(::google::protobuf::uint32 value);
+
+  // int32 err = 6;
+  void clear_err();
+  static const int kErrFieldNumber = 6;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:nfsFuse.CreateResponseParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr path_;
+  ::google::protobuf::int32 flags_;
+  ::google::protobuf::int32 fh_;
+  ::google::protobuf::uint64 lockowner_;
+  ::google::protobuf::uint32 oldfh_;
+  ::google::protobuf::uint32 pollevent_;
+  ::google::protobuf::int32 err_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -1204,12 +1339,19 @@ class RmDirRequestParams final :
   ::std::string* release_path();
   void set_allocated_path(::std::string* path);
 
+  // int32 mode = 2;
+  void clear_mode();
+  static const int kModeFieldNumber = 2;
+  ::google::protobuf::int32 mode() const;
+  void set_mode(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:nfsFuse.RmDirRequestParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr path_;
+  ::google::protobuf::int32 mode_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -1324,12 +1466,54 @@ class OpenRequestParams final :
   ::std::string* release_path();
   void set_allocated_path(::std::string* path);
 
+  // int32 flags = 2;
+  void clear_flags();
+  static const int kFlagsFieldNumber = 2;
+  ::google::protobuf::int32 flags() const;
+  void set_flags(::google::protobuf::int32 value);
+
+  // int32 fh = 3;
+  void clear_fh();
+  static const int kFhFieldNumber = 3;
+  ::google::protobuf::int32 fh() const;
+  void set_fh(::google::protobuf::int32 value);
+
+  // uint64 lockowner = 5;
+  void clear_lockowner();
+  static const int kLockownerFieldNumber = 5;
+  ::google::protobuf::uint64 lockowner() const;
+  void set_lockowner(::google::protobuf::uint64 value);
+
+  // uint32 oldfh = 4;
+  void clear_oldfh();
+  static const int kOldfhFieldNumber = 4;
+  ::google::protobuf::uint32 oldfh() const;
+  void set_oldfh(::google::protobuf::uint32 value);
+
+  // uint32 pollevent = 6;
+  void clear_pollevent();
+  static const int kPolleventFieldNumber = 6;
+  ::google::protobuf::uint32 pollevent() const;
+  void set_pollevent(::google::protobuf::uint32 value);
+
+  // int32 err = 7;
+  void clear_err();
+  static const int kErrFieldNumber = 7;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:nfsFuse.OpenRequestParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr path_;
+  ::google::protobuf::int32 flags_;
+  ::google::protobuf::int32 fh_;
+  ::google::protobuf::uint64 lockowner_;
+  ::google::protobuf::uint32 oldfh_;
+  ::google::protobuf::uint32 pollevent_;
+  ::google::protobuf::int32 err_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -1430,25 +1614,68 @@ class OpenResponseParams final :
 
   // accessors -------------------------------------------------------
 
-  // int32 fileHandle = 1;
-  void clear_filehandle();
-  static const int kFileHandleFieldNumber = 1;
-  ::google::protobuf::int32 filehandle() const;
-  void set_filehandle(::google::protobuf::int32 value);
+  // string path = 1;
+  void clear_path();
+  static const int kPathFieldNumber = 1;
+  const ::std::string& path() const;
+  void set_path(const ::std::string& value);
+  #if LANG_CXX11
+  void set_path(::std::string&& value);
+  #endif
+  void set_path(const char* value);
+  void set_path(const char* value, size_t size);
+  ::std::string* mutable_path();
+  ::std::string* release_path();
+  void set_allocated_path(::std::string* path);
 
-  // int32 uid = 2;
-  void clear_uid();
-  static const int kUidFieldNumber = 2;
-  ::google::protobuf::int32 uid() const;
-  void set_uid(::google::protobuf::int32 value);
+  // int32 flags = 2;
+  void clear_flags();
+  static const int kFlagsFieldNumber = 2;
+  ::google::protobuf::int32 flags() const;
+  void set_flags(::google::protobuf::int32 value);
+
+  // int32 fh = 3;
+  void clear_fh();
+  static const int kFhFieldNumber = 3;
+  ::google::protobuf::int32 fh() const;
+  void set_fh(::google::protobuf::int32 value);
+
+  // uint64 lockowner = 5;
+  void clear_lockowner();
+  static const int kLockownerFieldNumber = 5;
+  ::google::protobuf::uint64 lockowner() const;
+  void set_lockowner(::google::protobuf::uint64 value);
+
+  // uint32 oldfh = 4;
+  void clear_oldfh();
+  static const int kOldfhFieldNumber = 4;
+  ::google::protobuf::uint32 oldfh() const;
+  void set_oldfh(::google::protobuf::uint32 value);
+
+  // uint32 pollevent = 6;
+  void clear_pollevent();
+  static const int kPolleventFieldNumber = 6;
+  ::google::protobuf::uint32 pollevent() const;
+  void set_pollevent(::google::protobuf::uint32 value);
+
+  // int32 err = 7;
+  void clear_err();
+  static const int kErrFieldNumber = 7;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:nfsFuse.OpenResponseParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 filehandle_;
-  ::google::protobuf::int32 uid_;
+  ::google::protobuf::internal::ArenaStringPtr path_;
+  ::google::protobuf::int32 flags_;
+  ::google::protobuf::int32 fh_;
+  ::google::protobuf::uint64 lockowner_;
+  ::google::protobuf::uint32 oldfh_;
+  ::google::protobuf::uint32 pollevent_;
+  ::google::protobuf::int32 err_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -1563,12 +1790,26 @@ class ReadRequestParams final :
   ::std::string* release_path();
   void set_allocated_path(::std::string* path);
 
+  // int64 offset = 3;
+  void clear_offset();
+  static const int kOffsetFieldNumber = 3;
+  ::google::protobuf::int64 offset() const;
+  void set_offset(::google::protobuf::int64 value);
+
+  // uint32 size = 2;
+  void clear_size();
+  static const int kSizeFieldNumber = 2;
+  ::google::protobuf::uint32 size() const;
+  void set_size(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:nfsFuse.ReadRequestParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr path_;
+  ::google::protobuf::int64 offset_;
+  ::google::protobuf::uint32 size_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -1669,26 +1910,40 @@ class ReadResponseParams final :
 
   // accessors -------------------------------------------------------
 
-  // string text = 1;
-  void clear_text();
-  static const int kTextFieldNumber = 1;
-  const ::std::string& text() const;
-  void set_text(const ::std::string& value);
+  // bytes buffer = 1;
+  void clear_buffer();
+  static const int kBufferFieldNumber = 1;
+  const ::std::string& buffer() const;
+  void set_buffer(const ::std::string& value);
   #if LANG_CXX11
-  void set_text(::std::string&& value);
+  void set_buffer(::std::string&& value);
   #endif
-  void set_text(const char* value);
-  void set_text(const char* value, size_t size);
-  ::std::string* mutable_text();
-  ::std::string* release_text();
-  void set_allocated_text(::std::string* text);
+  void set_buffer(const char* value);
+  void set_buffer(const void* value, size_t size);
+  ::std::string* mutable_buffer();
+  ::std::string* release_buffer();
+  void set_allocated_buffer(::std::string* buffer);
+
+  // int32 bufferlength = 2;
+  void clear_bufferlength();
+  static const int kBufferlengthFieldNumber = 2;
+  ::google::protobuf::int32 bufferlength() const;
+  void set_bufferlength(::google::protobuf::int32 value);
+
+  // int32 err = 3;
+  void clear_err();
+  static const int kErrFieldNumber = 3;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:nfsFuse.ReadResponseParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr text_;
+  ::google::protobuf::internal::ArenaStringPtr buffer_;
+  ::google::protobuf::int32 bufferlength_;
+  ::google::protobuf::int32 err_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -1789,19 +2044,19 @@ class WriteRequestParams final :
 
   // accessors -------------------------------------------------------
 
-  // string bytes = 1;
-  void clear_bytes();
-  static const int kBytesFieldNumber = 1;
-  const ::std::string& bytes() const;
-  void set_bytes(const ::std::string& value);
+  // bytes buffer = 1;
+  void clear_buffer();
+  static const int kBufferFieldNumber = 1;
+  const ::std::string& buffer() const;
+  void set_buffer(const ::std::string& value);
   #if LANG_CXX11
-  void set_bytes(::std::string&& value);
+  void set_buffer(::std::string&& value);
   #endif
-  void set_bytes(const char* value);
-  void set_bytes(const char* value, size_t size);
-  ::std::string* mutable_bytes();
-  ::std::string* release_bytes();
-  void set_allocated_bytes(::std::string* bytes);
+  void set_buffer(const char* value);
+  void set_buffer(const void* value, size_t size);
+  ::std::string* mutable_buffer();
+  ::std::string* release_buffer();
+  void set_allocated_buffer(::std::string* buffer);
 
   // string path = 2;
   void clear_path();
@@ -1817,37 +2072,51 @@ class WriteRequestParams final :
   ::std::string* release_path();
   void set_allocated_path(::std::string* path);
 
+  // uint32 bufferlength = 3;
+  void clear_bufferlength();
+  static const int kBufferlengthFieldNumber = 3;
+  ::google::protobuf::uint32 bufferlength() const;
+  void set_bufferlength(::google::protobuf::uint32 value);
+
+  // int32 offset = 4;
+  void clear_offset();
+  static const int kOffsetFieldNumber = 4;
+  ::google::protobuf::int32 offset() const;
+  void set_offset(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:nfsFuse.WriteRequestParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr bytes_;
+  ::google::protobuf::internal::ArenaStringPtr buffer_;
   ::google::protobuf::internal::ArenaStringPtr path_;
+  ::google::protobuf::uint32 bufferlength_;
+  ::google::protobuf::int32 offset_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
 // -------------------------------------------------------------------
 
-class LookupRequestParams final :
-    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.LookupRequestParams) */ {
+class WriteReponseParams final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.WriteReponseParams) */ {
  public:
-  LookupRequestParams();
-  virtual ~LookupRequestParams();
+  WriteReponseParams();
+  virtual ~WriteReponseParams();
 
-  LookupRequestParams(const LookupRequestParams& from);
+  WriteReponseParams(const WriteReponseParams& from);
 
-  inline LookupRequestParams& operator=(const LookupRequestParams& from) {
+  inline WriteReponseParams& operator=(const WriteReponseParams& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  LookupRequestParams(LookupRequestParams&& from) noexcept
-    : LookupRequestParams() {
+  WriteReponseParams(WriteReponseParams&& from) noexcept
+    : WriteReponseParams() {
     *this = ::std::move(from);
   }
 
-  inline LookupRequestParams& operator=(LookupRequestParams&& from) noexcept {
+  inline WriteReponseParams& operator=(WriteReponseParams&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1859,34 +2128,34 @@ class LookupRequestParams final :
   static const ::google::protobuf::Descriptor* descriptor() {
     return default_instance().GetDescriptor();
   }
-  static const LookupRequestParams& default_instance();
+  static const WriteReponseParams& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const LookupRequestParams* internal_default_instance() {
-    return reinterpret_cast<const LookupRequestParams*>(
-               &_LookupRequestParams_default_instance_);
+  static inline const WriteReponseParams* internal_default_instance() {
+    return reinterpret_cast<const WriteReponseParams*>(
+               &_WriteReponseParams_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     14;
 
-  void Swap(LookupRequestParams* other);
-  friend void swap(LookupRequestParams& a, LookupRequestParams& b) {
+  void Swap(WriteReponseParams* other);
+  friend void swap(WriteReponseParams& a, WriteReponseParams& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline LookupRequestParams* New() const final {
-    return CreateMaybeMessage<LookupRequestParams>(nullptr);
+  inline WriteReponseParams* New() const final {
+    return CreateMaybeMessage<WriteReponseParams>(nullptr);
   }
 
-  LookupRequestParams* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<LookupRequestParams>(arena);
+  WriteReponseParams* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<WriteReponseParams>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const LookupRequestParams& from);
-  void MergeFrom(const LookupRequestParams& from);
+  void CopyFrom(const WriteReponseParams& from);
+  void MergeFrom(const WriteReponseParams& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -1908,7 +2177,7 @@ class LookupRequestParams final :
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(LookupRequestParams* other);
+  void InternalSwap(WriteReponseParams* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return nullptr;
@@ -1924,145 +2193,25 @@ class LookupRequestParams final :
 
   // accessors -------------------------------------------------------
 
-  // string path = 1;
-  void clear_path();
-  static const int kPathFieldNumber = 1;
-  const ::std::string& path() const;
-  void set_path(const ::std::string& value);
-  #if LANG_CXX11
-  void set_path(::std::string&& value);
-  #endif
-  void set_path(const char* value);
-  void set_path(const char* value, size_t size);
-  ::std::string* mutable_path();
-  ::std::string* release_path();
-  void set_allocated_path(::std::string* path);
+  // int32 bufferlength = 1;
+  void clear_bufferlength();
+  static const int kBufferlengthFieldNumber = 1;
+  ::google::protobuf::int32 bufferlength() const;
+  void set_bufferlength(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:nfsFuse.LookupRequestParams)
+  // int32 err = 2;
+  void clear_err();
+  static const int kErrFieldNumber = 2;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:nfsFuse.WriteReponseParams)
  private:
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr path_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_nfsFuse_2eproto;
-};
-// -------------------------------------------------------------------
-
-class LookupResponseParams final :
-    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.LookupResponseParams) */ {
- public:
-  LookupResponseParams();
-  virtual ~LookupResponseParams();
-
-  LookupResponseParams(const LookupResponseParams& from);
-
-  inline LookupResponseParams& operator=(const LookupResponseParams& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  LookupResponseParams(LookupResponseParams&& from) noexcept
-    : LookupResponseParams() {
-    *this = ::std::move(from);
-  }
-
-  inline LookupResponseParams& operator=(LookupResponseParams&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return default_instance().GetDescriptor();
-  }
-  static const LookupResponseParams& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const LookupResponseParams* internal_default_instance() {
-    return reinterpret_cast<const LookupResponseParams*>(
-               &_LookupResponseParams_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    15;
-
-  void Swap(LookupResponseParams* other);
-  friend void swap(LookupResponseParams& a, LookupResponseParams& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline LookupResponseParams* New() const final {
-    return CreateMaybeMessage<LookupResponseParams>(nullptr);
-  }
-
-  LookupResponseParams* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<LookupResponseParams>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const LookupResponseParams& from);
-  void MergeFrom(const LookupResponseParams& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
-  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
-  #else
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(LookupResponseParams* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // int32 fileHandle = 1;
-  void clear_filehandle();
-  static const int kFileHandleFieldNumber = 1;
-  ::google::protobuf::int32 filehandle() const;
-  void set_filehandle(::google::protobuf::int32 value);
-
-  // int32 uid = 2;
-  void clear_uid();
-  static const int kUidFieldNumber = 2;
-  ::google::protobuf::int32 uid() const;
-  void set_uid(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:nfsFuse.LookupResponseParams)
- private:
-  class HasBitSetters;
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 filehandle_;
-  ::google::protobuf::int32 uid_;
+  ::google::protobuf::int32 bufferlength_;
+  ::google::protobuf::int32 err_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
@@ -2076,6 +2225,73 @@ class LookupResponseParams final :
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
 // VoidMessage
+
+// string ret = 1;
+inline void VoidMessage::clear_ret() {
+  ret_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& VoidMessage::ret() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.VoidMessage.ret)
+  return ret_.GetNoArena();
+}
+inline void VoidMessage::set_ret(const ::std::string& value) {
+  
+  ret_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:nfsFuse.VoidMessage.ret)
+}
+#if LANG_CXX11
+inline void VoidMessage::set_ret(::std::string&& value) {
+  
+  ret_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:nfsFuse.VoidMessage.ret)
+}
+#endif
+inline void VoidMessage::set_ret(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  ret_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:nfsFuse.VoidMessage.ret)
+}
+inline void VoidMessage::set_ret(const char* value, size_t size) {
+  
+  ret_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:nfsFuse.VoidMessage.ret)
+}
+inline ::std::string* VoidMessage::mutable_ret() {
+  
+  // @@protoc_insertion_point(field_mutable:nfsFuse.VoidMessage.ret)
+  return ret_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* VoidMessage::release_ret() {
+  // @@protoc_insertion_point(field_release:nfsFuse.VoidMessage.ret)
+  
+  return ret_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void VoidMessage::set_allocated_ret(::std::string* ret) {
+  if (ret != nullptr) {
+    
+  } else {
+    
+  }
+  ret_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ret);
+  // @@protoc_insertion_point(field_set_allocated:nfsFuse.VoidMessage.ret)
+}
+
+// int32 err = 2;
+inline void VoidMessage::clear_err() {
+  err_ = 0;
+}
+inline ::google::protobuf::int32 VoidMessage::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.VoidMessage.err)
+  return err_;
+}
+inline void VoidMessage::set_err(::google::protobuf::int32 value) {
+  
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.VoidMessage.err)
+}
 
 // -------------------------------------------------------------------
 
@@ -2138,7 +2354,35 @@ inline void GetAttrRequestParams::set_allocated_path(::std::string* path) {
 
 // GetAttrResponseParams
 
-// int32 mode = 1;
+// uint32 dev = 1;
+inline void GetAttrResponseParams::clear_dev() {
+  dev_ = 0u;
+}
+inline ::google::protobuf::uint32 GetAttrResponseParams::dev() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.dev)
+  return dev_;
+}
+inline void GetAttrResponseParams::set_dev(::google::protobuf::uint32 value) {
+  
+  dev_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.dev)
+}
+
+// uint32 inode = 2;
+inline void GetAttrResponseParams::clear_inode() {
+  inode_ = 0u;
+}
+inline ::google::protobuf::uint32 GetAttrResponseParams::inode() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.inode)
+  return inode_;
+}
+inline void GetAttrResponseParams::set_inode(::google::protobuf::uint32 value) {
+  
+  inode_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.inode)
+}
+
+// int32 mode = 3;
 inline void GetAttrResponseParams::clear_mode() {
   mode_ = 0;
 }
@@ -2152,49 +2396,49 @@ inline void GetAttrResponseParams::set_mode(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.mode)
 }
 
-// int32 nlink = 2;
+// uint32 nlink = 4;
 inline void GetAttrResponseParams::clear_nlink() {
-  nlink_ = 0;
+  nlink_ = 0u;
 }
-inline ::google::protobuf::int32 GetAttrResponseParams::nlink() const {
+inline ::google::protobuf::uint32 GetAttrResponseParams::nlink() const {
   // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.nlink)
   return nlink_;
 }
-inline void GetAttrResponseParams::set_nlink(::google::protobuf::int32 value) {
+inline void GetAttrResponseParams::set_nlink(::google::protobuf::uint32 value) {
   
   nlink_ = value;
   // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.nlink)
 }
 
-// int32 uid = 3;
+// uint32 uid = 5;
 inline void GetAttrResponseParams::clear_uid() {
-  uid_ = 0;
+  uid_ = 0u;
 }
-inline ::google::protobuf::int32 GetAttrResponseParams::uid() const {
+inline ::google::protobuf::uint32 GetAttrResponseParams::uid() const {
   // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.uid)
   return uid_;
 }
-inline void GetAttrResponseParams::set_uid(::google::protobuf::int32 value) {
+inline void GetAttrResponseParams::set_uid(::google::protobuf::uint32 value) {
   
   uid_ = value;
   // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.uid)
 }
 
-// int32 guid = 4;
+// uint32 guid = 6;
 inline void GetAttrResponseParams::clear_guid() {
-  guid_ = 0;
+  guid_ = 0u;
 }
-inline ::google::protobuf::int32 GetAttrResponseParams::guid() const {
+inline ::google::protobuf::uint32 GetAttrResponseParams::guid() const {
   // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.guid)
   return guid_;
 }
-inline void GetAttrResponseParams::set_guid(::google::protobuf::int32 value) {
+inline void GetAttrResponseParams::set_guid(::google::protobuf::uint32 value) {
   
   guid_ = value;
   // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.guid)
 }
 
-// int64 size = 5;
+// sint64 size = 7;
 inline void GetAttrResponseParams::clear_size() {
   size_ = PROTOBUF_LONGLONG(0);
 }
@@ -2206,6 +2450,90 @@ inline void GetAttrResponseParams::set_size(::google::protobuf::int64 value) {
   
   size_ = value;
   // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.size)
+}
+
+// sint64 blocksize = 8;
+inline void GetAttrResponseParams::clear_blocksize() {
+  blocksize_ = PROTOBUF_LONGLONG(0);
+}
+inline ::google::protobuf::int64 GetAttrResponseParams::blocksize() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.blocksize)
+  return blocksize_;
+}
+inline void GetAttrResponseParams::set_blocksize(::google::protobuf::int64 value) {
+  
+  blocksize_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.blocksize)
+}
+
+// sint64 nblock = 9;
+inline void GetAttrResponseParams::clear_nblock() {
+  nblock_ = PROTOBUF_LONGLONG(0);
+}
+inline ::google::protobuf::int64 GetAttrResponseParams::nblock() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.nblock)
+  return nblock_;
+}
+inline void GetAttrResponseParams::set_nblock(::google::protobuf::int64 value) {
+  
+  nblock_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.nblock)
+}
+
+// int32 latime = 10;
+inline void GetAttrResponseParams::clear_latime() {
+  latime_ = 0;
+}
+inline ::google::protobuf::int32 GetAttrResponseParams::latime() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.latime)
+  return latime_;
+}
+inline void GetAttrResponseParams::set_latime(::google::protobuf::int32 value) {
+  
+  latime_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.latime)
+}
+
+// int32 mtime = 11;
+inline void GetAttrResponseParams::clear_mtime() {
+  mtime_ = 0;
+}
+inline ::google::protobuf::int32 GetAttrResponseParams::mtime() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.mtime)
+  return mtime_;
+}
+inline void GetAttrResponseParams::set_mtime(::google::protobuf::int32 value) {
+  
+  mtime_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.mtime)
+}
+
+// int32 ctime = 12;
+inline void GetAttrResponseParams::clear_ctime() {
+  ctime_ = 0;
+}
+inline ::google::protobuf::int32 GetAttrResponseParams::ctime() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.ctime)
+  return ctime_;
+}
+inline void GetAttrResponseParams::set_ctime(::google::protobuf::int32 value) {
+  
+  ctime_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.ctime)
+}
+
+// int32 err = 13;
+inline void GetAttrResponseParams::clear_err() {
+  err_ = 0;
+}
+inline ::google::protobuf::int32 GetAttrResponseParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.GetAttrResponseParams.err)
+  return err_;
+}
+inline void GetAttrResponseParams::set_err(::google::protobuf::int32 value) {
+  
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.GetAttrResponseParams.err)
 }
 
 // -------------------------------------------------------------------
@@ -2269,73 +2597,99 @@ inline void ReadDirRequestParams::set_allocated_path(::std::string* path) {
 
 // ReadDirResponseParams
 
-// repeated string filenames = 1;
-inline int ReadDirResponseParams::filenames_size() const {
-  return filenames_.size();
+// uint32 dinode = 1;
+inline void ReadDirResponseParams::clear_dinode() {
+  dinode_ = 0u;
 }
-inline void ReadDirResponseParams::clear_filenames() {
-  filenames_.Clear();
+inline ::google::protobuf::uint32 ReadDirResponseParams::dinode() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.ReadDirResponseParams.dinode)
+  return dinode_;
 }
-inline const ::std::string& ReadDirResponseParams::filenames(int index) const {
-  // @@protoc_insertion_point(field_get:nfsFuse.ReadDirResponseParams.filenames)
-  return filenames_.Get(index);
+inline void ReadDirResponseParams::set_dinode(::google::protobuf::uint32 value) {
+  
+  dinode_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.ReadDirResponseParams.dinode)
 }
-inline ::std::string* ReadDirResponseParams::mutable_filenames(int index) {
-  // @@protoc_insertion_point(field_mutable:nfsFuse.ReadDirResponseParams.filenames)
-  return filenames_.Mutable(index);
+
+// string dname = 2;
+inline void ReadDirResponseParams::clear_dname() {
+  dname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ReadDirResponseParams::set_filenames(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:nfsFuse.ReadDirResponseParams.filenames)
-  filenames_.Mutable(index)->assign(value);
+inline const ::std::string& ReadDirResponseParams::dname() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.ReadDirResponseParams.dname)
+  return dname_.GetNoArena();
 }
-#if LANG_CXX11
-inline void ReadDirResponseParams::set_filenames(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:nfsFuse.ReadDirResponseParams.filenames)
-  filenames_.Mutable(index)->assign(std::move(value));
-}
-#endif
-inline void ReadDirResponseParams::set_filenames(int index, const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  filenames_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:nfsFuse.ReadDirResponseParams.filenames)
-}
-inline void ReadDirResponseParams::set_filenames(int index, const char* value, size_t size) {
-  filenames_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:nfsFuse.ReadDirResponseParams.filenames)
-}
-inline ::std::string* ReadDirResponseParams::add_filenames() {
-  // @@protoc_insertion_point(field_add_mutable:nfsFuse.ReadDirResponseParams.filenames)
-  return filenames_.Add();
-}
-inline void ReadDirResponseParams::add_filenames(const ::std::string& value) {
-  filenames_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:nfsFuse.ReadDirResponseParams.filenames)
+inline void ReadDirResponseParams::set_dname(const ::std::string& value) {
+  
+  dname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:nfsFuse.ReadDirResponseParams.dname)
 }
 #if LANG_CXX11
-inline void ReadDirResponseParams::add_filenames(::std::string&& value) {
-  filenames_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:nfsFuse.ReadDirResponseParams.filenames)
+inline void ReadDirResponseParams::set_dname(::std::string&& value) {
+  
+  dname_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:nfsFuse.ReadDirResponseParams.dname)
 }
 #endif
-inline void ReadDirResponseParams::add_filenames(const char* value) {
+inline void ReadDirResponseParams::set_dname(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
-  filenames_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:nfsFuse.ReadDirResponseParams.filenames)
+  
+  dname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:nfsFuse.ReadDirResponseParams.dname)
 }
-inline void ReadDirResponseParams::add_filenames(const char* value, size_t size) {
-  filenames_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:nfsFuse.ReadDirResponseParams.filenames)
+inline void ReadDirResponseParams::set_dname(const char* value, size_t size) {
+  
+  dname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:nfsFuse.ReadDirResponseParams.dname)
 }
-inline const ::google::protobuf::RepeatedPtrField<::std::string>&
-ReadDirResponseParams::filenames() const {
-  // @@protoc_insertion_point(field_list:nfsFuse.ReadDirResponseParams.filenames)
-  return filenames_;
+inline ::std::string* ReadDirResponseParams::mutable_dname() {
+  
+  // @@protoc_insertion_point(field_mutable:nfsFuse.ReadDirResponseParams.dname)
+  return dname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::google::protobuf::RepeatedPtrField<::std::string>*
-ReadDirResponseParams::mutable_filenames() {
-  // @@protoc_insertion_point(field_mutable_list:nfsFuse.ReadDirResponseParams.filenames)
-  return &filenames_;
+inline ::std::string* ReadDirResponseParams::release_dname() {
+  // @@protoc_insertion_point(field_release:nfsFuse.ReadDirResponseParams.dname)
+  
+  return dname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ReadDirResponseParams::set_allocated_dname(::std::string* dname) {
+  if (dname != nullptr) {
+    
+  } else {
+    
+  }
+  dname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dname);
+  // @@protoc_insertion_point(field_set_allocated:nfsFuse.ReadDirResponseParams.dname)
+}
+
+// uint32 dtype = 3;
+inline void ReadDirResponseParams::clear_dtype() {
+  dtype_ = 0u;
+}
+inline ::google::protobuf::uint32 ReadDirResponseParams::dtype() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.ReadDirResponseParams.dtype)
+  return dtype_;
+}
+inline void ReadDirResponseParams::set_dtype(::google::protobuf::uint32 value) {
+  
+  dtype_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.ReadDirResponseParams.dtype)
+}
+
+// int32 err = 4;
+inline void ReadDirResponseParams::clear_err() {
+  err_ = 0;
+}
+inline ::google::protobuf::int32 ReadDirResponseParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.ReadDirResponseParams.err)
+  return err_;
+}
+inline void ReadDirResponseParams::set_err(::google::protobuf::int32 value) {
+  
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.ReadDirResponseParams.err)
 }
 
 // -------------------------------------------------------------------
@@ -2395,6 +2749,20 @@ inline void MkDirRequestParams::set_allocated_path(::std::string* path) {
   // @@protoc_insertion_point(field_set_allocated:nfsFuse.MkDirRequestParams.path)
 }
 
+// int32 mode = 2;
+inline void MkDirRequestParams::clear_mode() {
+  mode_ = 0;
+}
+inline ::google::protobuf::int32 MkDirRequestParams::mode() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.MkDirRequestParams.mode)
+  return mode_;
+}
+inline void MkDirRequestParams::set_mode(::google::protobuf::int32 value) {
+  
+  mode_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.MkDirRequestParams.mode)
+}
+
 // -------------------------------------------------------------------
 
 // CreateRequestParams
@@ -2452,61 +2820,120 @@ inline void CreateRequestParams::set_allocated_path(::std::string* path) {
   // @@protoc_insertion_point(field_set_allocated:nfsFuse.CreateRequestParams.path)
 }
 
+// int32 mode = 2;
+inline void CreateRequestParams::clear_mode() {
+  mode_ = 0;
+}
+inline ::google::protobuf::int32 CreateRequestParams::mode() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CreateRequestParams.mode)
+  return mode_;
+}
+inline void CreateRequestParams::set_mode(::google::protobuf::int32 value) {
+  
+  mode_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CreateRequestParams.mode)
+}
+
+// int32 flags = 3;
+inline void CreateRequestParams::clear_flags() {
+  flags_ = 0;
+}
+inline ::google::protobuf::int32 CreateRequestParams::flags() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CreateRequestParams.flags)
+  return flags_;
+}
+inline void CreateRequestParams::set_flags(::google::protobuf::int32 value) {
+  
+  flags_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CreateRequestParams.flags)
+}
+
 // -------------------------------------------------------------------
 
-// DeleteRequestParams
+// CreateResponseParams
 
-// string path = 1;
-inline void DeleteRequestParams::clear_path() {
-  path_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// int32 flags = 1;
+inline void CreateResponseParams::clear_flags() {
+  flags_ = 0;
 }
-inline const ::std::string& DeleteRequestParams::path() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.DeleteRequestParams.path)
-  return path_.GetNoArena();
+inline ::google::protobuf::int32 CreateResponseParams::flags() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CreateResponseParams.flags)
+  return flags_;
 }
-inline void DeleteRequestParams::set_path(const ::std::string& value) {
+inline void CreateResponseParams::set_flags(::google::protobuf::int32 value) {
   
-  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:nfsFuse.DeleteRequestParams.path)
+  flags_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CreateResponseParams.flags)
 }
-#if LANG_CXX11
-inline void DeleteRequestParams::set_path(::std::string&& value) {
+
+// int32 fh = 2;
+inline void CreateResponseParams::clear_fh() {
+  fh_ = 0;
+}
+inline ::google::protobuf::int32 CreateResponseParams::fh() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CreateResponseParams.fh)
+  return fh_;
+}
+inline void CreateResponseParams::set_fh(::google::protobuf::int32 value) {
   
-  path_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:nfsFuse.DeleteRequestParams.path)
+  fh_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CreateResponseParams.fh)
 }
-#endif
-inline void DeleteRequestParams::set_path(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
+
+// uint32 oldfh = 3;
+inline void CreateResponseParams::clear_oldfh() {
+  oldfh_ = 0u;
+}
+inline ::google::protobuf::uint32 CreateResponseParams::oldfh() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CreateResponseParams.oldfh)
+  return oldfh_;
+}
+inline void CreateResponseParams::set_oldfh(::google::protobuf::uint32 value) {
   
-  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:nfsFuse.DeleteRequestParams.path)
+  oldfh_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CreateResponseParams.oldfh)
 }
-inline void DeleteRequestParams::set_path(const char* value, size_t size) {
+
+// uint64 lockowner = 4;
+inline void CreateResponseParams::clear_lockowner() {
+  lockowner_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 CreateResponseParams::lockowner() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CreateResponseParams.lockowner)
+  return lockowner_;
+}
+inline void CreateResponseParams::set_lockowner(::google::protobuf::uint64 value) {
   
-  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:nfsFuse.DeleteRequestParams.path)
+  lockowner_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CreateResponseParams.lockowner)
 }
-inline ::std::string* DeleteRequestParams::mutable_path() {
+
+// uint32 pollevent = 5;
+inline void CreateResponseParams::clear_pollevent() {
+  pollevent_ = 0u;
+}
+inline ::google::protobuf::uint32 CreateResponseParams::pollevent() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CreateResponseParams.pollevent)
+  return pollevent_;
+}
+inline void CreateResponseParams::set_pollevent(::google::protobuf::uint32 value) {
   
-  // @@protoc_insertion_point(field_mutable:nfsFuse.DeleteRequestParams.path)
-  return path_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  pollevent_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CreateResponseParams.pollevent)
 }
-inline ::std::string* DeleteRequestParams::release_path() {
-  // @@protoc_insertion_point(field_release:nfsFuse.DeleteRequestParams.path)
+
+// int32 err = 6;
+inline void CreateResponseParams::clear_err() {
+  err_ = 0;
+}
+inline ::google::protobuf::int32 CreateResponseParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CreateResponseParams.err)
+  return err_;
+}
+inline void CreateResponseParams::set_err(::google::protobuf::int32 value) {
   
-  return path_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void DeleteRequestParams::set_allocated_path(::std::string* path) {
-  if (path != nullptr) {
-    
-  } else {
-    
-  }
-  path_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), path);
-  // @@protoc_insertion_point(field_set_allocated:nfsFuse.DeleteRequestParams.path)
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CreateResponseParams.err)
 }
 
 // -------------------------------------------------------------------
@@ -2566,6 +2993,20 @@ inline void RmDirRequestParams::set_allocated_path(::std::string* path) {
   // @@protoc_insertion_point(field_set_allocated:nfsFuse.RmDirRequestParams.path)
 }
 
+// int32 mode = 2;
+inline void RmDirRequestParams::clear_mode() {
+  mode_ = 0;
+}
+inline ::google::protobuf::int32 RmDirRequestParams::mode() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.RmDirRequestParams.mode)
+  return mode_;
+}
+inline void RmDirRequestParams::set_mode(::google::protobuf::int32 value) {
+  
+  mode_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.RmDirRequestParams.mode)
+}
+
 // -------------------------------------------------------------------
 
 // OpenRequestParams
@@ -2623,36 +3064,229 @@ inline void OpenRequestParams::set_allocated_path(::std::string* path) {
   // @@protoc_insertion_point(field_set_allocated:nfsFuse.OpenRequestParams.path)
 }
 
+// int32 flags = 2;
+inline void OpenRequestParams::clear_flags() {
+  flags_ = 0;
+}
+inline ::google::protobuf::int32 OpenRequestParams::flags() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenRequestParams.flags)
+  return flags_;
+}
+inline void OpenRequestParams::set_flags(::google::protobuf::int32 value) {
+  
+  flags_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenRequestParams.flags)
+}
+
+// int32 fh = 3;
+inline void OpenRequestParams::clear_fh() {
+  fh_ = 0;
+}
+inline ::google::protobuf::int32 OpenRequestParams::fh() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenRequestParams.fh)
+  return fh_;
+}
+inline void OpenRequestParams::set_fh(::google::protobuf::int32 value) {
+  
+  fh_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenRequestParams.fh)
+}
+
+// uint32 oldfh = 4;
+inline void OpenRequestParams::clear_oldfh() {
+  oldfh_ = 0u;
+}
+inline ::google::protobuf::uint32 OpenRequestParams::oldfh() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenRequestParams.oldfh)
+  return oldfh_;
+}
+inline void OpenRequestParams::set_oldfh(::google::protobuf::uint32 value) {
+  
+  oldfh_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenRequestParams.oldfh)
+}
+
+// uint64 lockowner = 5;
+inline void OpenRequestParams::clear_lockowner() {
+  lockowner_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 OpenRequestParams::lockowner() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenRequestParams.lockowner)
+  return lockowner_;
+}
+inline void OpenRequestParams::set_lockowner(::google::protobuf::uint64 value) {
+  
+  lockowner_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenRequestParams.lockowner)
+}
+
+// uint32 pollevent = 6;
+inline void OpenRequestParams::clear_pollevent() {
+  pollevent_ = 0u;
+}
+inline ::google::protobuf::uint32 OpenRequestParams::pollevent() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenRequestParams.pollevent)
+  return pollevent_;
+}
+inline void OpenRequestParams::set_pollevent(::google::protobuf::uint32 value) {
+  
+  pollevent_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenRequestParams.pollevent)
+}
+
+// int32 err = 7;
+inline void OpenRequestParams::clear_err() {
+  err_ = 0;
+}
+inline ::google::protobuf::int32 OpenRequestParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenRequestParams.err)
+  return err_;
+}
+inline void OpenRequestParams::set_err(::google::protobuf::int32 value) {
+  
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenRequestParams.err)
+}
+
 // -------------------------------------------------------------------
 
 // OpenResponseParams
 
-// int32 fileHandle = 1;
-inline void OpenResponseParams::clear_filehandle() {
-  filehandle_ = 0;
+// string path = 1;
+inline void OpenResponseParams::clear_path() {
+  path_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::google::protobuf::int32 OpenResponseParams::filehandle() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.OpenResponseParams.fileHandle)
-  return filehandle_;
+inline const ::std::string& OpenResponseParams::path() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenResponseParams.path)
+  return path_.GetNoArena();
 }
-inline void OpenResponseParams::set_filehandle(::google::protobuf::int32 value) {
+inline void OpenResponseParams::set_path(const ::std::string& value) {
   
-  filehandle_ = value;
-  // @@protoc_insertion_point(field_set:nfsFuse.OpenResponseParams.fileHandle)
+  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenResponseParams.path)
+}
+#if LANG_CXX11
+inline void OpenResponseParams::set_path(::std::string&& value) {
+  
+  path_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:nfsFuse.OpenResponseParams.path)
+}
+#endif
+inline void OpenResponseParams::set_path(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:nfsFuse.OpenResponseParams.path)
+}
+inline void OpenResponseParams::set_path(const char* value, size_t size) {
+  
+  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:nfsFuse.OpenResponseParams.path)
+}
+inline ::std::string* OpenResponseParams::mutable_path() {
+  
+  // @@protoc_insertion_point(field_mutable:nfsFuse.OpenResponseParams.path)
+  return path_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* OpenResponseParams::release_path() {
+  // @@protoc_insertion_point(field_release:nfsFuse.OpenResponseParams.path)
+  
+  return path_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void OpenResponseParams::set_allocated_path(::std::string* path) {
+  if (path != nullptr) {
+    
+  } else {
+    
+  }
+  path_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), path);
+  // @@protoc_insertion_point(field_set_allocated:nfsFuse.OpenResponseParams.path)
 }
 
-// int32 uid = 2;
-inline void OpenResponseParams::clear_uid() {
-  uid_ = 0;
+// int32 flags = 2;
+inline void OpenResponseParams::clear_flags() {
+  flags_ = 0;
 }
-inline ::google::protobuf::int32 OpenResponseParams::uid() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.OpenResponseParams.uid)
-  return uid_;
+inline ::google::protobuf::int32 OpenResponseParams::flags() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenResponseParams.flags)
+  return flags_;
 }
-inline void OpenResponseParams::set_uid(::google::protobuf::int32 value) {
+inline void OpenResponseParams::set_flags(::google::protobuf::int32 value) {
   
-  uid_ = value;
-  // @@protoc_insertion_point(field_set:nfsFuse.OpenResponseParams.uid)
+  flags_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenResponseParams.flags)
+}
+
+// int32 fh = 3;
+inline void OpenResponseParams::clear_fh() {
+  fh_ = 0;
+}
+inline ::google::protobuf::int32 OpenResponseParams::fh() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenResponseParams.fh)
+  return fh_;
+}
+inline void OpenResponseParams::set_fh(::google::protobuf::int32 value) {
+  
+  fh_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenResponseParams.fh)
+}
+
+// uint32 oldfh = 4;
+inline void OpenResponseParams::clear_oldfh() {
+  oldfh_ = 0u;
+}
+inline ::google::protobuf::uint32 OpenResponseParams::oldfh() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenResponseParams.oldfh)
+  return oldfh_;
+}
+inline void OpenResponseParams::set_oldfh(::google::protobuf::uint32 value) {
+  
+  oldfh_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenResponseParams.oldfh)
+}
+
+// uint64 lockowner = 5;
+inline void OpenResponseParams::clear_lockowner() {
+  lockowner_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 OpenResponseParams::lockowner() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenResponseParams.lockowner)
+  return lockowner_;
+}
+inline void OpenResponseParams::set_lockowner(::google::protobuf::uint64 value) {
+  
+  lockowner_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenResponseParams.lockowner)
+}
+
+// uint32 pollevent = 6;
+inline void OpenResponseParams::clear_pollevent() {
+  pollevent_ = 0u;
+}
+inline ::google::protobuf::uint32 OpenResponseParams::pollevent() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenResponseParams.pollevent)
+  return pollevent_;
+}
+inline void OpenResponseParams::set_pollevent(::google::protobuf::uint32 value) {
+  
+  pollevent_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenResponseParams.pollevent)
+}
+
+// int32 err = 7;
+inline void OpenResponseParams::clear_err() {
+  err_ = 0;
+}
+inline ::google::protobuf::int32 OpenResponseParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.OpenResponseParams.err)
+  return err_;
+}
+inline void OpenResponseParams::set_err(::google::protobuf::int32 value) {
+  
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.OpenResponseParams.err)
 }
 
 // -------------------------------------------------------------------
@@ -2712,118 +3346,174 @@ inline void ReadRequestParams::set_allocated_path(::std::string* path) {
   // @@protoc_insertion_point(field_set_allocated:nfsFuse.ReadRequestParams.path)
 }
 
+// uint32 size = 2;
+inline void ReadRequestParams::clear_size() {
+  size_ = 0u;
+}
+inline ::google::protobuf::uint32 ReadRequestParams::size() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.ReadRequestParams.size)
+  return size_;
+}
+inline void ReadRequestParams::set_size(::google::protobuf::uint32 value) {
+  
+  size_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.ReadRequestParams.size)
+}
+
+// int64 offset = 3;
+inline void ReadRequestParams::clear_offset() {
+  offset_ = PROTOBUF_LONGLONG(0);
+}
+inline ::google::protobuf::int64 ReadRequestParams::offset() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.ReadRequestParams.offset)
+  return offset_;
+}
+inline void ReadRequestParams::set_offset(::google::protobuf::int64 value) {
+  
+  offset_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.ReadRequestParams.offset)
+}
+
 // -------------------------------------------------------------------
 
 // ReadResponseParams
 
-// string text = 1;
-inline void ReadResponseParams::clear_text() {
-  text_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// bytes buffer = 1;
+inline void ReadResponseParams::clear_buffer() {
+  buffer_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& ReadResponseParams::text() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.ReadResponseParams.text)
-  return text_.GetNoArena();
+inline const ::std::string& ReadResponseParams::buffer() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.ReadResponseParams.buffer)
+  return buffer_.GetNoArena();
 }
-inline void ReadResponseParams::set_text(const ::std::string& value) {
+inline void ReadResponseParams::set_buffer(const ::std::string& value) {
   
-  text_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:nfsFuse.ReadResponseParams.text)
+  buffer_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:nfsFuse.ReadResponseParams.buffer)
 }
 #if LANG_CXX11
-inline void ReadResponseParams::set_text(::std::string&& value) {
+inline void ReadResponseParams::set_buffer(::std::string&& value) {
   
-  text_.SetNoArena(
+  buffer_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:nfsFuse.ReadResponseParams.text)
+  // @@protoc_insertion_point(field_set_rvalue:nfsFuse.ReadResponseParams.buffer)
 }
 #endif
-inline void ReadResponseParams::set_text(const char* value) {
+inline void ReadResponseParams::set_buffer(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  text_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:nfsFuse.ReadResponseParams.text)
+  buffer_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:nfsFuse.ReadResponseParams.buffer)
 }
-inline void ReadResponseParams::set_text(const char* value, size_t size) {
+inline void ReadResponseParams::set_buffer(const void* value, size_t size) {
   
-  text_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  buffer_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:nfsFuse.ReadResponseParams.text)
+  // @@protoc_insertion_point(field_set_pointer:nfsFuse.ReadResponseParams.buffer)
 }
-inline ::std::string* ReadResponseParams::mutable_text() {
+inline ::std::string* ReadResponseParams::mutable_buffer() {
   
-  // @@protoc_insertion_point(field_mutable:nfsFuse.ReadResponseParams.text)
-  return text_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:nfsFuse.ReadResponseParams.buffer)
+  return buffer_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* ReadResponseParams::release_text() {
-  // @@protoc_insertion_point(field_release:nfsFuse.ReadResponseParams.text)
+inline ::std::string* ReadResponseParams::release_buffer() {
+  // @@protoc_insertion_point(field_release:nfsFuse.ReadResponseParams.buffer)
   
-  return text_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return buffer_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ReadResponseParams::set_allocated_text(::std::string* text) {
-  if (text != nullptr) {
+inline void ReadResponseParams::set_allocated_buffer(::std::string* buffer) {
+  if (buffer != nullptr) {
     
   } else {
     
   }
-  text_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), text);
-  // @@protoc_insertion_point(field_set_allocated:nfsFuse.ReadResponseParams.text)
+  buffer_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), buffer);
+  // @@protoc_insertion_point(field_set_allocated:nfsFuse.ReadResponseParams.buffer)
+}
+
+// int32 bufferlength = 2;
+inline void ReadResponseParams::clear_bufferlength() {
+  bufferlength_ = 0;
+}
+inline ::google::protobuf::int32 ReadResponseParams::bufferlength() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.ReadResponseParams.bufferlength)
+  return bufferlength_;
+}
+inline void ReadResponseParams::set_bufferlength(::google::protobuf::int32 value) {
+  
+  bufferlength_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.ReadResponseParams.bufferlength)
+}
+
+// int32 err = 3;
+inline void ReadResponseParams::clear_err() {
+  err_ = 0;
+}
+inline ::google::protobuf::int32 ReadResponseParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.ReadResponseParams.err)
+  return err_;
+}
+inline void ReadResponseParams::set_err(::google::protobuf::int32 value) {
+  
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.ReadResponseParams.err)
 }
 
 // -------------------------------------------------------------------
 
 // WriteRequestParams
 
-// string bytes = 1;
-inline void WriteRequestParams::clear_bytes() {
-  bytes_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// bytes buffer = 1;
+inline void WriteRequestParams::clear_buffer() {
+  buffer_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& WriteRequestParams::bytes() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.WriteRequestParams.bytes)
-  return bytes_.GetNoArena();
+inline const ::std::string& WriteRequestParams::buffer() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.WriteRequestParams.buffer)
+  return buffer_.GetNoArena();
 }
-inline void WriteRequestParams::set_bytes(const ::std::string& value) {
+inline void WriteRequestParams::set_buffer(const ::std::string& value) {
   
-  bytes_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:nfsFuse.WriteRequestParams.bytes)
+  buffer_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:nfsFuse.WriteRequestParams.buffer)
 }
 #if LANG_CXX11
-inline void WriteRequestParams::set_bytes(::std::string&& value) {
+inline void WriteRequestParams::set_buffer(::std::string&& value) {
   
-  bytes_.SetNoArena(
+  buffer_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:nfsFuse.WriteRequestParams.bytes)
+  // @@protoc_insertion_point(field_set_rvalue:nfsFuse.WriteRequestParams.buffer)
 }
 #endif
-inline void WriteRequestParams::set_bytes(const char* value) {
+inline void WriteRequestParams::set_buffer(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  bytes_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:nfsFuse.WriteRequestParams.bytes)
+  buffer_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:nfsFuse.WriteRequestParams.buffer)
 }
-inline void WriteRequestParams::set_bytes(const char* value, size_t size) {
+inline void WriteRequestParams::set_buffer(const void* value, size_t size) {
   
-  bytes_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  buffer_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:nfsFuse.WriteRequestParams.bytes)
+  // @@protoc_insertion_point(field_set_pointer:nfsFuse.WriteRequestParams.buffer)
 }
-inline ::std::string* WriteRequestParams::mutable_bytes() {
+inline ::std::string* WriteRequestParams::mutable_buffer() {
   
-  // @@protoc_insertion_point(field_mutable:nfsFuse.WriteRequestParams.bytes)
-  return bytes_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:nfsFuse.WriteRequestParams.buffer)
+  return buffer_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* WriteRequestParams::release_bytes() {
-  // @@protoc_insertion_point(field_release:nfsFuse.WriteRequestParams.bytes)
+inline ::std::string* WriteRequestParams::release_buffer() {
+  // @@protoc_insertion_point(field_release:nfsFuse.WriteRequestParams.buffer)
   
-  return bytes_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return buffer_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void WriteRequestParams::set_allocated_bytes(::std::string* bytes) {
-  if (bytes != nullptr) {
+inline void WriteRequestParams::set_allocated_buffer(::std::string* buffer) {
+  if (buffer != nullptr) {
     
   } else {
     
   }
-  bytes_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), bytes);
-  // @@protoc_insertion_point(field_set_allocated:nfsFuse.WriteRequestParams.bytes)
+  buffer_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), buffer);
+  // @@protoc_insertion_point(field_set_allocated:nfsFuse.WriteRequestParams.buffer)
 }
 
 // string path = 2;
@@ -2879,100 +3569,69 @@ inline void WriteRequestParams::set_allocated_path(::std::string* path) {
   // @@protoc_insertion_point(field_set_allocated:nfsFuse.WriteRequestParams.path)
 }
 
-// -------------------------------------------------------------------
+// uint32 bufferlength = 3;
+inline void WriteRequestParams::clear_bufferlength() {
+  bufferlength_ = 0u;
+}
+inline ::google::protobuf::uint32 WriteRequestParams::bufferlength() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.WriteRequestParams.bufferlength)
+  return bufferlength_;
+}
+inline void WriteRequestParams::set_bufferlength(::google::protobuf::uint32 value) {
+  
+  bufferlength_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.WriteRequestParams.bufferlength)
+}
 
-// LookupRequestParams
-
-// string path = 1;
-inline void LookupRequestParams::clear_path() {
-  path_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// int32 offset = 4;
+inline void WriteRequestParams::clear_offset() {
+  offset_ = 0;
 }
-inline const ::std::string& LookupRequestParams::path() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.LookupRequestParams.path)
-  return path_.GetNoArena();
+inline ::google::protobuf::int32 WriteRequestParams::offset() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.WriteRequestParams.offset)
+  return offset_;
 }
-inline void LookupRequestParams::set_path(const ::std::string& value) {
+inline void WriteRequestParams::set_offset(::google::protobuf::int32 value) {
   
-  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:nfsFuse.LookupRequestParams.path)
-}
-#if LANG_CXX11
-inline void LookupRequestParams::set_path(::std::string&& value) {
-  
-  path_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:nfsFuse.LookupRequestParams.path)
-}
-#endif
-inline void LookupRequestParams::set_path(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:nfsFuse.LookupRequestParams.path)
-}
-inline void LookupRequestParams::set_path(const char* value, size_t size) {
-  
-  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:nfsFuse.LookupRequestParams.path)
-}
-inline ::std::string* LookupRequestParams::mutable_path() {
-  
-  // @@protoc_insertion_point(field_mutable:nfsFuse.LookupRequestParams.path)
-  return path_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* LookupRequestParams::release_path() {
-  // @@protoc_insertion_point(field_release:nfsFuse.LookupRequestParams.path)
-  
-  return path_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void LookupRequestParams::set_allocated_path(::std::string* path) {
-  if (path != nullptr) {
-    
-  } else {
-    
-  }
-  path_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), path);
-  // @@protoc_insertion_point(field_set_allocated:nfsFuse.LookupRequestParams.path)
+  offset_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.WriteRequestParams.offset)
 }
 
 // -------------------------------------------------------------------
 
-// LookupResponseParams
+// WriteReponseParams
 
-// int32 fileHandle = 1;
-inline void LookupResponseParams::clear_filehandle() {
-  filehandle_ = 0;
+// int32 bufferlength = 1;
+inline void WriteReponseParams::clear_bufferlength() {
+  bufferlength_ = 0;
 }
-inline ::google::protobuf::int32 LookupResponseParams::filehandle() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.LookupResponseParams.fileHandle)
-  return filehandle_;
+inline ::google::protobuf::int32 WriteReponseParams::bufferlength() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.WriteReponseParams.bufferlength)
+  return bufferlength_;
 }
-inline void LookupResponseParams::set_filehandle(::google::protobuf::int32 value) {
+inline void WriteReponseParams::set_bufferlength(::google::protobuf::int32 value) {
   
-  filehandle_ = value;
-  // @@protoc_insertion_point(field_set:nfsFuse.LookupResponseParams.fileHandle)
+  bufferlength_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.WriteReponseParams.bufferlength)
 }
 
-// int32 uid = 2;
-inline void LookupResponseParams::clear_uid() {
-  uid_ = 0;
+// int32 err = 2;
+inline void WriteReponseParams::clear_err() {
+  err_ = 0;
 }
-inline ::google::protobuf::int32 LookupResponseParams::uid() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.LookupResponseParams.uid)
-  return uid_;
+inline ::google::protobuf::int32 WriteReponseParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.WriteReponseParams.err)
+  return err_;
 }
-inline void LookupResponseParams::set_uid(::google::protobuf::int32 value) {
+inline void WriteReponseParams::set_err(::google::protobuf::int32 value) {
   
-  uid_ = value;
-  // @@protoc_insertion_point(field_set:nfsFuse.LookupResponseParams.uid)
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.WriteReponseParams.err)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
