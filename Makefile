@@ -20,11 +20,11 @@ CXX = g++
 CPPFLAGS += `pkg-config fuse3 --cflags protobuf grpc`
 CXXFLAGS += -std=c++11
 ifeq ($(SYSTEM),Darwin)
-LDFLAGS += -L/usr/local/lib `pkg-config --libs protobuf grpc++`\
+LDFLAGS += -L/usr/local/lib `pkg-config fuse3 grpc --libs protobuf grpc++`\
            -lgrpc++_reflection\
            -ldl
 else
-LDFLAGS += -L/usr/local/lib `pkg-config --libs protobuf grpc++`\
+LDFLAGS += -L/usr/local/lib `pkg-config fuse3 grpc --libs protobuf grpc++`\
            -Wl,--no-as-needed -lgrpc++_reflection -Wl,--as-needed\
            -ldl
 endif
