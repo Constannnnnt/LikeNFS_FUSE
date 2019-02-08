@@ -8,6 +8,12 @@
 #include <string>
 #include <cstring>
 #include <sys/stat.h>
+#include <dirent.h>
+#include <iostream>
+#include <memory>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -30,16 +36,17 @@ class nfsFuseImpl final : public NFSFuse::Service {
             
         }
   */  
-    Status getattr(ServerContext* context, GetAttrRequestParams* request, GetAttrResponseParams* response) override {
+    Status nfs_getattr(ServerContext* context, const GetAttrRequestParams* request, GetAttrResponseParams* response) override {
         // print out the client path 
-	//std::cout<<"Get Attribute:"<<std::end;
-	//std::cout<<"####: "<<request->path().c_str()<<std::endl;
+	cout<<"Get Attribute:"<<endl;
+	std::cout<<"\tinit path: "<<request->path().c_str()<<std::endl;
 
         // translate the server path
         char server_path[512] = {0};
         strcat(server_path, "./server");
-        strcat(server_path + 8, request->path().c_str());
+        strcat(server_path + 9, request->path().c_str());
         server_path[strlen(server_path)] = '\0';
+        std::cout<<"\tclient path: "<<request->path().c_str()<<"\tserver path:"<<server_path<<endl;
 
 	struct stat status;
         int lstat_result = lstat(server_path, &status);
@@ -66,19 +73,47 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	return Status::OK;
     }
 
-    /*
-    Status readattr(ServerContext* context, ReadDirRequestParams* request, ReadDirResponseParams* reponse) override {
-        return Status::OK;
+    
+    Status nfs_readdir(ServerContext* context, ReadDirRequestParams* request, ServerWriter<ReadDirResponseParams>* response) {
+        cout<<"Read Attr"<<endl;
+        
+	DIR *dp;
+	struct dirent *de;
+	ReadDirResponseParams dir_response;
+	
+	char server_path[512]={0};
+        strcat(server_path, "./server");
+        strcat(server_path + 8, request->path().c_str());
+        server_path[strlen(server_path)] = '\0';
+
+	dp = opendir(server_path);
+	if (dp == NULL){
+	    perror(strerror(errno));
+	    dir_response.set_err(errno);
+            return Status::OK;
+	}
+
+	while((de = readdir(dp)) != NULL) {
+	    dir_response.set_dinode(de->d_ino);
+	    dir_response.set_dname(de->d_name);
+	    dir_response.set_dtype(de->d_type);
+	    response->Write(dir_response);
+	}
+
+	dir_response.set_err(0);
+	closedir(dp);
+	return Status::OK;
     }
-    */
+    
     private:
 };
 
-void RunServer(const std::string& mountpoint) {
+void RunServer() {
 
   // Specify the server address
   std::string server_address("0.0.0.0:50051");
-  nfsFuseImpl service(mountpoint);
+  //nfsFuseImpl service(mountpoint);
+  nfsFuseImpl service;
   // Initialize a mount point
   // nfsFuseImple service(db_path); 
 
@@ -97,7 +132,7 @@ int main(int argc, char** argv) {
      * 
      */
     std::string mountpoint = "path here";
-    RunServer(mountpoint);
-    
+    //RunServer(mountpoint);
+    RunServer();
     return 0;
 }

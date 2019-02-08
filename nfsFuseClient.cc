@@ -49,6 +49,10 @@ static int client_getattr(const char *path, struct stat *stbuf, struct fuse_file
     return options.nfsFuseClient->rpc_getattr(path, stbuf);
 }
 
+static int client_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, 
+    struct fuse_file_info *fi, enum fuse_readdir_flags flags) {
+    return options.nfsFuseClient->rpc_readdir(path, buf, filler);
+}
 
 /*
  * Define FUSE operations 
@@ -58,8 +62,8 @@ static struct client_operations : fuse_operations {
         init = client_init;
         
         getattr = client_getattr;
-        /*
-	.readattr = client_readattr;
+        readdir = client_readdir;
+	/*
         .mkdir = client_mkdir;
         .rmdir = client_rmdir;
         .create = client_create;

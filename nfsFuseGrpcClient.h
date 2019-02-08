@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <dirent.h>
 
 using grpc::Channel;
 using grpc::Status;
@@ -21,11 +22,11 @@ class nfsFuseGrpcClient {
     	GetAttrResponseParams new_response;
     	ClientContext context;
 	GetAttrRequestParams path;
-
+        cout<<"\tin_path:"<<in_path<<endl;
     	path.set_path(in_path);
     	memset(response, 0, sizeof(GetAttrResponseParams));
 
-    	Status status = stub_->getattr(&context, path, &new_response);
+    	Status status = stub_->nfs_getattr(&context, path, &new_response);
 
     	if(new_response.err() != 0){
             return -new_response.err();
@@ -44,7 +45,37 @@ class nfsFuseGrpcClient {
 	
 	}
         return 0;
-    }
+    }; 
+
+    int rpc_readdir(string in_path, void *buf, fuse_fill_dir_t filler){
+        ClientContext ccontext;
+	Status status;
+	
+	ReadDirRequestParams request;
+	request.set_path(in_path);
+	ReadDirResponseParams response;
+	dirent dir;
+	
+	std::unique_ptr<ClientReader<ReadDirResponseParams> >reader(
+			stub_->nfs_readdir(&ccontext, request));
+        
+	while (reader->Read(&response)) {
+	    struct stat sta;
+	    memset(&status, 0, sizeof(sta));
+	    dir.d_ino = response.dinode();
+	    strcpy(dir.d_name, response.dname().c_str());
+	    dir.d_type = response.dtype();
+	    sta.st_ino = dir.d_ino;
+	    sta.st_mode = dir.d_type << 12;
+            
+            if (filler(buf, dir.d_name, &sta, 0, static_cast<fuse_fill_dir_flags>(0))) {
+	        break;
+	    }
+	}
+
+	status = reader->Finish();
+	return -response.err();
+    };
  
  
     private:
