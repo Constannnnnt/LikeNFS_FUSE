@@ -45,7 +45,8 @@ static void *client_init(struct fuse_conn_info *conn, struct fuse_config *cfg) {
 }
 
 static int client_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
-    return 0;
+    memset(stbuf, 0, sizeof(struct stat));      
+    return options.nfsFuseClient->rpc_getattr(path, stbuf);
 }
 
 
@@ -55,9 +56,10 @@ static int client_getattr(const char *path, struct stat *stbuf, struct fuse_file
 static struct client_operations : fuse_operations {
     client_operations() { 
         init = client_init;
+        
+        getattr = client_getattr;
         /*
-        .getattr = client_getattr;
-        .readattr = client_readattr;
+	.readattr = client_readattr;
         .mkdir = client_mkdir;
         .rmdir = client_rmdir;
         .create = client_create;
