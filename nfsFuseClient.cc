@@ -39,12 +39,34 @@ static void show_help(const char *progname)
     std::cout << ("usage: %s [options] <mountpoint>\n\n", progname);
 }
 
+static void *client_init(struct fuse_conn_info *conn, struct fuse_config *cfg) {
+    (void) conn;
+    return NULL;
+}
+
+static int client_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
+    return 0;
+}
+
+
 /*
  * Define FUSE operations 
  */
-static struct fuse_operations client_oper = {
-    
-};
+static struct client_operations : fuse_operations {
+    client_operations() { 
+        init = client_init;
+        /*
+        .getattr = client_getattr;
+        .readattr = client_readattr;
+        .mkdir = client_mkdir;
+        .rmdir = client_rmdir;
+        .create = client_create;
+        .open = client_open;
+        .read = client_read;
+        .write = client_write;
+        */
+    }
+} client_oper;
 
 int main(int argc, char* argv[]) {
     int ret;
