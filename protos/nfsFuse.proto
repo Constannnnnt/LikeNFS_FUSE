@@ -4,14 +4,14 @@ package nfsFuse;
 
 // Interface exported by the server.
 service NFSFuse {
-    rpc getattr (GetAttrRequestParams) returns (GetAttrResponseParams) {}
-    rpc readdir (ReadDirRequestParams) returns (stream ReadDirResponseParams) {}
-    rpc mkdir (MkDirRequestParams) returns (VoidMessage) {}
-    rpc rmdir (RmDirRequestParams) returns (VoidMessage) {}
-    rpc create (CreateRequestParams) returns (CreateResponseParams) {}
-    rpc open (OpenRequestParams) returns (OpenResponseParams) {}
-    rpc read (ReadRequestParams) returns (ReadResponseParams) {}
-    rpc write (WriteRequestParams) returns (WriteReponseParams) {}
+    rpc nfs_getattr (GetAttrRequestParams) returns (GetAttrResponseParams) {}
+    rpc nfs_readdir (ReadDirRequestParams) returns (stream ReadDirResponseParams) {}
+    rpc nfs_mkdir (MkDirRequestParams) returns (VoidMessage) {}
+    rpc nfs_rmdir (RmDirRequestParams) returns (VoidMessage) {}
+    rpc nfs_create (CreateRequestParams) returns (CreateResponseParams) {}
+    rpc nfs_open (OpenRequestParams) returns (OpenResponseParams) {}
+    rpc nfs_read (ReadRequestParams) returns (ReadResponseParams) {}
+    rpc nfs_write (WriteRequestParams) returns (WriteResponseParams) {}
 }
 
 message VoidMessage {
@@ -115,7 +115,7 @@ message WriteRequestParams {
     int32 offset = 4;
 }
 
-message WriteReponseParams {
+message WriteResponseParams {
     int32 bufferlength = 1;
     int32 err = 2;
 }

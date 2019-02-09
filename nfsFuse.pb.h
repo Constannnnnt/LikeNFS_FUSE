@@ -88,12 +88,12 @@ extern RmDirRequestParamsDefaultTypeInternal _RmDirRequestParams_default_instanc
 class VoidMessage;
 class VoidMessageDefaultTypeInternal;
 extern VoidMessageDefaultTypeInternal _VoidMessage_default_instance_;
-class WriteReponseParams;
-class WriteReponseParamsDefaultTypeInternal;
-extern WriteReponseParamsDefaultTypeInternal _WriteReponseParams_default_instance_;
 class WriteRequestParams;
 class WriteRequestParamsDefaultTypeInternal;
 extern WriteRequestParamsDefaultTypeInternal _WriteRequestParams_default_instance_;
+class WriteResponseParams;
+class WriteResponseParamsDefaultTypeInternal;
+extern WriteResponseParamsDefaultTypeInternal _WriteResponseParams_default_instance_;
 }  // namespace nfsFuse
 namespace google {
 namespace protobuf {
@@ -110,8 +110,8 @@ template<> ::nfsFuse::ReadRequestParams* Arena::CreateMaybeMessage<::nfsFuse::Re
 template<> ::nfsFuse::ReadResponseParams* Arena::CreateMaybeMessage<::nfsFuse::ReadResponseParams>(Arena*);
 template<> ::nfsFuse::RmDirRequestParams* Arena::CreateMaybeMessage<::nfsFuse::RmDirRequestParams>(Arena*);
 template<> ::nfsFuse::VoidMessage* Arena::CreateMaybeMessage<::nfsFuse::VoidMessage>(Arena*);
-template<> ::nfsFuse::WriteReponseParams* Arena::CreateMaybeMessage<::nfsFuse::WriteReponseParams>(Arena*);
 template<> ::nfsFuse::WriteRequestParams* Arena::CreateMaybeMessage<::nfsFuse::WriteRequestParams>(Arena*);
+template<> ::nfsFuse::WriteResponseParams* Arena::CreateMaybeMessage<::nfsFuse::WriteResponseParams>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace nfsFuse {
@@ -2098,25 +2098,25 @@ class WriteRequestParams final :
 };
 // -------------------------------------------------------------------
 
-class WriteReponseParams final :
-    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.WriteReponseParams) */ {
+class WriteResponseParams final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.WriteResponseParams) */ {
  public:
-  WriteReponseParams();
-  virtual ~WriteReponseParams();
+  WriteResponseParams();
+  virtual ~WriteResponseParams();
 
-  WriteReponseParams(const WriteReponseParams& from);
+  WriteResponseParams(const WriteResponseParams& from);
 
-  inline WriteReponseParams& operator=(const WriteReponseParams& from) {
+  inline WriteResponseParams& operator=(const WriteResponseParams& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  WriteReponseParams(WriteReponseParams&& from) noexcept
-    : WriteReponseParams() {
+  WriteResponseParams(WriteResponseParams&& from) noexcept
+    : WriteResponseParams() {
     *this = ::std::move(from);
   }
 
-  inline WriteReponseParams& operator=(WriteReponseParams&& from) noexcept {
+  inline WriteResponseParams& operator=(WriteResponseParams&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -2128,34 +2128,34 @@ class WriteReponseParams final :
   static const ::google::protobuf::Descriptor* descriptor() {
     return default_instance().GetDescriptor();
   }
-  static const WriteReponseParams& default_instance();
+  static const WriteResponseParams& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const WriteReponseParams* internal_default_instance() {
-    return reinterpret_cast<const WriteReponseParams*>(
-               &_WriteReponseParams_default_instance_);
+  static inline const WriteResponseParams* internal_default_instance() {
+    return reinterpret_cast<const WriteResponseParams*>(
+               &_WriteResponseParams_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     14;
 
-  void Swap(WriteReponseParams* other);
-  friend void swap(WriteReponseParams& a, WriteReponseParams& b) {
+  void Swap(WriteResponseParams* other);
+  friend void swap(WriteResponseParams& a, WriteResponseParams& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline WriteReponseParams* New() const final {
-    return CreateMaybeMessage<WriteReponseParams>(nullptr);
+  inline WriteResponseParams* New() const final {
+    return CreateMaybeMessage<WriteResponseParams>(nullptr);
   }
 
-  WriteReponseParams* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<WriteReponseParams>(arena);
+  WriteResponseParams* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<WriteResponseParams>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const WriteReponseParams& from);
-  void MergeFrom(const WriteReponseParams& from);
+  void CopyFrom(const WriteResponseParams& from);
+  void MergeFrom(const WriteResponseParams& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -2177,7 +2177,7 @@ class WriteReponseParams final :
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(WriteReponseParams* other);
+  void InternalSwap(WriteResponseParams* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return nullptr;
@@ -2205,7 +2205,7 @@ class WriteReponseParams final :
   ::google::protobuf::int32 err() const;
   void set_err(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:nfsFuse.WriteReponseParams)
+  // @@protoc_insertion_point(class_scope:nfsFuse.WriteResponseParams)
  private:
   class HasBitSetters;
 
@@ -3599,34 +3599,34 @@ inline void WriteRequestParams::set_offset(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
-// WriteReponseParams
+// WriteResponseParams
 
 // int32 bufferlength = 1;
-inline void WriteReponseParams::clear_bufferlength() {
+inline void WriteResponseParams::clear_bufferlength() {
   bufferlength_ = 0;
 }
-inline ::google::protobuf::int32 WriteReponseParams::bufferlength() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.WriteReponseParams.bufferlength)
+inline ::google::protobuf::int32 WriteResponseParams::bufferlength() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.WriteResponseParams.bufferlength)
   return bufferlength_;
 }
-inline void WriteReponseParams::set_bufferlength(::google::protobuf::int32 value) {
+inline void WriteResponseParams::set_bufferlength(::google::protobuf::int32 value) {
   
   bufferlength_ = value;
-  // @@protoc_insertion_point(field_set:nfsFuse.WriteReponseParams.bufferlength)
+  // @@protoc_insertion_point(field_set:nfsFuse.WriteResponseParams.bufferlength)
 }
 
 // int32 err = 2;
-inline void WriteReponseParams::clear_err() {
+inline void WriteResponseParams::clear_err() {
   err_ = 0;
 }
-inline ::google::protobuf::int32 WriteReponseParams::err() const {
-  // @@protoc_insertion_point(field_get:nfsFuse.WriteReponseParams.err)
+inline ::google::protobuf::int32 WriteResponseParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.WriteResponseParams.err)
   return err_;
 }
-inline void WriteReponseParams::set_err(::google::protobuf::int32 value) {
+inline void WriteResponseParams::set_err(::google::protobuf::int32 value) {
   
   err_ = value;
-  // @@protoc_insertion_point(field_set:nfsFuse.WriteReponseParams.err)
+  // @@protoc_insertion_point(field_set:nfsFuse.WriteResponseParams.err)
 }
 
 #ifdef __GNUC__

@@ -48,6 +48,32 @@ static int client_getattr(const char *path, struct stat *stbuf, struct fuse_file
     return 0;
 }
 
+static int client_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
+    int ret;
+    ret = options.nfsFuseClient->nfs_create(path, mode, fi);
+    std::cout << "[DEBUG] create: " << ret << endl;
+    return ret;
+}
+
+static int client_open(const char *path, struct fuse_file_info *fi) {
+    int ret;
+    ret = options.nfsFuseClient->nfs_open(path, fi);
+    return ret;
+}
+
+static int client_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
+    (void) fi;
+    int ret;
+    ret = options.nfsFuseClient->nfs_read(path, buf, size, offset);
+    return ret;
+}
+
+static int client_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
+    (void) fi;
+    int ret;
+    ret = options.nfsFuseClient->nfs_write(path, buf, size, offset, fi);
+    return ret;
+}
 
 /*
  * Define FUSE operations 
@@ -60,11 +86,11 @@ static struct client_operations : fuse_operations {
         .readattr = client_readattr;
         .mkdir = client_mkdir;
         .rmdir = client_rmdir;
-        .create = client_create;
-        .open = client_open;
-        .read = client_read;
-        .write = client_write;
-        */
+	*/
+        create = client_create;
+        open = client_open;
+	read = client_read;
+	write = client_write;
     }
 } client_oper;
 
