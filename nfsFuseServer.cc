@@ -42,8 +42,8 @@ using namespace nfsFuse;
 using namespace std;
 
 void translatePath(const char* client_path, char* server_path){
-    strcat(server_path, "/home/ubuntu/LikeNFS_FUSE/server");
-    strcat(server_path+8, client_path);
+    strcat(server_path, "~/nfsServer");
+    strcat(server_path+11, client_path);
     server_path[strlen(server_path)] = '\0';
 }
 
@@ -155,7 +155,10 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    cout << "[DEBUG] Client's Flag: " << request->flags() << endl;
 	    cout << "[DEBUG] Client's Mode: " << request->mode() << endl;
 	
-	    const char* serverpath = request->path().c_str();
+	    // const char* serverpath = request->path().c_str();
+	    char serverpath[512] = {0};
+	    translatePath(request->path().c_str(), serverpath);
+	    
 	    int res = open(serverpath, request->flags(), request->mode());
 	    if (res == -1) {
 		response->set_err(errno);
@@ -172,7 +175,9 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
 	    cout << "[DEBUG] Client's Flag: " << request->flags() << endl;
 
-	    const char* serverpath = request->path().c_str();
+	    // const char* serverpath = request->path().c_str();
+	    char serverpath[512] = {0};
+	    translatePath(request->path().c_str(), serverpath);
 	    int res = open(serverpath, request->flags());
 	    if (res == -1) {
 	        response->set_err(errno);
@@ -190,7 +195,9 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    cout << "[DEBUG] Client's size: " << request->size() << endl;
 	    cout << "[DEBUG] Client's offset " << request->offset() << endl;
 
-	    const char* serverpath = request->path().c_str();
+	    // const char* serverpath = request->path().c_str();
+	    char serverpath[512] = {0};
+	    translatePath(request->path().c_str(), serverpath);
 	    char* buf = new char[request->size()];
 	    int res;
 	    int fd = open(serverpath, O_RDONLY);
@@ -223,7 +230,9 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    cout << "[DEBUG] Client's size: " << request->bufferlength() << endl;
 	    cout << "[DEBUG] Client's offset " << request->offset() << endl;
 
-	    const char* serverpath = request->path().c_str();
+	    // const char* serverpath = request->path().c_str();
+	    char serverpath[512] = {0};
+	    translatePath(request->path().c_str(), serverpath);
 	    int res;
 	    int fd;
 
