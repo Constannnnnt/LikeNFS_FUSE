@@ -27,8 +27,17 @@ using nfsFuse::GetAttrRequestParams;
 using nfsFuse::GetAttrResponseParams;
 using nfsFuse::ReadDirRequestParams;
 using nfsFuse::ReadDirResponseParams;
+using nfsFuse::MkDirRequestParams;
+using nfsFuse::RmDirRequestParams;
+using nfsFuse::VoidMessage;
 
 using namespace std;
+
+void translatePath(const char* client_path, char* server_path){
+    strcat(server_path, "/home/ubuntu/LikeNFS_FUSE/server");
+    strcat(server_path+8, client_path);
+    server_path[strlen(server_path)] = '\0';
+}
 
 class nfsFuseImpl final : public NFSFuse::Service {
 /*    public:
@@ -43,10 +52,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
         // translate the server path
         char server_path[512] = {0};
-        //strcat(server_path, "./server");
-        strcat(server_path, "/home/ubuntu/LikeNFS_FUSE/server");
-	strcat(server_path + 9, request->path().c_str());
-        server_path[strlen(server_path)] = '\0';
+        translatePath(request->path().c_str(), server_path);
         std::cout<<"\tclient path: "<<request->path().c_str()<<"\tserver path:"<<server_path<<endl;
 
 	struct stat status;
@@ -83,11 +89,14 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	DIR *dp;
 	struct dirent *de;
 	ReadDirResponseParams dir_response;
-	
+	/*
 	char server_path[512]={0};
         strcat(server_path, "./server");
         strcat(server_path + 8, request->path().c_str());
         server_path[strlen(server_path)] = '\0';
+        */
+	char server_path[512] = {0};
+	translatePath(request->path().c_str(), server_path);
 
 	dp = opendir(server_path);
 	if (dp == NULL){
@@ -107,6 +116,41 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	closedir(dp);
 	return Status::OK;
     }
+
+    Status nfs_mkdir(ServerContext* context, MkDirRequestParams* in_dir, VoidMessage* vmsg) {
+        cout<<"Mkdir"<<endl;
+
+	char server_path[512] = {0};
+	translatePath(in_dir->path().c_str(), server_path);
+	int result = mkdir(server_path, in_dir->mode());
+
+	if (result == -1) {
+	    perror(strerror(errno)); 
+            vmsg->set_err(errno);
+            return Status::OK;
+	}
+	
+	vmsg->set_err(errno);
+	return Status::OK;
+    };
+
+    Status nfs_rmdir(ServerContext* context, RmDirRequestParams* in_dir, VoidMessage* vmsg) {
+        cout<<"Rmdir" <<endl;
+
+	char server_path[512] = {0};
+        translatePath(in_dir->path().c_str(), server_path);
+	int result = rmdir(server_path);
+
+	if (result == -1) {
+	    perror(strerror(errno));
+	    vmsg->set_err(errno);
+	    return Status::OK;
+	}
+
+	vmsg->set_err(0);
+	return Status::OK;
+    }
+
     
     private:
 };

@@ -77,6 +77,39 @@ class nfsFuseGrpcClient {
 	status = reader->Finish();
 	return -response.err();
     };
+
+    int rpc_mkdir(string in_path, mode_t mode) {
+        ClientContext ccontext;
+	nfsFuse::MkDirRequestParams dir_request;
+	VoidMessage vmsg;
+
+	dir_request.set_path(in_path);
+	dir_request.set_mode(mode);
+
+	Status status = stub_->nfs_mkdir(&ccontext, dir_request, &vmsg);
+	
+	if (vmsg.err() != 0) {
+            std::cout << "Error: mkdir fails" << std::endl;
+        }
+
+        return vmsg.err();
+    }
+
+    int rpc_rmdir(string in_path) {
+        ClientContext ccontext;
+	nfsFuse::RmDirRequestParams dir_request;
+	VoidMessage vmsg;
+
+	dir_request.set_path(in_path);
+
+	Status status = stub_->nfs_rmdir(&ccontext, dir_request, &vmsg);
+
+	if (vmsg.err() != 0) {
+	    std::cout << "Error: rmdir fails" << endl;
+	}
+
+	return vmsg.err();
+    }
  
  
     private:

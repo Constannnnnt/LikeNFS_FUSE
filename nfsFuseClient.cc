@@ -56,6 +56,13 @@ static int client_readdir(const char *path, void *buf, fuse_fill_dir_t filler, o
     return options.nfsFuseClient->rpc_readdir(path, buf, filler);
 }
 
+static int client_mkdir(const char *path, mode_t mode) {
+    return options.nfsFuseClient->rpc_mkdir(path, mode);
+}
+
+static int client_rmdir(const char *path) {
+    return options.nfsFuseClient->rpc_rmdir(path);
+}
 /*
  * Define FUSE operations 
  */
@@ -65,9 +72,9 @@ static struct client_operations : fuse_operations {
         
         getattr = client_getattr;
         readdir = client_readdir;
+        mkdir = client_mkdir;
+        rmdir = client_rmdir;
 	/*
-        .mkdir = client_mkdir;
-        .rmdir = client_rmdir;
         .create = client_create;
         .open = client_open;
         .read = client_read;
