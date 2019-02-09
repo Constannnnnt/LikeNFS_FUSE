@@ -46,24 +46,28 @@ static void *client_init(struct fuse_conn_info *conn, struct fuse_config *cfg) {
 
 static int client_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
     cout<<"client getattr in cc file:"<<path<<endl;
-    //memset(stbuf, 0, sizeof(struct stat));      
+    // memset(stbuf, 0, sizeof(struct stat));      
+    cout << "[DEBUG] Path: " << path << endl; 
     return options.nfsFuseClient->rpc_getattr(path, stbuf);
 }
 
 static int client_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
+    std::cout << "[DEBUG] create: " << endl;
     int ret;
     ret = options.nfsFuseClient->nfs_create(path, mode, fi);
-    std::cout << "[DEBUG] create: " << ret << endl;
+    std::cout << "[DEBUG] create end: " << endl;
     return ret;
 }
 
 static int client_open(const char *path, struct fuse_file_info *fi) {
+    std::cout << "[DEBUG] open: " << endl;
     int ret;
     ret = options.nfsFuseClient->nfs_open(path, fi);
     return ret;
 }
 
 static int client_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
+    std::cout << "[DEBUG] read: " << endl;
     (void) fi;
     int ret;
     ret = options.nfsFuseClient->nfs_read(path, buf, size, offset);
@@ -71,6 +75,7 @@ static int client_read(const char *path, char *buf, size_t size, off_t offset, s
 }
 
 static int client_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
+    std::cout << "[DEBUG] write: " << endl;
     (void) fi;
     int ret;
     ret = options.nfsFuseClient->nfs_write(path, buf, size, offset, fi);
@@ -84,10 +89,12 @@ static int client_readdir(const char *path, void *buf, fuse_fill_dir_t filler, o
 }
 
 static int client_mkdir(const char *path, mode_t mode) {
+    cout<<"client mkdir in cc file"<<path<<endl;
     return options.nfsFuseClient->rpc_mkdir(path, mode);
 }
 
 static int client_rmdir(const char *path) {
+    cout<<"client rmdir in cc file"<<path<<endl;
     return options.nfsFuseClient->rpc_rmdir(path);
 }
 /*

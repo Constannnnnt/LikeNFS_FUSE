@@ -8,27 +8,19 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <errno.h>
+#include <memory>
 
 #ifdef HAVE_SETXATTR
 #include <sys/xattr.h>
 #endif
 
+#include <grpc++/grpc++.h>
 #include <grpc/grpc.h>
 #include <grpcpp/server.h>
 #include <grpcpp/server_builder.h>
 #include <grpcpp/server_context.h>
 
 #include "nfsFuse.grpc.pb.h"
-
-#include <string>
-#include <cstring>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <iostream>
-#include <memory>
-#include <sys/types.h>
-#include <unistd.h>
-#include <fcntl.h>
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -42,7 +34,7 @@ using namespace nfsFuse;
 using namespace std;
 
 void translatePath(const char* client_path, char* server_path){
-    strcat(server_path, "~/nfsServer");
+    strcat(server_path, "./nfsServer");
     strcat(server_path+11, client_path);
     server_path[strlen(server_path)] = '\0';
 }
@@ -50,10 +42,9 @@ void translatePath(const char* client_path, char* server_path){
 class nfsFuseImpl final : public NFSFuse::Service {
     public:
         explicit nfsFuseImpl() {}  
-        Status nfs_getattr(ServerContext* context, const GetAttrRequestParams* request, GetAttrResponseParams* response)  {
+        Status nfs_getattr(ServerContext* context, const GetAttrRequestParams* request, GetAttrResponseParams* response) override  {
             // print out the client path 
 	    cout<<"Get Attribute:"<<endl;
-	    std::cout<<"\tinit path: "<<request->path().c_str()<<std::endl;
 
             // translate the server path
             char server_path[512] = {0};
@@ -68,7 +59,6 @@ class nfsFuseImpl final : public NFSFuse::Service {
                 // perror(strerror(errno));
                 response->set_err(errno);
             } else {
-	        response->set_dev(status.st_dev);
                 response->set_inode(status.st_ino);
                 response->set_mode(status.st_mode);
                 response->set_nlink(status.st_nlink);
@@ -88,7 +78,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
         }
 
     
-        Status nfs_readdir(ServerContext* context, ReadDirRequestParams* request, ServerWriter<ReadDirResponseParams>* response) {
+        Status nfs_readdir(ServerContext* context, const ReadDirRequestParams* request, ServerWriter<ReadDirResponseParams>* response) override {
             cout<<"Read Attr"<<endl;
         
 	    DIR *dp;
@@ -116,7 +106,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    return Status::OK;
         }
 
-        Status nfs_mkdir(ServerContext* context, MkDirRequestParams* in_dir, VoidMessage* vmsg) {
+        Status nfs_mkdir(ServerContext* context, const MkDirRequestParams* in_dir, VoidMessage* vmsg) override {
             cout<<"Mkdir"<<endl;
 
 	    char server_path[512] = {0};
@@ -133,7 +123,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    return Status::OK;
         };
 
-        Status nfs_rmdir(ServerContext* context, RmDirRequestParams* in_dir, VoidMessage* vmsg) {
+        Status nfs_rmdir(ServerContext* context, const RmDirRequestParams* in_dir, VoidMessage* vmsg) override {
             cout<<"Rmdir" <<endl;
 
 	    char server_path[512] = {0};
@@ -150,7 +140,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    return Status::OK;
 	}
         
-	Status nfs_create(ServerContext* context, CreateRequestParams* request, CreateResponseParams* response){
+	Status nfs_create(ServerContext* context, const CreateRequestParams* request, CreateResponseParams* response)override {
 	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
 	    cout << "[DEBUG] Client's Flag: " << request->flags() << endl;
 	    cout << "[DEBUG] Client's Mode: " << request->mode() << endl;
@@ -158,6 +148,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    // const char* serverpath = request->path().c_str();
 	    char serverpath[512] = {0};
 	    translatePath(request->path().c_str(), serverpath);
+            std::cout<<"\tclient path: "<<request->path().c_str()<<"\tserver path:"<<serverpath<<endl;
 	    
 	    int res = open(serverpath, request->flags(), request->mode());
 	    if (res == -1) {
@@ -171,7 +162,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    }
 	}
 
-	Status nfs_open(ServerContext* context, OpenRequestParams* request, OpenResponseParams* response) {
+	Status nfs_open(ServerContext* context, const OpenRequestParams* request, OpenResponseParams* response) override {
 	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
 	    cout << "[DEBUG] Client's Flag: " << request->flags() << endl;
 
@@ -190,7 +181,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    }
 	}
 	
-	Status nfs_read(ServerContext* context, ReadRequestParams* request, ReadResponseParams* response) {
+	Status nfs_read(ServerContext* context, const ReadRequestParams* request, ReadResponseParams* response) override {
 	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
 	    cout << "[DEBUG] Client's size: " << request->size() << endl;
 	    cout << "[DEBUG] Client's offset " << request->offset() << endl;
@@ -224,7 +215,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    return Status::OK;
 	}
 
-	Status nfs_write(ServerContext* context, WriteRequestParams* request, WriteResponseParams* response) {
+	Status nfs_write(ServerContext* context, const WriteRequestParams* request, WriteResponseParams* response) override {
 	
 	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
 	    cout << "[DEBUG] Client's size: " << request->bufferlength() << endl;

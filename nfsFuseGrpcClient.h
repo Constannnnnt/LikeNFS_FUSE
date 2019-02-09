@@ -26,11 +26,13 @@ class nfsFuseGrpcClient {
 	    request.set_mode(mode);
 	    request.set_flags(fi->flags);
 
+	    cout << "[DEBUG] Before Send" << endl;
 	    Status status = stub_->nfs_create(&ctx, request, &response);
+	    cout << "[DEBUG] After Sent" << endl;
 	    if (response.err() == 0) {
-	        fi->fh = response.fh(); 
+	        fi->fh = response.fh();
+	        cout << "[DEBUG] nfs_create finished without err" << endl;
 	    }
-
 	    return -response.err();
 	}
 	int nfs_open(const char *path, struct fuse_file_info *fi) {
@@ -93,6 +95,7 @@ class nfsFuseGrpcClient {
     	memset(response, 0, sizeof(GetAttrResponseParams));
 
     	Status status = stub_->nfs_getattr(&context, path, &new_response);
+	cout << "[DEBUG] Error Code: " << new_response.err() << endl;
 
     	if(new_response.err() != 0){
             return -new_response.err();
@@ -111,7 +114,7 @@ class nfsFuseGrpcClient {
 	
 	}
         return 0;
-    }; 
+    } 
 
     int rpc_readdir(string in_path, void *buf, fuse_fill_dir_t filler){
         ClientContext ccontext;
@@ -133,7 +136,6 @@ class nfsFuseGrpcClient {
 	    dir.d_type = response.dtype();
 	    sta.st_ino = dir.d_ino;
 	    sta.st_mode = dir.d_type << 12;
-            
             if (filler(buf, dir.d_name, &sta, 0, static_cast<fuse_fill_dir_flags>(0))) {
 	        break;
 	    }
@@ -141,7 +143,7 @@ class nfsFuseGrpcClient {
 
 	status = reader->Finish();
 	return -response.err();
-    };
+    }
 
     int rpc_mkdir(string in_path, mode_t mode) {
         ClientContext ccontext;
