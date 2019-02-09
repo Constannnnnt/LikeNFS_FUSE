@@ -45,12 +45,14 @@ static void *client_init(struct fuse_conn_info *conn, struct fuse_config *cfg) {
 }
 
 static int client_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
-    memset(stbuf, 0, sizeof(struct stat));      
+    cout<<"client getattr in cc file:"<<path<<endl;
+    //memset(stbuf, 0, sizeof(struct stat));      
     return options.nfsFuseClient->rpc_getattr(path, stbuf);
 }
 
 static int client_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, 
     struct fuse_file_info *fi, enum fuse_readdir_flags flags) {
+    cout<<"client readdir in cc file"<<path<<endl;
     return options.nfsFuseClient->rpc_readdir(path, buf, filler);
 }
 
@@ -99,5 +101,6 @@ int main(int argc, char* argv[]) {
 
     ret = fuse_main(args.argc, args.argv, &client_oper, NULL);
     fuse_opt_free_args(&args);
+    cout<<"Terminate client"<<endl;
     return ret;
 }

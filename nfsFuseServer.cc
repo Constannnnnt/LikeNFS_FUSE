@@ -36,15 +36,16 @@ class nfsFuseImpl final : public NFSFuse::Service {
             
         }
   */  
-    Status nfs_getattr(ServerContext* context, const GetAttrRequestParams* request, GetAttrResponseParams* response) override {
+    Status nfs_getattr(ServerContext* context, const GetAttrRequestParams* request, GetAttrResponseParams* response)  {
         // print out the client path 
 	cout<<"Get Attribute:"<<endl;
 	std::cout<<"\tinit path: "<<request->path().c_str()<<std::endl;
 
         // translate the server path
         char server_path[512] = {0};
-        strcat(server_path, "./server");
-        strcat(server_path + 9, request->path().c_str());
+        //strcat(server_path, "./server");
+        strcat(server_path, "/home/ubuntu/LikeNFS_FUSE/server");
+	strcat(server_path + 9, request->path().c_str());
         server_path[strlen(server_path)] = '\0';
         std::cout<<"\tclient path: "<<request->path().c_str()<<"\tserver path:"<<server_path<<endl;
 
@@ -56,6 +57,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
             // perror(strerror(errno));
             response->set_err(errno);
         } else {
+	    response->set_dev(status.st_dev);
             response->set_inode(status.st_ino);
             response->set_mode(status.st_mode);
             response->set_nlink(status.st_nlink);
@@ -68,6 +70,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
             response->set_mtime(status.st_mtime);
             response->set_ctime(status.st_ctime);
             response->set_err(0);
+    cout<<"dev:"<<response->dev()<<" inode:"<<response->inode()<<" mode"<<response->mode()<<" nlink"<<response->nlink()<<" uid"<<response->uid()<<" guid"<<response->guid()<<endl;
         }
 	
 	return Status::OK;

@@ -19,7 +19,8 @@ class nfsFuseGrpcClient {
         nfsFuseGrpcClient(std::shared_ptr<Channel> channel):stub_(NFSFuse::NewStub(channel)) {}
  
     int rpc_getattr(std::string in_path, struct stat* response) {
-    	GetAttrResponseParams new_response;
+    	cout<<"** rpc client get attr **"<<endl;
+	GetAttrResponseParams new_response;
     	ClientContext context;
 	GetAttrRequestParams path;
         cout<<"\tin_path:"<<in_path<<endl;
@@ -58,7 +59,7 @@ class nfsFuseGrpcClient {
 	
 	std::unique_ptr<ClientReader<ReadDirResponseParams> >reader(
 			stub_->nfs_readdir(&ccontext, request));
-        
+        cout<<"** rpc client read dir **"<<endl;       
 	while (reader->Read(&response)) {
 	    struct stat sta;
 	    memset(&status, 0, sizeof(sta));
