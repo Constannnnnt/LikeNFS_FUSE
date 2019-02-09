@@ -45,7 +45,9 @@ static void *client_init(struct fuse_conn_info *conn, struct fuse_config *cfg) {
 }
 
 static int client_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
-    return 0;
+    cout<<"client getattr in cc file:"<<path<<endl;
+    //memset(stbuf, 0, sizeof(struct stat));      
+    return options.nfsFuseClient->rpc_getattr(path, stbuf);
 }
 
 static int client_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
@@ -75,22 +77,33 @@ static int client_write(const char *path, const char *buf, size_t size, off_t of
     return ret;
 }
 
+static int client_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, 
+    struct fuse_file_info *fi, enum fuse_readdir_flags flags) {
+    cout<<"client readdir in cc file"<<path<<endl;
+    return options.nfsFuseClient->rpc_readdir(path, buf, filler);
+}
+
+static int client_mkdir(const char *path, mode_t mode) {
+    return options.nfsFuseClient->rpc_mkdir(path, mode);
+}
+
+static int client_rmdir(const char *path) {
+    return options.nfsFuseClient->rpc_rmdir(path);
+}
 /*
  * Define FUSE operations 
  */
 static struct client_operations : fuse_operations {
     client_operations() { 
         init = client_init;
-        /*
-        .getattr = client_getattr;
-        .readattr = client_readattr;
-        .mkdir = client_mkdir;
-        .rmdir = client_rmdir;
-	*/
         create = client_create;
         open = client_open;
 	read = client_read;
 	write = client_write;
+        getattr = client_getattr;
+        readdir = client_readdir;
+        mkdir = client_mkdir;
+        rmdir = client_rmdir;
     }
 } client_oper;
 
@@ -119,5 +132,6 @@ int main(int argc, char* argv[]) {
 
     ret = fuse_main(args.argc, args.argv, &client_oper, NULL);
     fuse_opt_free_args(&args);
+    cout<<"Terminate client"<<endl;
     return ret;
 }

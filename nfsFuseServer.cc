@@ -20,6 +20,16 @@
 
 #include "nfsFuse.grpc.pb.h"
 
+#include <string>
+#include <cstring>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <iostream>
+#include <memory>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+
 using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
@@ -31,19 +41,116 @@ using grpc::Status;
 using namespace nfsFuse;
 using namespace std;
 
+void translatePath(const char* client_path, char* server_path){
+    strcat(server_path, "/home/ubuntu/LikeNFS_FUSE/server");
+    strcat(server_path+8, client_path);
+    server_path[strlen(server_path)] = '\0';
+}
+
 class nfsFuseImpl final : public NFSFuse::Service {
     public:
-        explicit nfsFuseImpl() {}
-    /*
-    Status getattr(ServerContext* context, GetAttrRequestParams* request, GetAttrResponseParams* response) override {
-        return Status::OK;
-    }
+        explicit nfsFuseImpl() {}  
+        Status nfs_getattr(ServerContext* context, const GetAttrRequestParams* request, GetAttrResponseParams* response)  {
+            // print out the client path 
+	    cout<<"Get Attribute:"<<endl;
+	    std::cout<<"\tinit path: "<<request->path().c_str()<<std::endl;
 
-    Status readattr(ServerContext* context, ReadDirRequestParams* request, ReadDirResponseParams* reponse) override {
-        return Status::OK;
-    }
-    */
-        Status nfs_create(ServerContext* context, CreateRequestParams* request, CreateResponseParams* response){
+            // translate the server path
+            char server_path[512] = {0};
+            translatePath(request->path().c_str(), server_path);
+            std::cout<<"\tclient path: "<<request->path().c_str()<<"\tserver path:"<<server_path<<endl;
+
+	    struct stat status;
+            int lstat_result = lstat(server_path, &status);
+
+            if(lstat_result == -1){
+		std::cout<<"errno: "<<errno<<std::endl;
+                // perror(strerror(errno));
+                response->set_err(errno);
+            } else {
+	        response->set_dev(status.st_dev);
+                response->set_inode(status.st_ino);
+                response->set_mode(status.st_mode);
+                response->set_nlink(status.st_nlink);
+                response->set_uid(status.st_uid);
+                response->set_guid(status.st_gid);
+                response->set_size(status.st_size);
+                response->set_blocksize(status.st_blksize);
+                response->set_nblock(status.st_blocks);
+                response->set_latime(status.st_atime);
+                response->set_mtime(status.st_mtime);
+                response->set_ctime(status.st_ctime);
+                response->set_err(0);
+                cout<<"dev:"<<response->dev()<<" inode:"<<response->inode()<<" mode"<<response->mode()<<" nlink"<<response->nlink()<<" uid"<<response->uid()<<" guid"<<response->guid()<<endl;
+            }
+	
+ 	    return Status::OK;
+        }
+
+    
+        Status nfs_readdir(ServerContext* context, ReadDirRequestParams* request, ServerWriter<ReadDirResponseParams>* response) {
+            cout<<"Read Attr"<<endl;
+        
+	    DIR *dp;
+	    struct dirent *de;
+	    ReadDirResponseParams dir_response;
+	    char server_path[512] = {0};
+	    translatePath(request->path().c_str(), server_path);
+
+	    dp = opendir(server_path);
+  	    if (dp == NULL){
+	        perror(strerror(errno));
+	        dir_response.set_err(errno);
+                return Status::OK;
+	    }
+
+	    while((de = readdir(dp)) != NULL) {
+	        dir_response.set_dinode(de->d_ino);
+	        dir_response.set_dname(de->d_name);
+	        dir_response.set_dtype(de->d_type);
+	        response->Write(dir_response);
+	    }
+
+	    dir_response.set_err(0);
+	    closedir(dp);
+	    return Status::OK;
+        }
+
+        Status nfs_mkdir(ServerContext* context, MkDirRequestParams* in_dir, VoidMessage* vmsg) {
+            cout<<"Mkdir"<<endl;
+
+	    char server_path[512] = {0};
+	    translatePath(in_dir->path().c_str(), server_path);
+	    int result = mkdir(server_path, in_dir->mode());
+
+	    if (result == -1) {
+	        perror(strerror(errno)); 
+                vmsg->set_err(errno);
+                return Status::OK;
+	    }
+	
+	    vmsg->set_err(errno);
+	    return Status::OK;
+        };
+
+        Status nfs_rmdir(ServerContext* context, RmDirRequestParams* in_dir, VoidMessage* vmsg) {
+            cout<<"Rmdir" <<endl;
+
+	    char server_path[512] = {0};
+            translatePath(in_dir->path().c_str(), server_path);
+	    int result = rmdir(server_path);
+
+	    if (result == -1) {
+	        perror(strerror(errno));
+	        vmsg->set_err(errno);
+	        return Status::OK;
+	    }
+
+	    vmsg->set_err(0);
+	    return Status::OK;
+	}
+        
+	Status nfs_create(ServerContext* context, CreateRequestParams* request, CreateResponseParams* response){
 	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
 	    cout << "[DEBUG] Client's Flag: " << request->flags() << endl;
 	    cout << "[DEBUG] Client's Mode: " << request->mode() << endl;
@@ -77,6 +184,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 		return Status::OK;
 	    }
 	}
+	
 	Status nfs_read(ServerContext* context, ReadRequestParams* request, ReadResponseParams* response) {
 	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
 	    cout << "[DEBUG] Client's size: " << request->size() << endl;
@@ -143,6 +251,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    
 	    return Status::OK;
 	}
+    
     private:
 };
 
@@ -151,8 +260,6 @@ void RunServer() {
     // Specify the server address
     std::string server_address("0.0.0.0:50051");
     nfsFuseImpl service;
-    // Initialize a mount point
-    // nfsFuseImple service(db_path); 
 
     ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
@@ -166,6 +273,5 @@ void RunServer() {
 int main(int argc, char** argv) {
 
     RunServer();
-    
     return 0;
 }
