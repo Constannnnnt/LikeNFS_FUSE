@@ -22,6 +22,8 @@
 
 #include "nfsFuse.grpc.pb.h"
 
+#define READ_MAX    10000000
+
 using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
@@ -86,15 +88,17 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    ReadDirResponseParams dir_response;
 	    char server_path[512] = {0};
 	    translatePath(request->path().c_str(), server_path);
-
+            cout<< " print server path: " << server_path << endl;
 	    dp = opendir(server_path);
   	    if (dp == NULL){
+		cout<<"dp == NULL"<<endl;
 	        perror(strerror(errno));
 	        dir_response.set_err(errno);
                 return Status::OK;
 	    }
 
 	    while((de = readdir(dp)) != NULL) {
+		cout<<"\[while] read:"<<de->d_name<<endl;
 	        dir_response.set_dinode(de->d_ino);
 	        dir_response.set_dname(de->d_name);
 	        dir_response.set_dtype(de->d_type);
@@ -111,15 +115,16 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
 	    char server_path[512] = {0};
 	    translatePath(in_dir->path().c_str(), server_path);
+	    //cout<<"\ttranslate done. "<<"mode:"<<in_dir->mode();
 	    int result = mkdir(server_path, in_dir->mode());
-
+	    //cout<<"\tmkdir done"<<"\terrno is:"<<errno<<endl;
 	    if (result == -1) {
 	        perror(strerror(errno)); 
                 vmsg->set_err(errno);
                 return Status::OK;
 	    }
 	
-	    vmsg->set_err(errno);
+	    vmsg->set_err(0);
 	    return Status::OK;
         };
 
