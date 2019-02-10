@@ -128,20 +128,45 @@ class nfsFuseGrpcClient {
 	std::unique_ptr<ClientReader<ReadDirResponseParams> >reader(
 			stub_->nfs_readdir(&ccontext, request));
         cout<<"** rpc client read dir **"<<endl;       
+	
+        cout<<"!!!reader:"<<reader->Read(&response)<<" respoonse dname:"<<response.dname()<<"\tres dinode():"<<response.dinode()<<" response dtype:"<<response.dtype()<<endl;
+        
+/*	
+	//	  filler(buf, ".", NULL, 0, static_cast<fuse_fill_dir_flags>(0));
+//  filler(buf, "..", NULL, 0, static_cast<fuse_fill_dir_flags>(0));
+ strcpy(dir.d_name, response.dname().c_str());
+  cout<<"dir:" <<dir.d_name<<endl;
+  struct stat sta;
+  memset(&status, 0, sizeof(sta));
+  sta.st_ino = response.dinode();
+  cout<<"set sta ino";
+  sta.st_mode = response.dtype() << 12;
+  cout<<"set sta mode";
+  cout << "filler start:"<<endl;
+  if (filler(buf, dir.d_name, NULL, 0, static_cast <fuse_fill_dir_flags> (0)) != 0) {
+      cout<<"filler != 0"<<endl;
+  }
+
+*/
+	
 	while (reader->Read(&response)) {
+            cout<<" -> in while ";
 	    struct stat sta;
 	    memset(&status, 0, sizeof(sta));
 	    dir.d_ino = response.dinode();
 	    strcpy(dir.d_name, response.dname().c_str());
 	    dir.d_type = response.dtype();
 	    sta.st_ino = dir.d_ino;
-	    sta.st_mode = dir.d_type << 12;
-            if (filler(buf, dir.d_name, &sta, 0, static_cast<fuse_fill_dir_flags>(0))) {
+	    //sta.st_mode = dir.d_type << 12;
+            sta.st_mode = dir.d_type;
+	    if (filler(buf, dir.d_name, &sta, 0, static_cast <fuse_fill_dir_flags>(0))) {
+	        cout<<"[break] break by filler"<<endl;
 	        break;
 	    }
 	}
-
-	status = reader->Finish();
+	
+	//status = reader->Finish();
+        cout<<"<before return>"<<endl;       
 	return -response.err();
     }
 
