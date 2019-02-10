@@ -12,6 +12,10 @@ service NFSFuse {
     rpc nfs_open (OpenRequestParams) returns (OpenResponseParams) {}
     rpc nfs_read (ReadRequestParams) returns (ReadResponseParams) {}
     rpc nfs_write (WriteRequestParams) returns (WriteResponseParams) {}
+    rpc nfs_unlink (UnlinkRequestParams) returns (VoidMessage) {}
+    rpc nfs_mknod (MknodRequestParams) returns (VoidMessage) {}
+    rpc nfs_rename (RenameRequestParams) returns (VoidMessage) {}
+    rpc nfs_utimens (UtimensRequestParams) returns (VoidMessage) {}
 }
 
 message VoidMessage {
@@ -119,3 +123,28 @@ message WriteResponseParams {
     int32 bufferlength = 1;
     int32 err = 2;
 }
+
+message UnlinkRequestParams {
+    string path = 1;    
+}
+
+message RenameRequestParams {
+    string fp = 1;
+    string tp = 2;
+    uint32 flag = 3;
+}
+
+message MknodRequestParams {
+    string path = 1;
+    int32 mode = 2;
+    uint32 rdev = 3;
+}
+
+message UtimensRequestParams {
+    string path = 1;
+    int32 sec = 2;  
+    int64 nsec = 3; //nano sec
+    int32 sec2 = 4;
+    int64 nsec2 = 5;
+}
+
