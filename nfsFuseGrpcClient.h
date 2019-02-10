@@ -129,7 +129,7 @@ class nfsFuseGrpcClient {
 			stub_->nfs_readdir(&ccontext, request));
         cout<<"** rpc client read dir **"<<endl;       
 	
-        cout<<"!!!reader:"<<reader->Read(&response)<<" respoonse dname:"<<response.dname()<<"\tres dinode():"<<response.dinode()<<" response dtype:"<<response.dtype()<<endl;
+        // cout<<"!!!reader:"<<reader->Read(&response)<<" respoonse dname:"<<response.dname()<<"\tres dinode():"<<response.dinode()<<" response dtype:"<<response.dtype()<<endl;
         
 /*	
 	//	  filler(buf, ".", NULL, 0, static_cast<fuse_fill_dir_flags>(0));
@@ -152,7 +152,7 @@ class nfsFuseGrpcClient {
 	while (reader->Read(&response)) {
             cout<<" -> in while ";
 	    struct stat sta;
-	    memset(&status, 0, sizeof(sta));
+	    memset(&sta, 0, sizeof(sta));
 	    dir.d_ino = response.dinode();
 	    strcpy(dir.d_name, response.dname().c_str());
 	    dir.d_type = response.dtype();
@@ -164,8 +164,8 @@ class nfsFuseGrpcClient {
 	        break;
 	    }
 	}
-	
-	//status = reader->Finish();
+        
+	status = reader->Finish();
         cout<<"<before return>"<<endl;       
 	return -response.err();
     }
