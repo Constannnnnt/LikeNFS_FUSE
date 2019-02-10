@@ -175,23 +175,6 @@ class nfsFuseGrpcClient {
 	
         // cout<<"!!!reader:"<<reader->Read(&response)<<" respoonse dname:"<<response.dname()<<"\tres dinode():"<<response.dinode()<<" response dtype:"<<response.dtype()<<endl;
         
-/*	
-	//	  filler(buf, ".", NULL, 0, static_cast<fuse_fill_dir_flags>(0));
-//  filler(buf, "..", NULL, 0, static_cast<fuse_fill_dir_flags>(0));
- strcpy(dir.d_name, response.dname().c_str());
-  cout<<"dir:" <<dir.d_name<<endl;
-  struct stat sta;
-  memset(&status, 0, sizeof(sta));
-  sta.st_ino = response.dinode();
-  cout<<"set sta ino";
-  sta.st_mode = response.dtype() << 12;
-  cout<<"set sta mode";
-  cout << "filler start:"<<endl;
-  if (filler(buf, dir.d_name, NULL, 0, static_cast <fuse_fill_dir_flags> (0)) != 0) {
-      cout<<"filler != 0"<<endl;
-  }
-
-*/
 	
 	    while (reader->Read(&response)) {
                 cout<<" -> in while ";
@@ -349,7 +332,79 @@ class nfsFuseGrpcClient {
 		return res;
 	    }
 	}
- 
+
+    int rpc_unlink(string in_path) {
+        ClientContext ccontext;
+        nfsFuse::UnlinkRequestParams dir_request;
+        VoidMessage vmsg;
+        
+        dir_request.set_path(in_path);
+
+        Status status = stub_->nfs_unlink(&ccontext, dir_request, &vmsg);
+
+        if (vmsg.err() != 0) {
+	    cout << "Error: unlink fails" << endl;
+	}	 
+
+	return vmsg.err();
+    }
+
+    int rpc_mknod(string in_path, mode_t mode, dev_t dev) {
+        ClientContext ccontext;
+	nfsFuse::MknodRequestParams dir_request;
+	VoidMessage vmsg;
+
+	dir_request.set_path(in_path);
+        dir_request.set_mode(mode);
+	dir_request.set_rdev(dev);
+
+	Status status = stub_->nfs_mknod(&ccontext, dir_request, &vmsg);
+
+	if (vmsg.err() != 0) {
+	    cout << "Error: mknod fails" << endl;
+	} 
+
+	return vmsg.err();
+    }
+
+    
+    int rpc_rename(string from, string to, unsigned int flag) {
+        ClientContext ccontext;
+        nfsFuse::RenameRequestParams request;
+        VoidMessage vmsg;
+
+        request.set_fp(from);
+        request.set_tp(to);
+        request.set_flag(flag);	
+
+        Status status = stub_->nfs_rename(&ccontext, request, &vmsg);
+	if (vmsg.err() != 0) {
+	    cout << "Error: rename fails" << endl;
+	}
+
+	return vmsg.err();
+    } 
+   
+   /* 
+    int rpc_utimens(string in_path, struct timespec *ts, struct fuse_file_info *fi) {
+        ClientContext ccontext;
+	nfsFuse::UtimensRequestParams request;
+	VoidMessage vmsg;
+
+	request.set_path(in_path);
+	request.set_sec(ts[0].tv_sec);
+	request.set_nsec(ts[0].tv_nsec);
+        request.set_sec2(ts[1].tv_sec);
+	request.set_nsec2(ts[1].tv_nsec);
+
+        Status status = stub_->nfs_utimens(&ccontext, request, &vmsg);
+	if (vmsg.err() != 0) {
+	    cout << "Error: utimens fails" << endl;
+	}
+
+	return vmsg.err();
+    }
+ */
     private:
 	std::unique_ptr<NFSFuse::Stub> stub_;
 };

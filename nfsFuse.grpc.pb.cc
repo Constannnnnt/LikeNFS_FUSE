@@ -29,6 +29,10 @@ static const char* NFSFuse_method_names[] = {
   "/nfsFuse.NFSFuse/nfs_write",
   "/nfsFuse.NFSFuse/nfs_commit",
   "/nfsFuse.NFSFuse/nfs_recommit",
+  "/nfsFuse.NFSFuse/nfs_unlink",
+  "/nfsFuse.NFSFuse/nfs_mknod",
+  "/nfsFuse.NFSFuse/nfs_rename",
+  "/nfsFuse.NFSFuse/nfs_utimens",
 };
 
 std::unique_ptr< NFSFuse::Stub> NFSFuse::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -48,6 +52,10 @@ NFSFuse::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
   , rpcmethod_nfs_write_(NFSFuse_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_nfs_commit_(NFSFuse_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_nfs_recommit_(NFSFuse_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_nfs_unlink_(NFSFuse_method_names[10], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_nfs_mknod_(NFSFuse_method_names[11], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_nfs_rename_(NFSFuse_method_names[12], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_nfs_utimens_(NFSFuse_method_names[13], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status NFSFuse::Stub::nfs_getattr(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams& request, ::nfsFuse::GetAttrResponseParams* response) {
@@ -210,6 +218,70 @@ void NFSFuse::Stub::experimental_async::nfs_recommit(::grpc::ClientContext* cont
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::WriteResponseParams>::Create(channel_.get(), cq, rpcmethod_nfs_recommit_, context, request, false);
 }
 
+::grpc::Status NFSFuse::Stub::nfs_unlink(::grpc::ClientContext* context, const ::nfsFuse::UnlinkRequestParams& request, ::nfsFuse::VoidMessage* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_nfs_unlink_, context, request, response);
+}
+
+void NFSFuse::Stub::experimental_async::nfs_unlink(::grpc::ClientContext* context, const ::nfsFuse::UnlinkRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_nfs_unlink_, context, request, response, std::move(f));
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* NFSFuse::Stub::Asyncnfs_unlinkRaw(::grpc::ClientContext* context, const ::nfsFuse::UnlinkRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::VoidMessage>::Create(channel_.get(), cq, rpcmethod_nfs_unlink_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* NFSFuse::Stub::PrepareAsyncnfs_unlinkRaw(::grpc::ClientContext* context, const ::nfsFuse::UnlinkRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::VoidMessage>::Create(channel_.get(), cq, rpcmethod_nfs_unlink_, context, request, false);
+}
+
+::grpc::Status NFSFuse::Stub::nfs_mknod(::grpc::ClientContext* context, const ::nfsFuse::MknodRequestParams& request, ::nfsFuse::VoidMessage* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_nfs_mknod_, context, request, response);
+}
+
+void NFSFuse::Stub::experimental_async::nfs_mknod(::grpc::ClientContext* context, const ::nfsFuse::MknodRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_nfs_mknod_, context, request, response, std::move(f));
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* NFSFuse::Stub::Asyncnfs_mknodRaw(::grpc::ClientContext* context, const ::nfsFuse::MknodRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::VoidMessage>::Create(channel_.get(), cq, rpcmethod_nfs_mknod_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* NFSFuse::Stub::PrepareAsyncnfs_mknodRaw(::grpc::ClientContext* context, const ::nfsFuse::MknodRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::VoidMessage>::Create(channel_.get(), cq, rpcmethod_nfs_mknod_, context, request, false);
+}
+
+::grpc::Status NFSFuse::Stub::nfs_rename(::grpc::ClientContext* context, const ::nfsFuse::RenameRequestParams& request, ::nfsFuse::VoidMessage* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_nfs_rename_, context, request, response);
+}
+
+void NFSFuse::Stub::experimental_async::nfs_rename(::grpc::ClientContext* context, const ::nfsFuse::RenameRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_nfs_rename_, context, request, response, std::move(f));
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* NFSFuse::Stub::Asyncnfs_renameRaw(::grpc::ClientContext* context, const ::nfsFuse::RenameRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::VoidMessage>::Create(channel_.get(), cq, rpcmethod_nfs_rename_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* NFSFuse::Stub::PrepareAsyncnfs_renameRaw(::grpc::ClientContext* context, const ::nfsFuse::RenameRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::VoidMessage>::Create(channel_.get(), cq, rpcmethod_nfs_rename_, context, request, false);
+}
+
+::grpc::Status NFSFuse::Stub::nfs_utimens(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams& request, ::nfsFuse::VoidMessage* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_nfs_utimens_, context, request, response);
+}
+
+void NFSFuse::Stub::experimental_async::nfs_utimens(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_nfs_utimens_, context, request, response, std::move(f));
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* NFSFuse::Stub::Asyncnfs_utimensRaw(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::VoidMessage>::Create(channel_.get(), cq, rpcmethod_nfs_utimens_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* NFSFuse::Stub::PrepareAsyncnfs_utimensRaw(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::VoidMessage>::Create(channel_.get(), cq, rpcmethod_nfs_utimens_, context, request, false);
+}
+
 NFSFuse::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       NFSFuse_method_names[0],
@@ -261,6 +333,26 @@ NFSFuse::Service::Service() {
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< NFSFuse::Service, ::nfsFuse::WriteRequestParams, ::nfsFuse::WriteResponseParams>(
           std::mem_fn(&NFSFuse::Service::nfs_recommit), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      NFSFuse_method_names[10],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< NFSFuse::Service, ::nfsFuse::UnlinkRequestParams, ::nfsFuse::VoidMessage>(
+          std::mem_fn(&NFSFuse::Service::nfs_unlink), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      NFSFuse_method_names[11],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< NFSFuse::Service, ::nfsFuse::MknodRequestParams, ::nfsFuse::VoidMessage>(
+          std::mem_fn(&NFSFuse::Service::nfs_mknod), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      NFSFuse_method_names[12],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< NFSFuse::Service, ::nfsFuse::RenameRequestParams, ::nfsFuse::VoidMessage>(
+          std::mem_fn(&NFSFuse::Service::nfs_rename), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      NFSFuse_method_names[13],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< NFSFuse::Service, ::nfsFuse::UtimensRequestParams, ::nfsFuse::VoidMessage>(
+          std::mem_fn(&NFSFuse::Service::nfs_utimens), this)));
 }
 
 NFSFuse::Service::~Service() {
@@ -330,6 +422,34 @@ NFSFuse::Service::~Service() {
 }
 
 ::grpc::Status NFSFuse::Service::nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status NFSFuse::Service::nfs_unlink(::grpc::ServerContext* context, const ::nfsFuse::UnlinkRequestParams* request, ::nfsFuse::VoidMessage* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status NFSFuse::Service::nfs_mknod(::grpc::ServerContext* context, const ::nfsFuse::MknodRequestParams* request, ::nfsFuse::VoidMessage* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status NFSFuse::Service::nfs_rename(::grpc::ServerContext* context, const ::nfsFuse::RenameRequestParams* request, ::nfsFuse::VoidMessage* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status NFSFuse::Service::nfs_utimens(::grpc::ServerContext* context, const ::nfsFuse::UtimensRequestParams* request, ::nfsFuse::VoidMessage* response) {
   (void) context;
   (void) request;
   (void) response;

@@ -111,6 +111,29 @@ static int client_flush(const char *path, struct fuse_file_info *fi) {
     (void) path;
     return 0;
 }
+
+static int client_unlink(const char *path) {
+   cout<<"client unlink:" << path << endl;
+   return options.nfsFuseClient->rpc_unlink(path);
+}
+
+
+static int client_mknod(const char* path, mode_t mode, dev_t rdev) {
+   cout<<"client mknod:" << path << endl;
+   return options.nfsFuseClient->rpc_mknod(path, mode, rdev);
+}
+
+static int client_rename(const char* from, const char* to, unsigned int flags) {
+   cout << "client rename from:" << from << " to: " << to << endl;
+   return options.nfsFuseClient->rpc_rename(from, to, flags);
+}
+
+/*
+static int client_utimens(const char *path, struct timespec tv[2] , struct fuse_file_info *fi) {
+    cout << "client utimens path:" << path << endl;
+    return options.nfsFuseClient->rpc_utimens(path, tv, fi);
+}
+*/
 /*
  * Define FUSE operations 
  */
@@ -127,6 +150,9 @@ static struct client_operations : fuse_operations {
         rmdir = client_rmdir;
 	release = client_commit;
 	flush = client_flush;
+	unlink = client_unlink;
+	rename = client_rename;
+	mknod = client_mknod;
     }
 } client_oper;
 
