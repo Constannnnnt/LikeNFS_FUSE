@@ -41,7 +41,7 @@ struct TableStruct_nfsFuse_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::google::protobuf::internal::ParseTable schema[15]
+  static const ::google::protobuf::internal::ParseTable schema[17]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
@@ -49,6 +49,12 @@ struct TableStruct_nfsFuse_2eproto {
 };
 void AddDescriptors_nfsFuse_2eproto();
 namespace nfsFuse {
+class CommitRequestParams;
+class CommitRequestParamsDefaultTypeInternal;
+extern CommitRequestParamsDefaultTypeInternal _CommitRequestParams_default_instance_;
+class CommitResponseParams;
+class CommitResponseParamsDefaultTypeInternal;
+extern CommitResponseParamsDefaultTypeInternal _CommitResponseParams_default_instance_;
 class CreateRequestParams;
 class CreateRequestParamsDefaultTypeInternal;
 extern CreateRequestParamsDefaultTypeInternal _CreateRequestParams_default_instance_;
@@ -97,6 +103,8 @@ extern WriteResponseParamsDefaultTypeInternal _WriteResponseParams_default_insta
 }  // namespace nfsFuse
 namespace google {
 namespace protobuf {
+template<> ::nfsFuse::CommitRequestParams* Arena::CreateMaybeMessage<::nfsFuse::CommitRequestParams>(Arena*);
+template<> ::nfsFuse::CommitResponseParams* Arena::CreateMaybeMessage<::nfsFuse::CommitResponseParams>(Arena*);
 template<> ::nfsFuse::CreateRequestParams* Arena::CreateMaybeMessage<::nfsFuse::CreateRequestParams>(Arena*);
 template<> ::nfsFuse::CreateResponseParams* Arena::CreateMaybeMessage<::nfsFuse::CreateResponseParams>(Arena*);
 template<> ::nfsFuse::GetAttrRequestParams* Arena::CreateMaybeMessage<::nfsFuse::GetAttrRequestParams>(Arena*);
@@ -2215,6 +2223,258 @@ class WriteResponseParams final :
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
+// -------------------------------------------------------------------
+
+class CommitRequestParams final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.CommitRequestParams) */ {
+ public:
+  CommitRequestParams();
+  virtual ~CommitRequestParams();
+
+  CommitRequestParams(const CommitRequestParams& from);
+
+  inline CommitRequestParams& operator=(const CommitRequestParams& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CommitRequestParams(CommitRequestParams&& from) noexcept
+    : CommitRequestParams() {
+    *this = ::std::move(from);
+  }
+
+  inline CommitRequestParams& operator=(CommitRequestParams&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return default_instance().GetDescriptor();
+  }
+  static const CommitRequestParams& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CommitRequestParams* internal_default_instance() {
+    return reinterpret_cast<const CommitRequestParams*>(
+               &_CommitRequestParams_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    15;
+
+  void Swap(CommitRequestParams* other);
+  friend void swap(CommitRequestParams& a, CommitRequestParams& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CommitRequestParams* New() const final {
+    return CreateMaybeMessage<CommitRequestParams>(nullptr);
+  }
+
+  CommitRequestParams* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CommitRequestParams>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CommitRequestParams& from);
+  void MergeFrom(const CommitRequestParams& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
+  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
+  #else
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CommitRequestParams* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 fh = 1;
+  void clear_fh();
+  static const int kFhFieldNumber = 1;
+  ::google::protobuf::int32 fh() const;
+  void set_fh(::google::protobuf::int32 value);
+
+  // int32 offset = 2;
+  void clear_offset();
+  static const int kOffsetFieldNumber = 2;
+  ::google::protobuf::int32 offset() const;
+  void set_offset(::google::protobuf::int32 value);
+
+  // int32 endoffset = 3;
+  void clear_endoffset();
+  static const int kEndoffsetFieldNumber = 3;
+  ::google::protobuf::int32 endoffset() const;
+  void set_endoffset(::google::protobuf::int32 value);
+
+  // int32 err = 4;
+  void clear_err();
+  static const int kErrFieldNumber = 4;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:nfsFuse.CommitRequestParams)
+ private:
+  class HasBitSetters;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 fh_;
+  ::google::protobuf::int32 offset_;
+  ::google::protobuf::int32 endoffset_;
+  ::google::protobuf::int32 err_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_nfsFuse_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CommitResponseParams final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.CommitResponseParams) */ {
+ public:
+  CommitResponseParams();
+  virtual ~CommitResponseParams();
+
+  CommitResponseParams(const CommitResponseParams& from);
+
+  inline CommitResponseParams& operator=(const CommitResponseParams& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CommitResponseParams(CommitResponseParams&& from) noexcept
+    : CommitResponseParams() {
+    *this = ::std::move(from);
+  }
+
+  inline CommitResponseParams& operator=(CommitResponseParams&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return default_instance().GetDescriptor();
+  }
+  static const CommitResponseParams& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CommitResponseParams* internal_default_instance() {
+    return reinterpret_cast<const CommitResponseParams*>(
+               &_CommitResponseParams_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    16;
+
+  void Swap(CommitResponseParams* other);
+  friend void swap(CommitResponseParams& a, CommitResponseParams& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CommitResponseParams* New() const final {
+    return CreateMaybeMessage<CommitResponseParams>(nullptr);
+  }
+
+  CommitResponseParams* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CommitResponseParams>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CommitResponseParams& from);
+  void MergeFrom(const CommitResponseParams& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
+  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
+  #else
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CommitResponseParams* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 serverstatus = 1;
+  void clear_serverstatus();
+  static const int kServerstatusFieldNumber = 1;
+  ::google::protobuf::int32 serverstatus() const;
+  void set_serverstatus(::google::protobuf::int32 value);
+
+  // int32 err = 2;
+  void clear_err();
+  static const int kErrFieldNumber = 2;
+  ::google::protobuf::int32 err() const;
+  void set_err(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:nfsFuse.CommitResponseParams)
+ private:
+  class HasBitSetters;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 serverstatus_;
+  ::google::protobuf::int32 err_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_nfsFuse_2eproto;
+};
 // ===================================================================
 
 
@@ -3629,9 +3889,105 @@ inline void WriteResponseParams::set_err(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:nfsFuse.WriteResponseParams.err)
 }
 
+// -------------------------------------------------------------------
+
+// CommitRequestParams
+
+// int32 fh = 1;
+inline void CommitRequestParams::clear_fh() {
+  fh_ = 0;
+}
+inline ::google::protobuf::int32 CommitRequestParams::fh() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CommitRequestParams.fh)
+  return fh_;
+}
+inline void CommitRequestParams::set_fh(::google::protobuf::int32 value) {
+  
+  fh_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CommitRequestParams.fh)
+}
+
+// int32 offset = 2;
+inline void CommitRequestParams::clear_offset() {
+  offset_ = 0;
+}
+inline ::google::protobuf::int32 CommitRequestParams::offset() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CommitRequestParams.offset)
+  return offset_;
+}
+inline void CommitRequestParams::set_offset(::google::protobuf::int32 value) {
+  
+  offset_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CommitRequestParams.offset)
+}
+
+// int32 endoffset = 3;
+inline void CommitRequestParams::clear_endoffset() {
+  endoffset_ = 0;
+}
+inline ::google::protobuf::int32 CommitRequestParams::endoffset() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CommitRequestParams.endoffset)
+  return endoffset_;
+}
+inline void CommitRequestParams::set_endoffset(::google::protobuf::int32 value) {
+  
+  endoffset_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CommitRequestParams.endoffset)
+}
+
+// int32 err = 4;
+inline void CommitRequestParams::clear_err() {
+  err_ = 0;
+}
+inline ::google::protobuf::int32 CommitRequestParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CommitRequestParams.err)
+  return err_;
+}
+inline void CommitRequestParams::set_err(::google::protobuf::int32 value) {
+  
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CommitRequestParams.err)
+}
+
+// -------------------------------------------------------------------
+
+// CommitResponseParams
+
+// int32 serverstatus = 1;
+inline void CommitResponseParams::clear_serverstatus() {
+  serverstatus_ = 0;
+}
+inline ::google::protobuf::int32 CommitResponseParams::serverstatus() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CommitResponseParams.serverstatus)
+  return serverstatus_;
+}
+inline void CommitResponseParams::set_serverstatus(::google::protobuf::int32 value) {
+  
+  serverstatus_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CommitResponseParams.serverstatus)
+}
+
+// int32 err = 2;
+inline void CommitResponseParams::clear_err() {
+  err_ = 0;
+}
+inline ::google::protobuf::int32 CommitResponseParams::err() const {
+  // @@protoc_insertion_point(field_get:nfsFuse.CommitResponseParams.err)
+  return err_;
+}
+inline void CommitResponseParams::set_err(::google::protobuf::int32 value) {
+  
+  err_ = value;
+  // @@protoc_insertion_point(field_set:nfsFuse.CommitResponseParams.err)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

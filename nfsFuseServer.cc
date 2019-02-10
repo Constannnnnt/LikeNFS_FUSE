@@ -35,6 +35,10 @@ using grpc::Status;
 using namespace nfsFuse;
 using namespace std;
 
+vector<WriteRequestParams> StagedWrites;
+vector<WriteRequestParams> reStagedWrites;
+bool _read = false;
+
 void translatePath(const char* client_path, char* server_path){
     strcat(server_path, "./nfsServer");
     strcat(server_path+11, client_path);
@@ -209,6 +213,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 		return Status::OK;
 	    }
 
+	    _read = true;
 	    response->set_buffer(buf);
 	    response->set_bufferlength(res);
 	    response->set_err(0);
@@ -221,7 +226,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	}
 
 	Status nfs_write(ServerContext* context, const WriteRequestParams* request, WriteResponseParams* response) override {
-	
+	    /*
 	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
 	    cout << "[DEBUG] Client's size: " << request->bufferlength() << endl;
 	    cout << "[DEBUG] Client's offset " << request->offset() << endl;
@@ -255,7 +260,108 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    } 
 	    
 	    return Status::OK;
+	    */
+
+	    cout << "[DEBUG] nfs_write" << endl;
+	    WriteRequestParams _request(*request);
+
+            StagedWrites.push_back(_request);
+            response->set_bufferlength(request->bufferlength());
+            response->set_err(0);
+
+            return Status::OK;
+
 	}
+
+	Status nfs_commit(ServerContext* context, const CommitRequestParams* request, CommitResponseParams* response) override {
+	
+            cout << "[DEBUG] nfs_commit" << endl;
+	    int res;
+	    string buf;
+	    int buflength;
+	    int offset;
+	    char serverpath[512] = {0};
+
+	    int stagedWritesSize = StagedWrites.size();
+	    int reStagedWritesSize = reStagedWrites.size();
+
+	    // read, then append nothing
+	    if (StagedWrites.size() == 0 && _read) {
+	        close(request->fh());
+		response->set_err(0);
+                _read = false;
+                return Status::OK;		
+	    }
+
+	    // totally lost, when reach the commit statge
+	    if (stagedWritesSize == 0 && reStagedWritesSize == 0) {
+	        response->set_err(-2);
+		response->set_serverstatus(request->endoffset());
+		return Status::OK;
+	    } else if (stagedWritesSize != 0 && reStagedWritesSize != 0) {
+	        // recommit some files, update these files
+		translatePath(reStagedWrites.begin()->path().c_str(), serverpath);
+	        offset = reStagedWrites.begin()->offset();
+		for (int i = 0; i < reStagedWritesSize; i ++) {
+		    buf.append(reStagedWrites.at(i).buffer());
+		    buflength += reStagedWrites.at(i).bufferlength();
+		}
+	    } else if (request->offset() != StagedWrites.begin()->offset()) {
+	        // crash but not recommit
+		response->set_err(-1);
+		response->set_serverstatus(StagedWrites.begin()->offset());
+		return Status::OK;
+	    } else {
+	        // not crash
+		translatePath(StagedWrites.begin()->path().c_str(), serverpath);
+		offset = StagedWrites.begin()->offset();
+	    }
+
+	    for (int i = 0; i < stagedWritesSize; i++) {
+	        buf.append(StagedWrites.at(i).buffer());
+		buflength += StagedWrites.at(i).bufferlength();
+	    }
+
+	    int fd = open(serverpath, O_WRONLY);
+
+	    if (fd == -1) {
+	        response->set_err(errno);
+		return Status::OK;
+	    }
+
+	    res = pwrite(fd, buf.c_str(), buflength, offset);
+	    if (res == -1) {
+                response->set_err(errno);
+                return Status::OK;
+            }
+
+            // synchronize file contents
+            fsync(fd);
+            cout << "sync fd: " << fd << endl;
+            if (fd > 0) {
+                close(fd);
+            }
+	    
+	    for (int i = 0; i < stagedWritesSize; i++ ) {
+	        StagedWrites.pop_back();
+	    }
+	    for (int i = 0; i < reStagedWritesSize; i++) {
+	        reStagedWrites.pop_back();
+	    }
+
+	    response->set_err(0);
+	    return Status::OK;
+	}
+	Status nfs_recommit(ServerContext* context, const WriteRequestParams* request, WriteResponseParams* response) override {
+            cout << "[DEBUG] nfs_recommit" << endl;
+	    WriteRequestParams _request(*request);
+
+	    reStagedWrites.push_back(_request);
+	    response->set_bufferlength(request->bufferlength());
+	    response->set_err(0);
+
+	    return Status::OK;
+	} 
     
     private:
 };

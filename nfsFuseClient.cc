@@ -97,6 +97,20 @@ static int client_rmdir(const char *path) {
     cout<<"client rmdir in cc file"<<path<<endl;
     return options.nfsFuseClient->rpc_rmdir(path);
 }
+
+static int client_commit(const char *path, struct fuse_file_info *fi) {
+    cout << "[DEBUG] Fush Commit" << endl;
+    int ret;
+    ret = options.nfsFuseClient->nfs_commit(fi->fh, StagedWrites.begin()->offset(), StagedWrites.end()->offset());
+    return ret;
+}
+
+static int client_flush(const char *path, struct fuse_file_info *fi) {
+    cout << "[DEBUG] Fush Flush" << endl;
+    int ret;
+    (void) path;
+    return 0;
+}
 /*
  * Define FUSE operations 
  */
@@ -111,6 +125,8 @@ static struct client_operations : fuse_operations {
         readdir = client_readdir;
         mkdir = client_mkdir;
         rmdir = client_rmdir;
+	release = client_commit;
+	flush = client_flush;
     }
 } client_oper;
 

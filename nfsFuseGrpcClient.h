@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <vector>
 
 using grpc::Channel;
 using grpc::Status;
@@ -13,6 +14,14 @@ using grpc::ClientReader;
 
 using namespace nfsFuse;
 using namespace std;
+
+class nfsFuseGrpcClient;
+
+static struct _options {
+    nfsFuseGrpcClient* nfsFuseClient;
+} _options;
+
+vector<WriteRequestParams> StagedWrites;
 
 class nfsFuseGrpcClient {
     public:
@@ -26,9 +35,14 @@ class nfsFuseGrpcClient {
 	    request.set_mode(mode);
 	    request.set_flags(fi->flags);
 
-	    cout << "[DEBUG] Before Send" << endl;
 	    Status status = stub_->nfs_create(&ctx, request, &response);
-	    cout << "[DEBUG] After Sent" << endl;
+	    // crash etc.
+	    while (!status.ok()) {
+	        ClientContext _ctx;
+		// new attemps
+		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+		status = stub_->nfs_create(&_ctx, request, &response);
+	    }
 	    if (response.err() == 0) {
 	        fi->fh = response.fh();
 	        cout << "[DEBUG] nfs_create finished without err" << endl;
@@ -44,6 +58,13 @@ class nfsFuseGrpcClient {
 	    request.set_flags(fi->flags);
 
 	    Status status = stub_->nfs_open(&ctx, request, &response);
+	    // crash etc.
+	    while (!status.ok()) {
+	        ClientContext _ctx;
+		// new attemps
+		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+		status = stub_->nfs_open(&_ctx, request, &response);
+	    }
 	    if (response.err() == 0) {
 	        fi->fh = response.fh();
 	    }
@@ -60,6 +81,13 @@ class nfsFuseGrpcClient {
 	    request.set_offset(offset);
 
 	    Status status = stub_->nfs_read(&ctx, request, &response);
+	    // crash etc.
+	    while (!status.ok()) {
+	        ClientContext _ctx;
+		// new attemps
+		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+		status = stub_->nfs_read(&_ctx, request, &response);
+	    }
 	    if (response.err() == 0) {
 		strcpy(buf, response.buffer().c_str());
 	        return response.bufferlength();
@@ -77,7 +105,17 @@ class nfsFuseGrpcClient {
 	    request.set_offset(offset);
 	    request.set_buffer(buf);
 
+	    StagedWrites.push_back(request);
+
 	    Status status = stub_->nfs_write(&ctx, request, &response);
+	    // crash etc.
+	    while (!status.ok()) {
+	        ClientContext _ctx;
+		// new attemps
+		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+		status = stub_->nfs_write(&_ctx, request, &response);
+	    }
+
 	    if (response.err() == 0) {
 	        return response.bufferlength();
 	    } else {
@@ -85,49 +123,55 @@ class nfsFuseGrpcClient {
 	    }
 	}
  
-    int rpc_getattr(std::string in_path, struct stat* response) {
-    	cout<<"** rpc client get attr **"<<endl;
-	GetAttrResponseParams new_response;
-    	ClientContext context;
-	GetAttrRequestParams path;
-        cout<<"\tin_path:"<<in_path<<endl;
-    	path.set_path(in_path);
-    	memset(response, 0, sizeof(GetAttrResponseParams));
+        int rpc_getattr(std::string in_path, struct stat* response) {
+    	    cout<<"** rpc client get attr **"<<endl;
+ 	    GetAttrResponseParams new_response;
+    	    ClientContext context;
+	    GetAttrRequestParams path;
+            cout<<"\tin_path:"<<in_path<<endl;
+    	    path.set_path(in_path);
+    	    memset(response, 0, sizeof(GetAttrResponseParams));
 
-    	Status status = stub_->nfs_getattr(&context, path, &new_response);
-	cout << "[DEBUG] Error Code: " << new_response.err() << endl;
+    	    Status status = stub_->nfs_getattr(&context, path, &new_response);
+	    // crash etc.
+	    while (!status.ok()) {
+	        ClientContext _ctx;
+		// new attemps
+		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+		status = stub_->nfs_getattr(&_ctx, path, &new_response);
+	    }
+	    cout << "[DEBUG] Error Code: " << new_response.err() << endl;
 
-    	if(new_response.err() != 0){
-            return -new_response.err();
-        } else {
-	    response->st_ino = new_response.inode();
-	    response->st_mode = new_response.mode();
-    	    response->st_nlink = new_response.nlink();
-	    response->st_uid = new_response.uid();
-	    response->st_gid = new_response.guid();
-    	    response->st_size = new_response.size();
-	    response->st_blksize = new_response.blocksize();
-	    response->st_blocks = new_response.nblock();
-	    response->st_atime = new_response.latime();
-	    response->st_mtime = new_response.mtime();
-	    response->st_ctime = new_response.ctime();
-	
-	}
-        return 0;
-    } 
+    	    if(new_response.err() != 0){
+                return -new_response.err();
+            } else {
+	        response->st_ino = new_response.inode();
+	        response->st_mode = new_response.mode();
+    	        response->st_nlink = new_response.nlink();
+	        response->st_uid = new_response.uid();
+	        response->st_gid = new_response.guid();
+    	        response->st_size = new_response.size();
+	        response->st_blksize = new_response.blocksize();
+	        response->st_blocks = new_response.nblock();
+	        response->st_atime = new_response.latime();
+	        response->st_mtime = new_response.mtime();
+	        response->st_ctime = new_response.ctime();
+	    }
+            return 0;
+        } 
 
-    int rpc_readdir(string in_path, void *buf, fuse_fill_dir_t filler){
-        ClientContext ccontext;
-	Status status;
+        int rpc_readdir(string in_path, void *buf, fuse_fill_dir_t filler){
+            ClientContext ccontext;
+	    Status status;
 	
-	ReadDirRequestParams request;
-	request.set_path(in_path);
-	ReadDirResponseParams response;
-	dirent dir;
+	    ReadDirRequestParams request;
+	    request.set_path(in_path);
+	    ReadDirResponseParams response;
+	    dirent dir;
 	
-	std::unique_ptr<ClientReader<ReadDirResponseParams> >reader(
+	    std::unique_ptr<ClientReader<ReadDirResponseParams> >reader(
 			stub_->nfs_readdir(&ccontext, request));
-        cout<<"** rpc client read dir **"<<endl;       
+            cout<<"** rpc client read dir **"<<endl;       
 	
         // cout<<"!!!reader:"<<reader->Read(&response)<<" respoonse dname:"<<response.dname()<<"\tres dinode():"<<response.dinode()<<" response dtype:"<<response.dtype()<<endl;
         
@@ -149,59 +193,162 @@ class nfsFuseGrpcClient {
 
 */
 	
-	while (reader->Read(&response)) {
-            cout<<" -> in while ";
-	    struct stat sta;
-	    memset(&sta, 0, sizeof(sta));
-	    dir.d_ino = response.dinode();
-	    strcpy(dir.d_name, response.dname().c_str());
-	    dir.d_type = response.dtype();
-	    sta.st_ino = dir.d_ino;
-	    //sta.st_mode = dir.d_type << 12;
-            sta.st_mode = dir.d_type;
-	    if (filler(buf, dir.d_name, &sta, 0, static_cast <fuse_fill_dir_flags>(0))) {
-	        cout<<"[break] break by filler"<<endl;
-	        break;
+	    while (reader->Read(&response)) {
+                cout<<" -> in while ";
+	        struct stat sta;
+	        memset(&sta, 0, sizeof(sta));
+	        dir.d_ino = response.dinode();
+	        strcpy(dir.d_name, response.dname().c_str());
+	        dir.d_type = response.dtype();
+	        sta.st_ino = dir.d_ino;
+	        //sta.st_mode = dir.d_type << 12;
+                sta.st_mode = dir.d_type;
+	        if (filler(buf, dir.d_name, &sta, 0, static_cast <fuse_fill_dir_flags>(0))) {
+	            cout<<"[break] break by filler"<<endl;
+	            break;
+	        }
 	    }
-	}
         
-	status = reader->Finish();
-        cout<<"<before return>"<<endl;       
-	return -response.err();
-    }
-
-    int rpc_mkdir(string in_path, mode_t mode) {
-        ClientContext ccontext;
-	nfsFuse::MkDirRequestParams dir_request;
-	VoidMessage vmsg;
-
-	dir_request.set_path(in_path);
-	dir_request.set_mode(mode);
-
-	Status status = stub_->nfs_mkdir(&ccontext, dir_request, &vmsg);
-	
-	if (vmsg.err() != 0) {
-            std::cout << "Error: mkdir fails" << std::endl;
+	    status = reader->Finish();
+            cout<<"<before return>"<<endl;       
+	    return -response.err();
         }
 
-        return vmsg.err();
-    }
+        int rpc_mkdir(string in_path, mode_t mode) {
+            ClientContext ccontext;
+	    nfsFuse::MkDirRequestParams dir_request;
+	    VoidMessage vmsg;
 
-    int rpc_rmdir(string in_path) {
-        ClientContext ccontext;
-	nfsFuse::RmDirRequestParams dir_request;
-	VoidMessage vmsg;
+	    dir_request.set_path(in_path);
+	    dir_request.set_mode(mode);
 
-	dir_request.set_path(in_path);
+	    Status status = stub_->nfs_mkdir(&ccontext, dir_request, &vmsg);
+	    // crash etc.
+	    while (!status.ok()) {
+	        ClientContext _ctx;
+		// new attemps
+		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+		status = stub_->nfs_mkdir(&_ctx, dir_request, &vmsg);
+	    }
+	
+	    if (vmsg.err() != 0) {
+                std::cout << "Error: mkdir fails" << std::endl;
+            }
 
-	Status status = stub_->nfs_rmdir(&ccontext, dir_request, &vmsg);
+            return vmsg.err();
+        }
 
-	if (vmsg.err() != 0) {
-	    std::cout << "Error: rmdir fails" << endl;
+        int rpc_rmdir(string in_path) {
+            ClientContext ccontext;
+	    nfsFuse::RmDirRequestParams dir_request;
+	    VoidMessage vmsg;
+
+	    dir_request.set_path(in_path);
+
+	    Status status = stub_->nfs_rmdir(&ccontext, dir_request, &vmsg);
+	    // crash etc.
+	    while (!status.ok()) {
+	        ClientContext _ctx;
+		// new attemps
+		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+		status = stub_->nfs_rmdir(&_ctx, dir_request, &vmsg);
+	    }
+
+	    if (vmsg.err() != 0) {
+	        std::cout << "Error: rmdir fails" << endl;
+	    }
+
+	    return vmsg.err();
+        }
+
+	int reCommitPartial(int serverstatus) {
+	    // the serverstatus marks the offset where the transmission stops
+	    if (StagedWrites.size() == 0) {
+	        // staged writes is empty, no need commit
+		return -1;
+	    }
+
+	    vector<WriteRequestParams>::const_iterator it = StagedWrites.begin();
+
+	    while (it != StagedWrites.end()) {
+	       ClientContext ctx;
+	       WriteResponseParams response;
+	       if (it->offset() == serverstatus) break;
+	       Status status = stub_->nfs_recommit(&ctx, *it, &response);
+	       it++;
+	    }
+
+	    return 0;
 	}
 
-	return vmsg.err();
-    }
+	int reCommitAll() {
+	    // the serverstatus marks the offset where the transmission stops
+	    if (StagedWrites.size() == 0) {
+	        // staged writes is empty, no need commit
+		return -1;
+	    }
+
+	    vector<WriteRequestParams>::const_iterator it = StagedWrites.begin();
+
+	    while (it != StagedWrites.end()) {
+	       ClientContext ctx;
+	       WriteResponseParams response;
+	       Status status = stub_->nfs_recommit(&ctx, *it, &response);
+	       it++;
+	    }
+
+	    return 0;
+	}
+
+	int nfs_commit(int fh, int firstWrite_offset, int lastWrite_offset) {
+	    ClientContext ctx;
+	    CommitRequestParams request;
+	    CommitResponseParams response;
+	    request.set_fh(fh);
+	    request.set_offset(StagedWrites.front().offset());
+	    request.set_endoffset(StagedWrites.back().offset());
+	    
+	    Status status = stub_->nfs_commit(&ctx, request, &response);
+	    while (!status.ok()) {
+	        ClientContext _ctx;
+		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+		status = stub_->nfs_commit(&_ctx, request, &response);
+	    }
+
+	    if (response.err() == 0) {
+	        // Commits finished without errer
+		int StagedWritesSize = StagedWrites.size();
+		for (int i = 0; i < StagedWritesSize; i++) {
+	            StagedWrites.pop_back();	
+		}
+	    } else {
+	        // some errors happen at the server side
+		int serverstatus = response.serverstatus();
+		int res;
+
+		if (response.err() == -1) {
+		    // crash during transmission, resend writes to Server Side
+		    res = this->reCommitPartial(serverstatus);
+		} else if (response.err() == -2) {
+		    // crash before transmission, resend all writes to Server Side
+		    res = this->reCommitAll();
+		}
+
+		if (res != 0) {
+		    // reCommit fails
+		    return -1;
+		}
+
+		// Commit Again to match the original wirtes and resent writes
+		res = this->nfs_commit(fh, firstWrite_offset, lastWrite_offset);
+		if (res != 0) {
+		    // not match
+		    return -1;
+		}
+		
+		return res;
+	    }
+	}
  
     private:
 	std::unique_ptr<NFSFuse::Stub> stub_;

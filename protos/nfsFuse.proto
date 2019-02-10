@@ -12,6 +12,8 @@ service NFSFuse {
     rpc nfs_open (OpenRequestParams) returns (OpenResponseParams) {}
     rpc nfs_read (ReadRequestParams) returns (ReadResponseParams) {}
     rpc nfs_write (WriteRequestParams) returns (WriteResponseParams) {}
+    rpc nfs_commit (CommitRequestParams) returns (CommitResponseParams) {}
+    rpc nfs_recommit (WriteRequestParams) returns (WriteResponseParams) {}
 }
 
 message VoidMessage {
@@ -119,3 +121,16 @@ message WriteResponseParams {
     int32 bufferlength = 1;
     int32 err = 2;
 }
+
+message CommitRequestParams {
+    int32 fh = 1;
+    int32 offset = 2;
+    int32 endoffset = 3;
+    int32 err = 4;
+}
+
+message CommitResponseParams {
+    int32 serverstatus = 1;
+    int32 err = 2;
+}
+

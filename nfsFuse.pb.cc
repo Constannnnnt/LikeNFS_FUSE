@@ -77,6 +77,14 @@ class WriteResponseParamsDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<WriteResponseParams> _instance;
 } _WriteResponseParams_default_instance_;
+class CommitRequestParamsDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<CommitRequestParams> _instance;
+} _CommitRequestParams_default_instance_;
+class CommitResponseParamsDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<CommitResponseParams> _instance;
+} _CommitResponseParams_default_instance_;
 }  // namespace nfsFuse
 static void InitDefaultsVoidMessage_nfsFuse_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -288,6 +296,34 @@ static void InitDefaultsWriteResponseParams_nfsFuse_2eproto() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_WriteResponseParams_nfsFuse_2eproto =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsWriteResponseParams_nfsFuse_2eproto}, {}};
 
+static void InitDefaultsCommitRequestParams_nfsFuse_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::nfsFuse::_CommitRequestParams_default_instance_;
+    new (ptr) ::nfsFuse::CommitRequestParams();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::nfsFuse::CommitRequestParams::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_CommitRequestParams_nfsFuse_2eproto =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsCommitRequestParams_nfsFuse_2eproto}, {}};
+
+static void InitDefaultsCommitResponseParams_nfsFuse_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::nfsFuse::_CommitResponseParams_default_instance_;
+    new (ptr) ::nfsFuse::CommitResponseParams();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::nfsFuse::CommitResponseParams::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_CommitResponseParams_nfsFuse_2eproto =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsCommitResponseParams_nfsFuse_2eproto}, {}};
+
 void InitDefaults_nfsFuse_2eproto() {
   ::google::protobuf::internal::InitSCC(&scc_info_VoidMessage_nfsFuse_2eproto.base);
   ::google::protobuf::internal::InitSCC(&scc_info_GetAttrRequestParams_nfsFuse_2eproto.base);
@@ -304,9 +340,11 @@ void InitDefaults_nfsFuse_2eproto() {
   ::google::protobuf::internal::InitSCC(&scc_info_ReadResponseParams_nfsFuse_2eproto.base);
   ::google::protobuf::internal::InitSCC(&scc_info_WriteRequestParams_nfsFuse_2eproto.base);
   ::google::protobuf::internal::InitSCC(&scc_info_WriteResponseParams_nfsFuse_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_CommitRequestParams_nfsFuse_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_CommitResponseParams_nfsFuse_2eproto.base);
 }
 
-::google::protobuf::Metadata file_level_metadata_nfsFuse_2eproto[15];
+::google::protobuf::Metadata file_level_metadata_nfsFuse_2eproto[17];
 constexpr ::google::protobuf::EnumDescriptor const** file_level_enum_descriptors_nfsFuse_2eproto = nullptr;
 constexpr ::google::protobuf::ServiceDescriptor const** file_level_service_descriptors_nfsFuse_2eproto = nullptr;
 
@@ -446,6 +484,22 @@ const ::google::protobuf::uint32 TableStruct_nfsFuse_2eproto::offsets[] PROTOBUF
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::nfsFuse::WriteResponseParams, bufferlength_),
   PROTOBUF_FIELD_OFFSET(::nfsFuse::WriteResponseParams, err_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::nfsFuse::CommitRequestParams, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::nfsFuse::CommitRequestParams, fh_),
+  PROTOBUF_FIELD_OFFSET(::nfsFuse::CommitRequestParams, offset_),
+  PROTOBUF_FIELD_OFFSET(::nfsFuse::CommitRequestParams, endoffset_),
+  PROTOBUF_FIELD_OFFSET(::nfsFuse::CommitRequestParams, err_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::nfsFuse::CommitResponseParams, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::nfsFuse::CommitResponseParams, serverstatus_),
+  PROTOBUF_FIELD_OFFSET(::nfsFuse::CommitResponseParams, err_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::nfsFuse::VoidMessage)},
@@ -463,6 +517,8 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] PROTOBUF_SE
   { 111, -1, sizeof(::nfsFuse::ReadResponseParams)},
   { 119, -1, sizeof(::nfsFuse::WriteRequestParams)},
   { 128, -1, sizeof(::nfsFuse::WriteResponseParams)},
+  { 135, -1, sizeof(::nfsFuse::CommitRequestParams)},
+  { 144, -1, sizeof(::nfsFuse::CommitResponseParams)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -481,12 +537,14 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::nfsFuse::_ReadResponseParams_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::nfsFuse::_WriteRequestParams_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::nfsFuse::_WriteResponseParams_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::nfsFuse::_CommitRequestParams_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::nfsFuse::_CommitResponseParams_default_instance_),
 };
 
 ::google::protobuf::internal::AssignDescriptorsTable assign_descriptors_table_nfsFuse_2eproto = {
   {}, AddDescriptors_nfsFuse_2eproto, "nfsFuse.proto", schemas,
   file_default_instances, TableStruct_nfsFuse_2eproto::offsets,
-  file_level_metadata_nfsFuse_2eproto, 15, file_level_enum_descriptors_nfsFuse_2eproto, file_level_service_descriptors_nfsFuse_2eproto,
+  file_level_metadata_nfsFuse_2eproto, 17, file_level_enum_descriptors_nfsFuse_2eproto, file_level_service_descriptors_nfsFuse_2eproto,
 };
 
 const char descriptor_table_protodef_nfsFuse_2eproto[] =
@@ -521,27 +579,35 @@ const char descriptor_table_protodef_nfsFuse_2eproto[] =
   "\005\"X\n\022WriteRequestParams\022\016\n\006buffer\030\001 \001(\014\022"
   "\014\n\004path\030\002 \001(\t\022\024\n\014bufferlength\030\003 \001(\r\022\016\n\006o"
   "ffset\030\004 \001(\005\"8\n\023WriteResponseParams\022\024\n\014bu"
-  "fferlength\030\001 \001(\005\022\013\n\003err\030\002 \001(\0052\324\004\n\007NFSFus"
-  "e\022N\n\013nfs_getattr\022\035.nfsFuse.GetAttrReques"
-  "tParams\032\036.nfsFuse.GetAttrResponseParams\""
-  "\000\022P\n\013nfs_readdir\022\035.nfsFuse.ReadDirReques"
-  "tParams\032\036.nfsFuse.ReadDirResponseParams\""
-  "\0000\001\022@\n\tnfs_mkdir\022\033.nfsFuse.MkDirRequestP"
-  "arams\032\024.nfsFuse.VoidMessage\"\000\022@\n\tnfs_rmd"
-  "ir\022\033.nfsFuse.RmDirRequestParams\032\024.nfsFus"
-  "e.VoidMessage\"\000\022K\n\nnfs_create\022\034.nfsFuse."
-  "CreateRequestParams\032\035.nfsFuse.CreateResp"
-  "onseParams\"\000\022E\n\010nfs_open\022\032.nfsFuse.OpenR"
-  "equestParams\032\033.nfsFuse.OpenResponseParam"
-  "s\"\000\022E\n\010nfs_read\022\032.nfsFuse.ReadRequestPar"
-  "ams\032\033.nfsFuse.ReadResponseParams\"\000\022H\n\tnf"
-  "s_write\022\033.nfsFuse.WriteRequestParams\032\034.n"
-  "fsFuse.WriteResponseParams\"\000b\006proto3"
+  "fferlength\030\001 \001(\005\022\013\n\003err\030\002 \001(\005\"Q\n\023CommitR"
+  "equestParams\022\n\n\002fh\030\001 \001(\005\022\016\n\006offset\030\002 \001(\005"
+  "\022\021\n\tendoffset\030\003 \001(\005\022\013\n\003err\030\004 \001(\005\"9\n\024Comm"
+  "itResponseParams\022\024\n\014serverstatus\030\001 \001(\005\022\013"
+  "\n\003err\030\002 \001(\0052\356\005\n\007NFSFuse\022N\n\013nfs_getattr\022\035"
+  ".nfsFuse.GetAttrRequestParams\032\036.nfsFuse."
+  "GetAttrResponseParams\"\000\022P\n\013nfs_readdir\022\035"
+  ".nfsFuse.ReadDirRequestParams\032\036.nfsFuse."
+  "ReadDirResponseParams\"\0000\001\022@\n\tnfs_mkdir\022\033"
+  ".nfsFuse.MkDirRequestParams\032\024.nfsFuse.Vo"
+  "idMessage\"\000\022@\n\tnfs_rmdir\022\033.nfsFuse.RmDir"
+  "RequestParams\032\024.nfsFuse.VoidMessage\"\000\022K\n"
+  "\nnfs_create\022\034.nfsFuse.CreateRequestParam"
+  "s\032\035.nfsFuse.CreateResponseParams\"\000\022E\n\010nf"
+  "s_open\022\032.nfsFuse.OpenRequestParams\032\033.nfs"
+  "Fuse.OpenResponseParams\"\000\022E\n\010nfs_read\022\032."
+  "nfsFuse.ReadRequestParams\032\033.nfsFuse.Read"
+  "ResponseParams\"\000\022H\n\tnfs_write\022\033.nfsFuse."
+  "WriteRequestParams\032\034.nfsFuse.WriteRespon"
+  "seParams\"\000\022K\n\nnfs_commit\022\034.nfsFuse.Commi"
+  "tRequestParams\032\035.nfsFuse.CommitResponseP"
+  "arams\"\000\022K\n\014nfs_recommit\022\033.nfsFuse.WriteR"
+  "equestParams\032\034.nfsFuse.WriteResponsePara"
+  "ms\"\000b\006proto3"
   ;
 ::google::protobuf::internal::DescriptorTable descriptor_table_nfsFuse_2eproto = {
   false, InitDefaults_nfsFuse_2eproto, 
   descriptor_table_protodef_nfsFuse_2eproto,
-  "nfsFuse.proto", &assign_descriptors_table_nfsFuse_2eproto, 1876,
+  "nfsFuse.proto", &assign_descriptors_table_nfsFuse_2eproto, 2172,
 };
 
 void AddDescriptors_nfsFuse_2eproto() {
@@ -6884,6 +6950,706 @@ void WriteResponseParams::InternalSwap(WriteResponseParams* other) {
 }
 
 
+// ===================================================================
+
+void CommitRequestParams::InitAsDefaultInstance() {
+}
+class CommitRequestParams::HasBitSetters {
+ public:
+};
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int CommitRequestParams::kFhFieldNumber;
+const int CommitRequestParams::kOffsetFieldNumber;
+const int CommitRequestParams::kEndoffsetFieldNumber;
+const int CommitRequestParams::kErrFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+CommitRequestParams::CommitRequestParams()
+  : ::google::protobuf::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:nfsFuse.CommitRequestParams)
+}
+CommitRequestParams::CommitRequestParams(const CommitRequestParams& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&fh_, &from.fh_,
+    static_cast<size_t>(reinterpret_cast<char*>(&err_) -
+    reinterpret_cast<char*>(&fh_)) + sizeof(err_));
+  // @@protoc_insertion_point(copy_constructor:nfsFuse.CommitRequestParams)
+}
+
+void CommitRequestParams::SharedCtor() {
+  ::memset(&fh_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&err_) -
+      reinterpret_cast<char*>(&fh_)) + sizeof(err_));
+}
+
+CommitRequestParams::~CommitRequestParams() {
+  // @@protoc_insertion_point(destructor:nfsFuse.CommitRequestParams)
+  SharedDtor();
+}
+
+void CommitRequestParams::SharedDtor() {
+}
+
+void CommitRequestParams::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const CommitRequestParams& CommitRequestParams::default_instance() {
+  ::google::protobuf::internal::InitSCC(&::scc_info_CommitRequestParams_nfsFuse_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void CommitRequestParams::Clear() {
+// @@protoc_insertion_point(message_clear_start:nfsFuse.CommitRequestParams)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&fh_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&err_) -
+      reinterpret_cast<char*>(&fh_)) + sizeof(err_));
+  _internal_metadata_.Clear();
+}
+
+#if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+const char* CommitRequestParams::_InternalParse(const char* begin, const char* end, void* object,
+                  ::google::protobuf::internal::ParseContext* ctx) {
+  auto msg = static_cast<CommitRequestParams*>(object);
+  ::google::protobuf::int32 size; (void)size;
+  int depth; (void)depth;
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::ParseFunc parser_till_end; (void)parser_till_end;
+  auto ptr = begin;
+  while (ptr < end) {
+    ptr = ::google::protobuf::io::Parse32(ptr, &tag);
+    GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+    switch (tag >> 3) {
+      // int32 fh = 1;
+      case 1: {
+        if (static_cast<::google::protobuf::uint8>(tag) != 8) goto handle_unusual;
+        msg->set_fh(::google::protobuf::internal::ReadVarint(&ptr));
+        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+        break;
+      }
+      // int32 offset = 2;
+      case 2: {
+        if (static_cast<::google::protobuf::uint8>(tag) != 16) goto handle_unusual;
+        msg->set_offset(::google::protobuf::internal::ReadVarint(&ptr));
+        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+        break;
+      }
+      // int32 endoffset = 3;
+      case 3: {
+        if (static_cast<::google::protobuf::uint8>(tag) != 24) goto handle_unusual;
+        msg->set_endoffset(::google::protobuf::internal::ReadVarint(&ptr));
+        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+        break;
+      }
+      // int32 err = 4;
+      case 4: {
+        if (static_cast<::google::protobuf::uint8>(tag) != 32) goto handle_unusual;
+        msg->set_err(::google::protobuf::internal::ReadVarint(&ptr));
+        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+        break;
+      }
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->EndGroup(tag);
+          return ptr;
+        }
+        auto res = UnknownFieldParse(tag, {_InternalParse, msg},
+          ptr, end, msg->_internal_metadata_.mutable_unknown_fields(), ctx);
+        ptr = res.first;
+        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr != nullptr);
+        if (res.second) return ptr;
+      }
+    }  // switch
+  }  // while
+  return ptr;
+}
+#else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+bool CommitRequestParams::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:nfsFuse.CommitRequestParams)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 fh = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) == (8 & 0xFF)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &fh_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 offset = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) == (16 & 0xFF)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &offset_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 endoffset = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) == (24 & 0xFF)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &endoffset_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 err = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) == (32 & 0xFF)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &err_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:nfsFuse.CommitRequestParams)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:nfsFuse.CommitRequestParams)
+  return false;
+#undef DO_
+}
+#endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+
+void CommitRequestParams::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:nfsFuse.CommitRequestParams)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 fh = 1;
+  if (this->fh() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->fh(), output);
+  }
+
+  // int32 offset = 2;
+  if (this->offset() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->offset(), output);
+  }
+
+  // int32 endoffset = 3;
+  if (this->endoffset() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->endoffset(), output);
+  }
+
+  // int32 err = 4;
+  if (this->err() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->err(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:nfsFuse.CommitRequestParams)
+}
+
+::google::protobuf::uint8* CommitRequestParams::InternalSerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:nfsFuse.CommitRequestParams)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 fh = 1;
+  if (this->fh() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->fh(), target);
+  }
+
+  // int32 offset = 2;
+  if (this->offset() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->offset(), target);
+  }
+
+  // int32 endoffset = 3;
+  if (this->endoffset() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->endoffset(), target);
+  }
+
+  // int32 err = 4;
+  if (this->err() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->err(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:nfsFuse.CommitRequestParams)
+  return target;
+}
+
+size_t CommitRequestParams::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:nfsFuse.CommitRequestParams)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 fh = 1;
+  if (this->fh() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->fh());
+  }
+
+  // int32 offset = 2;
+  if (this->offset() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->offset());
+  }
+
+  // int32 endoffset = 3;
+  if (this->endoffset() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->endoffset());
+  }
+
+  // int32 err = 4;
+  if (this->err() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->err());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void CommitRequestParams::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:nfsFuse.CommitRequestParams)
+  GOOGLE_DCHECK_NE(&from, this);
+  const CommitRequestParams* source =
+      ::google::protobuf::DynamicCastToGenerated<CommitRequestParams>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:nfsFuse.CommitRequestParams)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:nfsFuse.CommitRequestParams)
+    MergeFrom(*source);
+  }
+}
+
+void CommitRequestParams::MergeFrom(const CommitRequestParams& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:nfsFuse.CommitRequestParams)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.fh() != 0) {
+    set_fh(from.fh());
+  }
+  if (from.offset() != 0) {
+    set_offset(from.offset());
+  }
+  if (from.endoffset() != 0) {
+    set_endoffset(from.endoffset());
+  }
+  if (from.err() != 0) {
+    set_err(from.err());
+  }
+}
+
+void CommitRequestParams::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:nfsFuse.CommitRequestParams)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CommitRequestParams::CopyFrom(const CommitRequestParams& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:nfsFuse.CommitRequestParams)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CommitRequestParams::IsInitialized() const {
+  return true;
+}
+
+void CommitRequestParams::Swap(CommitRequestParams* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void CommitRequestParams::InternalSwap(CommitRequestParams* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(fh_, other->fh_);
+  swap(offset_, other->offset_);
+  swap(endoffset_, other->endoffset_);
+  swap(err_, other->err_);
+}
+
+::google::protobuf::Metadata CommitRequestParams::GetMetadata() const {
+  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_nfsFuse_2eproto);
+  return ::file_level_metadata_nfsFuse_2eproto[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void CommitResponseParams::InitAsDefaultInstance() {
+}
+class CommitResponseParams::HasBitSetters {
+ public:
+};
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int CommitResponseParams::kServerstatusFieldNumber;
+const int CommitResponseParams::kErrFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+CommitResponseParams::CommitResponseParams()
+  : ::google::protobuf::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:nfsFuse.CommitResponseParams)
+}
+CommitResponseParams::CommitResponseParams(const CommitResponseParams& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&serverstatus_, &from.serverstatus_,
+    static_cast<size_t>(reinterpret_cast<char*>(&err_) -
+    reinterpret_cast<char*>(&serverstatus_)) + sizeof(err_));
+  // @@protoc_insertion_point(copy_constructor:nfsFuse.CommitResponseParams)
+}
+
+void CommitResponseParams::SharedCtor() {
+  ::memset(&serverstatus_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&err_) -
+      reinterpret_cast<char*>(&serverstatus_)) + sizeof(err_));
+}
+
+CommitResponseParams::~CommitResponseParams() {
+  // @@protoc_insertion_point(destructor:nfsFuse.CommitResponseParams)
+  SharedDtor();
+}
+
+void CommitResponseParams::SharedDtor() {
+}
+
+void CommitResponseParams::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const CommitResponseParams& CommitResponseParams::default_instance() {
+  ::google::protobuf::internal::InitSCC(&::scc_info_CommitResponseParams_nfsFuse_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void CommitResponseParams::Clear() {
+// @@protoc_insertion_point(message_clear_start:nfsFuse.CommitResponseParams)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&serverstatus_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&err_) -
+      reinterpret_cast<char*>(&serverstatus_)) + sizeof(err_));
+  _internal_metadata_.Clear();
+}
+
+#if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+const char* CommitResponseParams::_InternalParse(const char* begin, const char* end, void* object,
+                  ::google::protobuf::internal::ParseContext* ctx) {
+  auto msg = static_cast<CommitResponseParams*>(object);
+  ::google::protobuf::int32 size; (void)size;
+  int depth; (void)depth;
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::ParseFunc parser_till_end; (void)parser_till_end;
+  auto ptr = begin;
+  while (ptr < end) {
+    ptr = ::google::protobuf::io::Parse32(ptr, &tag);
+    GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+    switch (tag >> 3) {
+      // int32 serverstatus = 1;
+      case 1: {
+        if (static_cast<::google::protobuf::uint8>(tag) != 8) goto handle_unusual;
+        msg->set_serverstatus(::google::protobuf::internal::ReadVarint(&ptr));
+        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+        break;
+      }
+      // int32 err = 2;
+      case 2: {
+        if (static_cast<::google::protobuf::uint8>(tag) != 16) goto handle_unusual;
+        msg->set_err(::google::protobuf::internal::ReadVarint(&ptr));
+        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+        break;
+      }
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->EndGroup(tag);
+          return ptr;
+        }
+        auto res = UnknownFieldParse(tag, {_InternalParse, msg},
+          ptr, end, msg->_internal_metadata_.mutable_unknown_fields(), ctx);
+        ptr = res.first;
+        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr != nullptr);
+        if (res.second) return ptr;
+      }
+    }  // switch
+  }  // while
+  return ptr;
+}
+#else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+bool CommitResponseParams::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:nfsFuse.CommitResponseParams)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // int32 serverstatus = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) == (8 & 0xFF)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &serverstatus_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 err = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) == (16 & 0xFF)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &err_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:nfsFuse.CommitResponseParams)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:nfsFuse.CommitResponseParams)
+  return false;
+#undef DO_
+}
+#endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+
+void CommitResponseParams::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:nfsFuse.CommitResponseParams)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 serverstatus = 1;
+  if (this->serverstatus() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->serverstatus(), output);
+  }
+
+  // int32 err = 2;
+  if (this->err() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->err(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:nfsFuse.CommitResponseParams)
+}
+
+::google::protobuf::uint8* CommitResponseParams::InternalSerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:nfsFuse.CommitResponseParams)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 serverstatus = 1;
+  if (this->serverstatus() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->serverstatus(), target);
+  }
+
+  // int32 err = 2;
+  if (this->err() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->err(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:nfsFuse.CommitResponseParams)
+  return target;
+}
+
+size_t CommitResponseParams::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:nfsFuse.CommitResponseParams)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 serverstatus = 1;
+  if (this->serverstatus() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->serverstatus());
+  }
+
+  // int32 err = 2;
+  if (this->err() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->err());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void CommitResponseParams::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:nfsFuse.CommitResponseParams)
+  GOOGLE_DCHECK_NE(&from, this);
+  const CommitResponseParams* source =
+      ::google::protobuf::DynamicCastToGenerated<CommitResponseParams>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:nfsFuse.CommitResponseParams)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:nfsFuse.CommitResponseParams)
+    MergeFrom(*source);
+  }
+}
+
+void CommitResponseParams::MergeFrom(const CommitResponseParams& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:nfsFuse.CommitResponseParams)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.serverstatus() != 0) {
+    set_serverstatus(from.serverstatus());
+  }
+  if (from.err() != 0) {
+    set_err(from.err());
+  }
+}
+
+void CommitResponseParams::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:nfsFuse.CommitResponseParams)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CommitResponseParams::CopyFrom(const CommitResponseParams& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:nfsFuse.CommitResponseParams)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CommitResponseParams::IsInitialized() const {
+  return true;
+}
+
+void CommitResponseParams::Swap(CommitResponseParams* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void CommitResponseParams::InternalSwap(CommitResponseParams* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(serverstatus_, other->serverstatus_);
+  swap(err_, other->err_);
+}
+
+::google::protobuf::Metadata CommitResponseParams::GetMetadata() const {
+  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_nfsFuse_2eproto);
+  return ::file_level_metadata_nfsFuse_2eproto[kIndexInFileMessages];
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace nfsFuse
 namespace google {
@@ -6932,6 +7698,12 @@ template<> PROTOBUF_NOINLINE ::nfsFuse::WriteRequestParams* Arena::CreateMaybeMe
 }
 template<> PROTOBUF_NOINLINE ::nfsFuse::WriteResponseParams* Arena::CreateMaybeMessage< ::nfsFuse::WriteResponseParams >(Arena* arena) {
   return Arena::CreateInternal< ::nfsFuse::WriteResponseParams >(arena);
+}
+template<> PROTOBUF_NOINLINE ::nfsFuse::CommitRequestParams* Arena::CreateMaybeMessage< ::nfsFuse::CommitRequestParams >(Arena* arena) {
+  return Arena::CreateInternal< ::nfsFuse::CommitRequestParams >(arena);
+}
+template<> PROTOBUF_NOINLINE ::nfsFuse::CommitResponseParams* Arena::CreateMaybeMessage< ::nfsFuse::CommitResponseParams >(Arena* arena) {
+  return Arena::CreateInternal< ::nfsFuse::CommitResponseParams >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

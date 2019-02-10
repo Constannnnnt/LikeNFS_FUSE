@@ -96,6 +96,20 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>> PrepareAsyncnfs_write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>>(PrepareAsyncnfs_writeRaw(context, request, cq));
     }
+    virtual ::grpc::Status nfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::nfsFuse::CommitResponseParams* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CommitResponseParams>> Asyncnfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CommitResponseParams>>(Asyncnfs_commitRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CommitResponseParams>> PrepareAsyncnfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CommitResponseParams>>(PrepareAsyncnfs_commitRaw(context, request, cq));
+    }
+    virtual ::grpc::Status nfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::nfsFuse::WriteResponseParams* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>> Asyncnfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>>(Asyncnfs_recommitRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>> PrepareAsyncnfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>>(PrepareAsyncnfs_recommitRaw(context, request, cq));
+    }
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
@@ -107,6 +121,8 @@ class NFSFuse final {
       virtual void nfs_open(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams* request, ::nfsFuse::OpenResponseParams* response, std::function<void(::grpc::Status)>) = 0;
       virtual void nfs_read(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams* request, ::nfsFuse::ReadResponseParams* response, std::function<void(::grpc::Status)>) = 0;
       virtual void nfs_write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void nfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void nfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response, std::function<void(::grpc::Status)>) = 0;
     };
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
@@ -127,6 +143,10 @@ class NFSFuse final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::ReadResponseParams>* PrepareAsyncnfs_readRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>* Asyncnfs_writeRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>* PrepareAsyncnfs_writeRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CommitResponseParams>* Asyncnfs_commitRaw(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CommitResponseParams>* PrepareAsyncnfs_commitRaw(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>* Asyncnfs_recommitRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::WriteResponseParams>* PrepareAsyncnfs_recommitRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -189,6 +209,20 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>> PrepareAsyncnfs_write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>>(PrepareAsyncnfs_writeRaw(context, request, cq));
     }
+    ::grpc::Status nfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::nfsFuse::CommitResponseParams* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CommitResponseParams>> Asyncnfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CommitResponseParams>>(Asyncnfs_commitRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CommitResponseParams>> PrepareAsyncnfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CommitResponseParams>>(PrepareAsyncnfs_commitRaw(context, request, cq));
+    }
+    ::grpc::Status nfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::nfsFuse::WriteResponseParams* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>> Asyncnfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>>(Asyncnfs_recommitRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>> PrepareAsyncnfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>>(PrepareAsyncnfs_recommitRaw(context, request, cq));
+    }
     class experimental_async final :
       public StubInterface::experimental_async_interface {
      public:
@@ -200,6 +234,8 @@ class NFSFuse final {
       void nfs_open(::grpc::ClientContext* context, const ::nfsFuse::OpenRequestParams* request, ::nfsFuse::OpenResponseParams* response, std::function<void(::grpc::Status)>) override;
       void nfs_read(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams* request, ::nfsFuse::ReadResponseParams* response, std::function<void(::grpc::Status)>) override;
       void nfs_write(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response, std::function<void(::grpc::Status)>) override;
+      void nfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response, std::function<void(::grpc::Status)>) override;
+      void nfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response, std::function<void(::grpc::Status)>) override;
      private:
       friend class Stub;
       explicit experimental_async(Stub* stub): stub_(stub) { }
@@ -228,6 +264,10 @@ class NFSFuse final {
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::ReadResponseParams>* PrepareAsyncnfs_readRaw(::grpc::ClientContext* context, const ::nfsFuse::ReadRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>* Asyncnfs_writeRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>* PrepareAsyncnfs_writeRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::CommitResponseParams>* Asyncnfs_commitRaw(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::CommitResponseParams>* PrepareAsyncnfs_commitRaw(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>* Asyncnfs_recommitRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>* PrepareAsyncnfs_recommitRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_getattr_;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_readdir_;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_mkdir_;
@@ -236,6 +276,8 @@ class NFSFuse final {
     const ::grpc::internal::RpcMethod rpcmethod_nfs_open_;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_read_;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_write_;
+    const ::grpc::internal::RpcMethod rpcmethod_nfs_commit_;
+    const ::grpc::internal::RpcMethod rpcmethod_nfs_recommit_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -251,6 +293,8 @@ class NFSFuse final {
     virtual ::grpc::Status nfs_open(::grpc::ServerContext* context, const ::nfsFuse::OpenRequestParams* request, ::nfsFuse::OpenResponseParams* response);
     virtual ::grpc::Status nfs_read(::grpc::ServerContext* context, const ::nfsFuse::ReadRequestParams* request, ::nfsFuse::ReadResponseParams* response);
     virtual ::grpc::Status nfs_write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response);
+    virtual ::grpc::Status nfs_commit(::grpc::ServerContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response);
+    virtual ::grpc::Status nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_nfs_getattr : public BaseClass {
@@ -412,7 +456,47 @@ class NFSFuse final {
       ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_nfs_getattr<WithAsyncMethod_nfs_readdir<WithAsyncMethod_nfs_mkdir<WithAsyncMethod_nfs_rmdir<WithAsyncMethod_nfs_create<WithAsyncMethod_nfs_open<WithAsyncMethod_nfs_read<WithAsyncMethod_nfs_write<Service > > > > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_nfs_commit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithAsyncMethod_nfs_commit() {
+      ::grpc::Service::MarkMethodAsync(8);
+    }
+    ~WithAsyncMethod_nfs_commit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_commit(::grpc::ServerContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestnfs_commit(::grpc::ServerContext* context, ::nfsFuse::CommitRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::CommitResponseParams>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_nfs_recommit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithAsyncMethod_nfs_recommit() {
+      ::grpc::Service::MarkMethodAsync(9);
+    }
+    ~WithAsyncMethod_nfs_recommit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestnfs_recommit(::grpc::ServerContext* context, ::nfsFuse::WriteRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::WriteResponseParams>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_nfs_getattr<WithAsyncMethod_nfs_readdir<WithAsyncMethod_nfs_mkdir<WithAsyncMethod_nfs_rmdir<WithAsyncMethod_nfs_create<WithAsyncMethod_nfs_open<WithAsyncMethod_nfs_read<WithAsyncMethod_nfs_write<WithAsyncMethod_nfs_commit<WithAsyncMethod_nfs_recommit<Service > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_nfs_getattr : public BaseClass {
    private:
@@ -610,7 +694,57 @@ class NFSFuse final {
     }
     virtual void nfs_write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
-  typedef ExperimentalWithCallbackMethod_nfs_getattr<ExperimentalWithCallbackMethod_nfs_readdir<ExperimentalWithCallbackMethod_nfs_mkdir<ExperimentalWithCallbackMethod_nfs_rmdir<ExperimentalWithCallbackMethod_nfs_create<ExperimentalWithCallbackMethod_nfs_open<ExperimentalWithCallbackMethod_nfs_read<ExperimentalWithCallbackMethod_nfs_write<Service > > > > > > > > ExperimentalCallbackService;
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_nfs_commit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    ExperimentalWithCallbackMethod_nfs_commit() {
+      ::grpc::Service::experimental().MarkMethodCallback(8,
+        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::CommitRequestParams, ::nfsFuse::CommitResponseParams>(
+          [this](::grpc::ServerContext* context,
+                 const ::nfsFuse::CommitRequestParams* request,
+                 ::nfsFuse::CommitResponseParams* response,
+                 ::grpc::experimental::ServerCallbackRpcController* controller) {
+                   return this->nfs_commit(context, request, response, controller);
+                 }));
+    }
+    ~ExperimentalWithCallbackMethod_nfs_commit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_commit(::grpc::ServerContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual void nfs_commit(::grpc::ServerContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+  };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_nfs_recommit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    ExperimentalWithCallbackMethod_nfs_recommit() {
+      ::grpc::Service::experimental().MarkMethodCallback(9,
+        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::WriteRequestParams, ::nfsFuse::WriteResponseParams>(
+          [this](::grpc::ServerContext* context,
+                 const ::nfsFuse::WriteRequestParams* request,
+                 ::nfsFuse::WriteResponseParams* response,
+                 ::grpc::experimental::ServerCallbackRpcController* controller) {
+                   return this->nfs_recommit(context, request, response, controller);
+                 }));
+    }
+    ~ExperimentalWithCallbackMethod_nfs_recommit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual void nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+  };
+  typedef ExperimentalWithCallbackMethod_nfs_getattr<ExperimentalWithCallbackMethod_nfs_readdir<ExperimentalWithCallbackMethod_nfs_mkdir<ExperimentalWithCallbackMethod_nfs_rmdir<ExperimentalWithCallbackMethod_nfs_create<ExperimentalWithCallbackMethod_nfs_open<ExperimentalWithCallbackMethod_nfs_read<ExperimentalWithCallbackMethod_nfs_write<ExperimentalWithCallbackMethod_nfs_commit<ExperimentalWithCallbackMethod_nfs_recommit<Service > > > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_nfs_getattr : public BaseClass {
    private:
@@ -743,6 +877,40 @@ class NFSFuse final {
     }
     // disable synchronous version of this method
     ::grpc::Status nfs_write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_nfs_commit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithGenericMethod_nfs_commit() {
+      ::grpc::Service::MarkMethodGeneric(8);
+    }
+    ~WithGenericMethod_nfs_commit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_commit(::grpc::ServerContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_nfs_recommit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithGenericMethod_nfs_recommit() {
+      ::grpc::Service::MarkMethodGeneric(9);
+    }
+    ~WithGenericMethod_nfs_recommit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -905,6 +1073,46 @@ class NFSFuse final {
     }
     void Requestnfs_write(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_nfs_commit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithRawMethod_nfs_commit() {
+      ::grpc::Service::MarkMethodRaw(8);
+    }
+    ~WithRawMethod_nfs_commit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_commit(::grpc::ServerContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestnfs_commit(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_nfs_recommit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithRawMethod_nfs_recommit() {
+      ::grpc::Service::MarkMethodRaw(9);
+    }
+    ~WithRawMethod_nfs_recommit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestnfs_recommit(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1105,6 +1313,56 @@ class NFSFuse final {
     virtual void nfs_write(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_nfs_commit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    ExperimentalWithRawCallbackMethod_nfs_commit() {
+      ::grpc::Service::experimental().MarkMethodRawCallback(8,
+        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+          [this](::grpc::ServerContext* context,
+                 const ::grpc::ByteBuffer* request,
+                 ::grpc::ByteBuffer* response,
+                 ::grpc::experimental::ServerCallbackRpcController* controller) {
+                   this->nfs_commit(context, request, response, controller);
+                 }));
+    }
+    ~ExperimentalWithRawCallbackMethod_nfs_commit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_commit(::grpc::ServerContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual void nfs_commit(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+  };
+  template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_nfs_recommit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    ExperimentalWithRawCallbackMethod_nfs_recommit() {
+      ::grpc::Service::experimental().MarkMethodRawCallback(9,
+        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+          [this](::grpc::ServerContext* context,
+                 const ::grpc::ByteBuffer* request,
+                 ::grpc::ByteBuffer* response,
+                 ::grpc::experimental::ServerCallbackRpcController* controller) {
+                   this->nfs_recommit(context, request, response, controller);
+                 }));
+    }
+    ~ExperimentalWithRawCallbackMethod_nfs_recommit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual void nfs_recommit(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_nfs_getattr : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
@@ -1244,7 +1502,47 @@ class NFSFuse final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status Streamednfs_write(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::WriteRequestParams,::nfsFuse::WriteResponseParams>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_nfs_getattr<WithStreamedUnaryMethod_nfs_mkdir<WithStreamedUnaryMethod_nfs_rmdir<WithStreamedUnaryMethod_nfs_create<WithStreamedUnaryMethod_nfs_open<WithStreamedUnaryMethod_nfs_read<WithStreamedUnaryMethod_nfs_write<Service > > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_nfs_commit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithStreamedUnaryMethod_nfs_commit() {
+      ::grpc::Service::MarkMethodStreamed(8,
+        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::CommitRequestParams, ::nfsFuse::CommitResponseParams>(std::bind(&WithStreamedUnaryMethod_nfs_commit<BaseClass>::Streamednfs_commit, this, std::placeholders::_1, std::placeholders::_2)));
+    }
+    ~WithStreamedUnaryMethod_nfs_commit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status nfs_commit(::grpc::ServerContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status Streamednfs_commit(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::CommitRequestParams,::nfsFuse::CommitResponseParams>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_nfs_recommit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithStreamedUnaryMethod_nfs_recommit() {
+      ::grpc::Service::MarkMethodStreamed(9,
+        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::WriteRequestParams, ::nfsFuse::WriteResponseParams>(std::bind(&WithStreamedUnaryMethod_nfs_recommit<BaseClass>::Streamednfs_recommit, this, std::placeholders::_1, std::placeholders::_2)));
+    }
+    ~WithStreamedUnaryMethod_nfs_recommit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status Streamednfs_recommit(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::WriteRequestParams,::nfsFuse::WriteResponseParams>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_nfs_getattr<WithStreamedUnaryMethod_nfs_mkdir<WithStreamedUnaryMethod_nfs_rmdir<WithStreamedUnaryMethod_nfs_create<WithStreamedUnaryMethod_nfs_open<WithStreamedUnaryMethod_nfs_read<WithStreamedUnaryMethod_nfs_write<WithStreamedUnaryMethod_nfs_commit<WithStreamedUnaryMethod_nfs_recommit<Service > > > > > > > > > StreamedUnaryService;
   template <class BaseClass>
   class WithSplitStreamingMethod_nfs_readdir : public BaseClass {
    private:
@@ -1266,7 +1564,7 @@ class NFSFuse final {
     virtual ::grpc::Status Streamednfs_readdir(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::nfsFuse::ReadDirRequestParams,::nfsFuse::ReadDirResponseParams>* server_split_streamer) = 0;
   };
   typedef WithSplitStreamingMethod_nfs_readdir<Service > SplitStreamedService;
-  typedef WithStreamedUnaryMethod_nfs_getattr<WithSplitStreamingMethod_nfs_readdir<WithStreamedUnaryMethod_nfs_mkdir<WithStreamedUnaryMethod_nfs_rmdir<WithStreamedUnaryMethod_nfs_create<WithStreamedUnaryMethod_nfs_open<WithStreamedUnaryMethod_nfs_read<WithStreamedUnaryMethod_nfs_write<Service > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_nfs_getattr<WithSplitStreamingMethod_nfs_readdir<WithStreamedUnaryMethod_nfs_mkdir<WithStreamedUnaryMethod_nfs_rmdir<WithStreamedUnaryMethod_nfs_create<WithStreamedUnaryMethod_nfs_open<WithStreamedUnaryMethod_nfs_read<WithStreamedUnaryMethod_nfs_write<WithStreamedUnaryMethod_nfs_commit<WithStreamedUnaryMethod_nfs_recommit<Service > > > > > > > > > > StreamedService;
 };
 
 }  // namespace nfsFuse

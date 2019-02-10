@@ -27,6 +27,8 @@ static const char* NFSFuse_method_names[] = {
   "/nfsFuse.NFSFuse/nfs_open",
   "/nfsFuse.NFSFuse/nfs_read",
   "/nfsFuse.NFSFuse/nfs_write",
+  "/nfsFuse.NFSFuse/nfs_commit",
+  "/nfsFuse.NFSFuse/nfs_recommit",
 };
 
 std::unique_ptr< NFSFuse::Stub> NFSFuse::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -44,6 +46,8 @@ NFSFuse::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
   , rpcmethod_nfs_open_(NFSFuse_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_nfs_read_(NFSFuse_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_nfs_write_(NFSFuse_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_nfs_commit_(NFSFuse_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_nfs_recommit_(NFSFuse_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status NFSFuse::Stub::nfs_getattr(::grpc::ClientContext* context, const ::nfsFuse::GetAttrRequestParams& request, ::nfsFuse::GetAttrResponseParams* response) {
@@ -174,6 +178,38 @@ void NFSFuse::Stub::experimental_async::nfs_write(::grpc::ClientContext* context
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::WriteResponseParams>::Create(channel_.get(), cq, rpcmethod_nfs_write_, context, request, false);
 }
 
+::grpc::Status NFSFuse::Stub::nfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::nfsFuse::CommitResponseParams* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_nfs_commit_, context, request, response);
+}
+
+void NFSFuse::Stub::experimental_async::nfs_commit(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_nfs_commit_, context, request, response, std::move(f));
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::CommitResponseParams>* NFSFuse::Stub::Asyncnfs_commitRaw(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::CommitResponseParams>::Create(channel_.get(), cq, rpcmethod_nfs_commit_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::CommitResponseParams>* NFSFuse::Stub::PrepareAsyncnfs_commitRaw(::grpc::ClientContext* context, const ::nfsFuse::CommitRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::CommitResponseParams>::Create(channel_.get(), cq, rpcmethod_nfs_commit_, context, request, false);
+}
+
+::grpc::Status NFSFuse::Stub::nfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::nfsFuse::WriteResponseParams* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_nfs_recommit_, context, request, response);
+}
+
+void NFSFuse::Stub::experimental_async::nfs_recommit(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_nfs_recommit_, context, request, response, std::move(f));
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>* NFSFuse::Stub::Asyncnfs_recommitRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::WriteResponseParams>::Create(channel_.get(), cq, rpcmethod_nfs_recommit_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::nfsFuse::WriteResponseParams>* NFSFuse::Stub::PrepareAsyncnfs_recommitRaw(::grpc::ClientContext* context, const ::nfsFuse::WriteRequestParams& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::nfsFuse::WriteResponseParams>::Create(channel_.get(), cq, rpcmethod_nfs_recommit_, context, request, false);
+}
+
 NFSFuse::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       NFSFuse_method_names[0],
@@ -215,6 +251,16 @@ NFSFuse::Service::Service() {
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< NFSFuse::Service, ::nfsFuse::WriteRequestParams, ::nfsFuse::WriteResponseParams>(
           std::mem_fn(&NFSFuse::Service::nfs_write), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      NFSFuse_method_names[8],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< NFSFuse::Service, ::nfsFuse::CommitRequestParams, ::nfsFuse::CommitResponseParams>(
+          std::mem_fn(&NFSFuse::Service::nfs_commit), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      NFSFuse_method_names[9],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< NFSFuse::Service, ::nfsFuse::WriteRequestParams, ::nfsFuse::WriteResponseParams>(
+          std::mem_fn(&NFSFuse::Service::nfs_recommit), this)));
 }
 
 NFSFuse::Service::~Service() {
@@ -270,6 +316,20 @@ NFSFuse::Service::~Service() {
 }
 
 ::grpc::Status NFSFuse::Service::nfs_write(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status NFSFuse::Service::nfs_commit(::grpc::ServerContext* context, const ::nfsFuse::CommitRequestParams* request, ::nfsFuse::CommitResponseParams* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status NFSFuse::Service::nfs_recommit(::grpc::ServerContext* context, const ::nfsFuse::WriteRequestParams* request, ::nfsFuse::WriteResponseParams* response) {
   (void) context;
   (void) request;
   (void) response;
