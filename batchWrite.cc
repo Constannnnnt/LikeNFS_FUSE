@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
     t2 = 1000000*tv.tv_sec + tv.tv_usec;
     elapse_time = (float) (t2-t1) / (1000);
 
-    cout << "Elapsed time: " << elapse_time/1000 << " seconds" << endl;
+    cout << "Elapsed time: " << elapse_time << " milliseconds" << endl;
 
     return 0;
 }
