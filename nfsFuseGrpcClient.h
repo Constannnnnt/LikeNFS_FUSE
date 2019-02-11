@@ -365,6 +365,15 @@ class nfsFuseGrpcClient {
 
         Status status = stub_->nfs_unlink(&ccontext, dir_request, &vmsg);
 
+	while (!status.ok()) {
+                cout << "Sleep for 1 seconds and recall grpc" << endl;
+                usleep(1000000);
+                ClientContext _ctx;
+                // new attemps
+                _options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+                status = stub_->nfs_unlink(&_ctx, dir_request, &vmsg);
+            }
+
         if (vmsg.err() != 0) {
 	    cout << "Error: unlink fails" << endl;
 	}	 
@@ -382,6 +391,15 @@ class nfsFuseGrpcClient {
 	dir_request.set_rdev(dev);
 
 	Status status = stub_->nfs_mknod(&ccontext, dir_request, &vmsg);
+
+	while (!status.ok()) {
+                cout << "Sleep for 1 seconds and recall grpc" << endl;
+                usleep(1000000);
+                ClientContext _ctx;
+                // new attemps
+                _options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+                status = stub_->nfs_mknod(&_ctx, dir_request, &vmsg);
+            }
 
 	if (vmsg.err() != 0) {
 	    cout << "Error: mknod fails" << endl;
@@ -401,6 +419,16 @@ class nfsFuseGrpcClient {
         request.set_flag(flag);	
 
         Status status = stub_->nfs_rename(&ccontext, request, &vmsg);
+	
+	while (!status.ok()) {
+                cout << "Sleep for 1 seconds and recall grpc" << endl;
+                usleep(1000000);
+                ClientContext _ctx;
+                // new attemps
+                _options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
+                status = stub_->nfs_rename(&_ctx, request, &vmsg);
+        }
+
 	if (vmsg.err() != 0) {
 	    cout << "Error: rename fails" << endl;
 	}

@@ -293,7 +293,6 @@ class nfsFuseImpl final : public NFSFuse::Service {
                 _read = false;
 		cout << "[DEBUG] nfs_commit read finished" << endl;
                 return Status::OK;		
-		cout << "return not reach" << endl;
 	    }
 
 	    // totally lost, when reach the commit stage
