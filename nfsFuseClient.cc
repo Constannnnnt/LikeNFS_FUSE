@@ -102,6 +102,7 @@ static int client_commit(const char *path, struct fuse_file_info *fi) {
     cout << "[DEBUG] Fush Commit" << endl;
     int ret;
     ret = options.nfsFuseClient->nfs_commit(fi->fh, StagedWrites.begin()->offset(), StagedWrites.end()->offset());
+    cout << "[DEBUG] Fush Committed!" << endl;
     return ret;
 }
 
@@ -134,6 +135,7 @@ static int client_utimens(const char *path, struct timespec tv[2] , struct fuse_
     return options.nfsFuseClient->rpc_utimens(path, tv, fi);
 }
 */
+
 /*
  * Define FUSE operations 
  */

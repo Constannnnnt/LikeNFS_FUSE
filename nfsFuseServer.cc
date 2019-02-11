@@ -278,7 +278,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
             cout << "[DEBUG] nfs_commit" << endl;
 	    int res;
 	    string buf;
-	    int buflength;
+	    int buflength = 0;
 	    int offset;
 	    char serverpath[512] = {0};
 
@@ -287,19 +287,22 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
 	    // read, then append nothing
 	    if (StagedWrites.size() == 0 && _read) {
-	        close(request->fh());
+	        cout << "[DEBUG] nfs_commit read" << endl;
+		close(request->fh());
 		response->set_err(0);
                 _read = false;
                 return Status::OK;		
 	    }
 
-	    // totally lost, when reach the commit statge
+	    // totally lost, when reach the commit stage
 	    if (stagedWritesSize == 0 && reStagedWritesSize == 0) {
+		cout << "[DEBUG] commit lost" << endl;
 	        response->set_err(-2);
 		response->set_serverstatus(request->endoffset());
 		return Status::OK;
 	    } else if (stagedWritesSize != 0 && reStagedWritesSize != 0) {
-	        // recommit some files, update these files
+	        // recommit some files, update these buffer
+		cout << "[DEBUG] recommit" << endl;
 		translatePath(reStagedWrites.begin()->path().c_str(), serverpath);
 	        offset = reStagedWrites.begin()->offset();
 		for (int i = 0; i < reStagedWritesSize; i ++) {
@@ -308,11 +311,13 @@ class nfsFuseImpl final : public NFSFuse::Service {
 		}
 	    } else if (request->offset() != StagedWrites.begin()->offset()) {
 	        // crash but not recommit
+		cout << "[DEBUG] commit resend" << endl;
 		response->set_err(-1);
 		response->set_serverstatus(StagedWrites.begin()->offset());
 		return Status::OK;
 	    } else {
 	        // not crash
+		cout << "[DEBUG] not crash" << endl;
 		translatePath(StagedWrites.begin()->path().c_str(), serverpath);
 		offset = StagedWrites.begin()->offset();
 	    }

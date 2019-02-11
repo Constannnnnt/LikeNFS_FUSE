@@ -284,6 +284,7 @@ class nfsFuseGrpcClient {
 	}
 
 	int nfs_commit(int fh, int firstWrite_offset, int lastWrite_offset) {
+	    cout << "NFS COMMIT" << endl;
 	    ClientContext ctx;
 	    CommitRequestParams request;
 	    CommitResponseParams response;
@@ -300,10 +301,13 @@ class nfsFuseGrpcClient {
 
 	    if (response.err() == 0) {
 	        // Commits finished without errer
+		cout << "NFS COMMIT without Error" << endl; 
 		int StagedWritesSize = StagedWrites.size();
 		for (int i = 0; i < StagedWritesSize; i++) {
 	            StagedWrites.pop_back();	
 		}
+
+		return 0;
 	    } else {
 	        // some errors happen at the server side
 		int serverstatus = response.serverstatus();
