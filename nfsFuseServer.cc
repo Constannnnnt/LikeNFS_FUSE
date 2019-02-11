@@ -104,7 +104,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	        dir_response.set_dtype(de->d_type);
 	        response->Write(dir_response);
 	    }
-
+	    
 	    dir_response.set_err(0);
 	    closedir(dp);
 	    return Status::OK;
@@ -256,7 +256,99 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    
 	    return Status::OK;
 	}
-    
+
+	Status nfs_unlink(ServerContext* context, const UnlinkRequestParams* request, VoidMessage* vmsg) override {
+	    cout << "[DEBUG] Unlink path:" << request->path().c_str() << endl;
+	    char server_path[512] = {0};
+	    translatePath(request->path().c_str(), server_path);
+	    
+	    int result = unlink(server_path);
+	    if (result == -1) {
+		cout<< "Unlink fails." << endl;
+	        perror(strerror(errno));
+		vmsg->set_err(errno);
+		return Status::OK;
+	    }
+
+	    vmsg->set_err(0);
+	    return Status::OK;
+	}
+
+	Status nfs_mknod(ServerContext* context, const MknodRequestParams* request, VoidMessage* vmsg) override {
+	    cout << "[DEBUG] mknode path:" << request->path().c_str() << endl;
+            char server_path[512] = {0};
+	    translatePath(request->path().c_str(), server_path);
+	    
+	    int mode = request->mode();
+	    int rdev = request->rdev();
+
+	    int result;
+	    if (S_ISFIFO(mode)) {
+	        result = mkfifo(server_path, mode);
+	    } else {
+	        result = mknod(server_path, mode, rdev);
+	    }
+
+	    if (result == -1) {
+                cout<< "Unlink fails." << endl;
+                perror(strerror(errno));
+                vmsg->set_err(errno);
+                return Status::OK;
+            }
+
+            vmsg->set_err(0);
+            return Status::OK;
+        }
+
+
+	
+    Status nfs_rename(ServerContext* context, const RenameRequestParams* request, VoidMessage* vmsg) override {
+        cout << "[DEBUG] rename from path:" << request->fp().c_str() << " to: " << request->tp().c_str() << endl;
+	char from_path[512] = {0};
+	char to_path[512] = {0};
+	translatePath(request->fp().c_str(), from_path);
+	translatePath(request->tp().c_str(), to_path);
+      
+	if (request->flag()) {
+            perror(strerror(errno));
+            vmsg->set_err(EINVAL);
+	    vmsg->set_ret("rename fails");
+	    return Status::OK;
+	}
+        
+        int result = rename(from_path, to_path);
+        if (result == -1) {
+            perror(strerror(errno));
+            vmsg->set_err(errno);
+	    return Status::OK;
+	}
+
+        vmsg->set_err(0);
+        return Status::OK;	
+    }    
+/*
+        Status nfs_utimens(ServerContext* context, const UtimensRequestParams* request, VoidMessage* vmsg) override {
+	    cout << "[DEBUG] utimens" <<endl;
+	    char server_path[512] = {0};
+	    translatePath(request->path().c_str(), server_path);
+            
+	    struct timespec ts[2];
+            ts[0].tv_sec = request->sec();
+	    ts[0].tv_nsec = request->nsec();
+	    ts[1].tv_sec = request->sec2();
+	    ts[1].tv_nsec = request->nsec2();
+            
+	    int result = utimensat(AT_FDCWD, server_path, ts, AT_SYMLINK_NOFOLLOW);
+	    if (result == -1) {
+	        perror(strerror(errno));
+		vmsg->set_err(errno);
+		return Status::OK;
+	    }
+
+	    vmsg->set_err(0);
+	    return Status::OK;
+	}
+*/
     private:
 };
 
