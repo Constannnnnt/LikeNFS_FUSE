@@ -150,9 +150,9 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	}
         
 	Status nfs_create(ServerContext* context, const CreateRequestParams* request, CreateResponseParams* response)override {
-	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
-	    cout << "[DEBUG] Client's Flag: " << request->flags() << endl;
-	    cout << "[DEBUG] Client's Mode: " << request->mode() << endl;
+	    cout << "[DEBUG] CREATE Client's Path: " << request->path() << endl;
+	    cout << "[DEBUG] CREATE Client's Flag: " << request->flags() << endl;
+	    cout << "[DEBUG] CREATE Client's Mode: " << request->mode() << endl;
 	
 	    // const char* serverpath = request->path().c_str();
 	    char serverpath[512] = {0};
@@ -172,8 +172,8 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	}
 
 	Status nfs_open(ServerContext* context, const OpenRequestParams* request, OpenResponseParams* response) override {
-	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
-	    cout << "[DEBUG] Client's Flag: " << request->flags() << endl;
+	    cout << "[DEBUG] OPEN Client's Path: " << request->path() << endl;
+	    cout << "[DEBUG] OPEN Client's Flag: " << request->flags() << endl;
 
 	    // const char* serverpath = request->path().c_str();
 	    char serverpath[512] = {0};
@@ -191,9 +191,9 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	}
 	
 	Status nfs_read(ServerContext* context, const ReadRequestParams* request, ReadResponseParams* response) override {
-	    cout << "[DEBUG] Client's Path: " << request->path() << endl;
-	    cout << "[DEBUG] Client's size: " << request->size() << endl;
-	    cout << "[DEBUG] Client's offset " << request->offset() << endl;
+	    cout << "[DEBUG] READ Client's Path: " << request->path() << endl;
+	    cout << "[DEBUG] READ Client's size: " << request->size() << endl;
+	    cout << "[DEBUG] READ Client's offset " << request->offset() << endl;
 
 	    // const char* serverpath = request->path().c_str();
 	    char serverpath[512] = {0};
@@ -220,8 +220,8 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
 	    if (fd > 0) {
 	        close(fd);
-		free(buf);
 	    }
+	    free(buf);
 	    return Status::OK;
 	}
 
@@ -291,7 +291,9 @@ class nfsFuseImpl final : public NFSFuse::Service {
 		close(request->fh());
 		response->set_err(0);
                 _read = false;
+		cout << "[DEBUG] nfs_commit read finished" << endl;
                 return Status::OK;		
+		cout << "return not reach" << endl;
 	    }
 
 	    // totally lost, when reach the commit stage
@@ -342,17 +344,25 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
             // synchronize file contents
             fsync(fd);
-            cout << "sync fd: " << fd << endl;
+            cout << "[DEBUG] Commit sync fd: " << fd << endl;
             if (fd > 0) {
                 close(fd);
             }
+	    cout << "[DEBUG] Commit finish sync" << endl;
+	    cout << "[DEBUG] staged writes size: " << stagedWritesSize << endl;
+	    cout << "[DEBUG] restaged writes size: " << reStagedWritesSize << endl;
 	    
 	    for (int i = 0; i < stagedWritesSize; i++ ) {
 	        StagedWrites.pop_back();
 	    }
+
+	    cout << "pop staged " << stagedWritesSize << endl;
+
 	    for (int i = 0; i < reStagedWritesSize; i++) {
 	        reStagedWrites.pop_back();
 	    }
+
+	    cout << " pop reStaged" << reStagedWritesSize << endl;
 
 	    response->set_err(0);
 	    return Status::OK;
@@ -437,7 +447,12 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
         vmsg->set_err(0);
         return Status::OK;	
-    }    
+    }
+
+        Status nfs_crash(ServerContext* context, const CrashRequestParams* request, CrashResponseParams* response) override {
+	    exit(0);
+	    return Status::OK;
+	}    
 /*
         Status nfs_utimens(ServerContext* context, const UtimensRequestParams* request, VoidMessage* vmsg) override {
 	    cout << "[DEBUG] utimens" <<endl;

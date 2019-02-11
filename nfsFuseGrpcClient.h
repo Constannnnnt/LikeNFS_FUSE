@@ -294,6 +294,7 @@ class nfsFuseGrpcClient {
 	    
 	    Status status = stub_->nfs_commit(&ctx, request, &response);
 	    while (!status.ok()) {
+		cout << "Enter Resend Commit until Success" << endl;
 	        ClientContext _ctx;
 		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
 		status = stub_->nfs_commit(&_ctx, request, &response);
@@ -312,6 +313,7 @@ class nfsFuseGrpcClient {
 	        // some errors happen at the server side
 		int serverstatus = response.serverstatus();
 		int res;
+		cout << "Crash Error" << endl;
 
 		if (response.err() == -1) {
 		    // crash during transmission, resend writes to Server Side
@@ -387,6 +389,15 @@ class nfsFuseGrpcClient {
 	}
 
 	return vmsg.err();
+    }
+
+    int nfs_crash() {
+	ClientContext ctx;
+	CrashRequestParams request;
+	CrashResponseParams response;
+
+	Status status = stub_->nfs_crash(&ctx, request, &response);
+        return 0;
     } 
    
    /* 

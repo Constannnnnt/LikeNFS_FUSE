@@ -41,7 +41,7 @@ struct TableStruct_nfsFuse_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::google::protobuf::internal::ParseTable schema[21]
+  static const ::google::protobuf::internal::ParseTable schema[23]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
@@ -55,6 +55,12 @@ extern CommitRequestParamsDefaultTypeInternal _CommitRequestParams_default_insta
 class CommitResponseParams;
 class CommitResponseParamsDefaultTypeInternal;
 extern CommitResponseParamsDefaultTypeInternal _CommitResponseParams_default_instance_;
+class CrashRequestParams;
+class CrashRequestParamsDefaultTypeInternal;
+extern CrashRequestParamsDefaultTypeInternal _CrashRequestParams_default_instance_;
+class CrashResponseParams;
+class CrashResponseParamsDefaultTypeInternal;
+extern CrashResponseParamsDefaultTypeInternal _CrashResponseParams_default_instance_;
 class CreateRequestParams;
 class CreateRequestParamsDefaultTypeInternal;
 extern CreateRequestParamsDefaultTypeInternal _CreateRequestParams_default_instance_;
@@ -117,6 +123,8 @@ namespace google {
 namespace protobuf {
 template<> ::nfsFuse::CommitRequestParams* Arena::CreateMaybeMessage<::nfsFuse::CommitRequestParams>(Arena*);
 template<> ::nfsFuse::CommitResponseParams* Arena::CreateMaybeMessage<::nfsFuse::CommitResponseParams>(Arena*);
+template<> ::nfsFuse::CrashRequestParams* Arena::CreateMaybeMessage<::nfsFuse::CrashRequestParams>(Arena*);
+template<> ::nfsFuse::CrashResponseParams* Arena::CreateMaybeMessage<::nfsFuse::CrashResponseParams>(Arena*);
 template<> ::nfsFuse::CreateRequestParams* Arena::CreateMaybeMessage<::nfsFuse::CreateRequestParams>(Arena*);
 template<> ::nfsFuse::CreateResponseParams* Arena::CreateMaybeMessage<::nfsFuse::CreateResponseParams>(Arena*);
 template<> ::nfsFuse::GetAttrRequestParams* Arena::CreateMaybeMessage<::nfsFuse::GetAttrRequestParams>(Arena*);
@@ -3035,6 +3043,216 @@ class UtimensRequestParams final :
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_nfsFuse_2eproto;
 };
+// -------------------------------------------------------------------
+
+class CrashRequestParams final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.CrashRequestParams) */ {
+ public:
+  CrashRequestParams();
+  virtual ~CrashRequestParams();
+
+  CrashRequestParams(const CrashRequestParams& from);
+
+  inline CrashRequestParams& operator=(const CrashRequestParams& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CrashRequestParams(CrashRequestParams&& from) noexcept
+    : CrashRequestParams() {
+    *this = ::std::move(from);
+  }
+
+  inline CrashRequestParams& operator=(CrashRequestParams&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return default_instance().GetDescriptor();
+  }
+  static const CrashRequestParams& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CrashRequestParams* internal_default_instance() {
+    return reinterpret_cast<const CrashRequestParams*>(
+               &_CrashRequestParams_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    21;
+
+  void Swap(CrashRequestParams* other);
+  friend void swap(CrashRequestParams& a, CrashRequestParams& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CrashRequestParams* New() const final {
+    return CreateMaybeMessage<CrashRequestParams>(nullptr);
+  }
+
+  CrashRequestParams* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CrashRequestParams>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CrashRequestParams& from);
+  void MergeFrom(const CrashRequestParams& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
+  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
+  #else
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CrashRequestParams* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:nfsFuse.CrashRequestParams)
+ private:
+  class HasBitSetters;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_nfsFuse_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CrashResponseParams final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:nfsFuse.CrashResponseParams) */ {
+ public:
+  CrashResponseParams();
+  virtual ~CrashResponseParams();
+
+  CrashResponseParams(const CrashResponseParams& from);
+
+  inline CrashResponseParams& operator=(const CrashResponseParams& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CrashResponseParams(CrashResponseParams&& from) noexcept
+    : CrashResponseParams() {
+    *this = ::std::move(from);
+  }
+
+  inline CrashResponseParams& operator=(CrashResponseParams&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return default_instance().GetDescriptor();
+  }
+  static const CrashResponseParams& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CrashResponseParams* internal_default_instance() {
+    return reinterpret_cast<const CrashResponseParams*>(
+               &_CrashResponseParams_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    22;
+
+  void Swap(CrashResponseParams* other);
+  friend void swap(CrashResponseParams& a, CrashResponseParams& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CrashResponseParams* New() const final {
+    return CreateMaybeMessage<CrashResponseParams>(nullptr);
+  }
+
+  CrashResponseParams* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CrashResponseParams>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CrashResponseParams& from);
+  void MergeFrom(const CrashResponseParams& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
+  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
+  #else
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CrashResponseParams* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:nfsFuse.CrashResponseParams)
+ private:
+  class HasBitSetters;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_nfsFuse_2eproto;
+};
 // ===================================================================
 
 
@@ -4920,9 +5138,21 @@ inline void UtimensRequestParams::set_nsec2(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:nfsFuse.UtimensRequestParams.nsec2)
 }
 
+// -------------------------------------------------------------------
+
+// CrashRequestParams
+
+// -------------------------------------------------------------------
+
+// CrashResponseParams
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

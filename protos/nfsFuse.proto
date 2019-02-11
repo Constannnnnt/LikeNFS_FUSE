@@ -18,6 +18,7 @@ service NFSFuse {
     rpc nfs_mknod (MknodRequestParams) returns (VoidMessage) {}
     rpc nfs_rename (RenameRequestParams) returns (VoidMessage) {}
     rpc nfs_utimens (UtimensRequestParams) returns (VoidMessage) {}
+    rpc nfs_crash (CrashRequestParams) returns (CrashResponseParams) {}
 }
 
 message VoidMessage {
@@ -162,3 +163,8 @@ message UtimensRequestParams {
     int64 nsec2 = 5;
 }
 
+message CrashRequestParams {
+}
+
+message CrashResponseParams {
+}

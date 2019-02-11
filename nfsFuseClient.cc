@@ -26,6 +26,8 @@ static struct options {
     int show_help;
 } options;
 
+int crash_times = 0;
+
 #define OPTION(t, p)                           \
     { t, offsetof(struct options, p), 1 }
 static const struct fuse_opt option_spec[] = {
@@ -77,6 +79,11 @@ static int client_read(const char *path, char *buf, size_t size, off_t offset, s
 static int client_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
     std::cout << "[DEBUG] write: " << endl;
     (void) fi;
+    crash_times += 1;
+    cout << "crash times: " << crash_times << endl;
+    if (crash_times % 5 == 0) {
+        int t = options.nfsFuseClient->nfs_crash();
+    }
     int ret;
     ret = options.nfsFuseClient->nfs_write(path, buf, size, offset, fi);
     return ret;
@@ -99,15 +106,19 @@ static int client_rmdir(const char *path) {
 }
 
 static int client_commit(const char *path, struct fuse_file_info *fi) {
-    cout << "[DEBUG] Fush Commit" << endl;
+    cout << "[DEBUG] Fuse Commit" << endl;
+    (void) path;
     int ret;
+    if (StagedWrites.begin() == StagedWrites.end()) {
+        return 0;
+    }
     ret = options.nfsFuseClient->nfs_commit(fi->fh, StagedWrites.begin()->offset(), StagedWrites.end()->offset());
-    cout << "[DEBUG] Fush Committed!" << endl;
+    cout << "[DEBUG] Fuse Committed!" << endl;
     return ret;
 }
 
 static int client_flush(const char *path, struct fuse_file_info *fi) {
-    cout << "[DEBUG] Fush Flush" << endl;
+    cout << "[DEBUG] Fuse Flush" << endl;
     int ret;
     (void) path;
     return 0;

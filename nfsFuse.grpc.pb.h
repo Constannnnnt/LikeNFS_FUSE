@@ -138,6 +138,13 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>> PrepareAsyncnfs_utimens(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>>(PrepareAsyncnfs_utimensRaw(context, request, cq));
     }
+    virtual ::grpc::Status nfs_crash(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::nfsFuse::CrashResponseParams* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CrashResponseParams>> Asyncnfs_crash(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CrashResponseParams>>(Asyncnfs_crashRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CrashResponseParams>> PrepareAsyncnfs_crash(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CrashResponseParams>>(PrepareAsyncnfs_crashRaw(context, request, cq));
+    }
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
@@ -155,6 +162,7 @@ class NFSFuse final {
       virtual void nfs_mknod(::grpc::ClientContext* context, const ::nfsFuse::MknodRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) = 0;
       virtual void nfs_rename(::grpc::ClientContext* context, const ::nfsFuse::RenameRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) = 0;
       virtual void nfs_utimens(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void nfs_crash(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response, std::function<void(::grpc::Status)>) = 0;
     };
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
@@ -187,6 +195,8 @@ class NFSFuse final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* PrepareAsyncnfs_renameRaw(::grpc::ClientContext* context, const ::nfsFuse::RenameRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* Asyncnfs_utimensRaw(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::VoidMessage>* PrepareAsyncnfs_utimensRaw(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CrashResponseParams>* Asyncnfs_crashRaw(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::nfsFuse::CrashResponseParams>* PrepareAsyncnfs_crashRaw(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -291,6 +301,13 @@ class NFSFuse final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>> PrepareAsyncnfs_utimens(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>>(PrepareAsyncnfs_utimensRaw(context, request, cq));
     }
+    ::grpc::Status nfs_crash(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::nfsFuse::CrashResponseParams* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CrashResponseParams>> Asyncnfs_crash(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CrashResponseParams>>(Asyncnfs_crashRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CrashResponseParams>> PrepareAsyncnfs_crash(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::nfsFuse::CrashResponseParams>>(PrepareAsyncnfs_crashRaw(context, request, cq));
+    }
     class experimental_async final :
       public StubInterface::experimental_async_interface {
      public:
@@ -308,6 +325,7 @@ class NFSFuse final {
       void nfs_mknod(::grpc::ClientContext* context, const ::nfsFuse::MknodRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) override;
       void nfs_rename(::grpc::ClientContext* context, const ::nfsFuse::RenameRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) override;
       void nfs_utimens(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams* request, ::nfsFuse::VoidMessage* response, std::function<void(::grpc::Status)>) override;
+      void nfs_crash(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response, std::function<void(::grpc::Status)>) override;
      private:
       friend class Stub;
       explicit experimental_async(Stub* stub): stub_(stub) { }
@@ -348,6 +366,8 @@ class NFSFuse final {
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* PrepareAsyncnfs_renameRaw(::grpc::ClientContext* context, const ::nfsFuse::RenameRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* Asyncnfs_utimensRaw(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::nfsFuse::VoidMessage>* PrepareAsyncnfs_utimensRaw(::grpc::ClientContext* context, const ::nfsFuse::UtimensRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::CrashResponseParams>* Asyncnfs_crashRaw(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::nfsFuse::CrashResponseParams>* PrepareAsyncnfs_crashRaw(::grpc::ClientContext* context, const ::nfsFuse::CrashRequestParams& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_getattr_;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_readdir_;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_mkdir_;
@@ -362,6 +382,7 @@ class NFSFuse final {
     const ::grpc::internal::RpcMethod rpcmethod_nfs_mknod_;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_rename_;
     const ::grpc::internal::RpcMethod rpcmethod_nfs_utimens_;
+    const ::grpc::internal::RpcMethod rpcmethod_nfs_crash_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -383,6 +404,7 @@ class NFSFuse final {
     virtual ::grpc::Status nfs_mknod(::grpc::ServerContext* context, const ::nfsFuse::MknodRequestParams* request, ::nfsFuse::VoidMessage* response);
     virtual ::grpc::Status nfs_rename(::grpc::ServerContext* context, const ::nfsFuse::RenameRequestParams* request, ::nfsFuse::VoidMessage* response);
     virtual ::grpc::Status nfs_utimens(::grpc::ServerContext* context, const ::nfsFuse::UtimensRequestParams* request, ::nfsFuse::VoidMessage* response);
+    virtual ::grpc::Status nfs_crash(::grpc::ServerContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_nfs_getattr : public BaseClass {
@@ -664,7 +686,27 @@ class NFSFuse final {
       ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_nfs_getattr<WithAsyncMethod_nfs_readdir<WithAsyncMethod_nfs_mkdir<WithAsyncMethod_nfs_rmdir<WithAsyncMethod_nfs_create<WithAsyncMethod_nfs_open<WithAsyncMethod_nfs_read<WithAsyncMethod_nfs_write<WithAsyncMethod_nfs_commit<WithAsyncMethod_nfs_recommit<WithAsyncMethod_nfs_unlink<WithAsyncMethod_nfs_mknod<WithAsyncMethod_nfs_rename<WithAsyncMethod_nfs_utimens<Service > > > > > > > > > > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_nfs_crash : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithAsyncMethod_nfs_crash() {
+      ::grpc::Service::MarkMethodAsync(14);
+    }
+    ~WithAsyncMethod_nfs_crash() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_crash(::grpc::ServerContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestnfs_crash(::grpc::ServerContext* context, ::nfsFuse::CrashRequestParams* request, ::grpc::ServerAsyncResponseWriter< ::nfsFuse::CrashResponseParams>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_nfs_getattr<WithAsyncMethod_nfs_readdir<WithAsyncMethod_nfs_mkdir<WithAsyncMethod_nfs_rmdir<WithAsyncMethod_nfs_create<WithAsyncMethod_nfs_open<WithAsyncMethod_nfs_read<WithAsyncMethod_nfs_write<WithAsyncMethod_nfs_commit<WithAsyncMethod_nfs_recommit<WithAsyncMethod_nfs_unlink<WithAsyncMethod_nfs_mknod<WithAsyncMethod_nfs_rename<WithAsyncMethod_nfs_utimens<WithAsyncMethod_nfs_crash<Service > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_nfs_getattr : public BaseClass {
    private:
@@ -1012,7 +1054,32 @@ class NFSFuse final {
     }
     virtual void nfs_utimens(::grpc::ServerContext* context, const ::nfsFuse::UtimensRequestParams* request, ::nfsFuse::VoidMessage* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
-  typedef ExperimentalWithCallbackMethod_nfs_getattr<ExperimentalWithCallbackMethod_nfs_readdir<ExperimentalWithCallbackMethod_nfs_mkdir<ExperimentalWithCallbackMethod_nfs_rmdir<ExperimentalWithCallbackMethod_nfs_create<ExperimentalWithCallbackMethod_nfs_open<ExperimentalWithCallbackMethod_nfs_read<ExperimentalWithCallbackMethod_nfs_write<ExperimentalWithCallbackMethod_nfs_commit<ExperimentalWithCallbackMethod_nfs_recommit<ExperimentalWithCallbackMethod_nfs_unlink<ExperimentalWithCallbackMethod_nfs_mknod<ExperimentalWithCallbackMethod_nfs_rename<ExperimentalWithCallbackMethod_nfs_utimens<Service > > > > > > > > > > > > > > ExperimentalCallbackService;
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_nfs_crash : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    ExperimentalWithCallbackMethod_nfs_crash() {
+      ::grpc::Service::experimental().MarkMethodCallback(14,
+        new ::grpc::internal::CallbackUnaryHandler< ::nfsFuse::CrashRequestParams, ::nfsFuse::CrashResponseParams>(
+          [this](::grpc::ServerContext* context,
+                 const ::nfsFuse::CrashRequestParams* request,
+                 ::nfsFuse::CrashResponseParams* response,
+                 ::grpc::experimental::ServerCallbackRpcController* controller) {
+                   return this->nfs_crash(context, request, response, controller);
+                 }));
+    }
+    ~ExperimentalWithCallbackMethod_nfs_crash() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_crash(::grpc::ServerContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual void nfs_crash(::grpc::ServerContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+  };
+  typedef ExperimentalWithCallbackMethod_nfs_getattr<ExperimentalWithCallbackMethod_nfs_readdir<ExperimentalWithCallbackMethod_nfs_mkdir<ExperimentalWithCallbackMethod_nfs_rmdir<ExperimentalWithCallbackMethod_nfs_create<ExperimentalWithCallbackMethod_nfs_open<ExperimentalWithCallbackMethod_nfs_read<ExperimentalWithCallbackMethod_nfs_write<ExperimentalWithCallbackMethod_nfs_commit<ExperimentalWithCallbackMethod_nfs_recommit<ExperimentalWithCallbackMethod_nfs_unlink<ExperimentalWithCallbackMethod_nfs_mknod<ExperimentalWithCallbackMethod_nfs_rename<ExperimentalWithCallbackMethod_nfs_utimens<ExperimentalWithCallbackMethod_nfs_crash<Service > > > > > > > > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_nfs_getattr : public BaseClass {
    private:
@@ -1247,6 +1314,23 @@ class NFSFuse final {
     }
     // disable synchronous version of this method
     ::grpc::Status nfs_utimens(::grpc::ServerContext* context, const ::nfsFuse::UtimensRequestParams* request, ::nfsFuse::VoidMessage* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_nfs_crash : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithGenericMethod_nfs_crash() {
+      ::grpc::Service::MarkMethodGeneric(14);
+    }
+    ~WithGenericMethod_nfs_crash() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_crash(::grpc::ServerContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1529,6 +1613,26 @@ class NFSFuse final {
     }
     void Requestnfs_utimens(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_nfs_crash : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithRawMethod_nfs_crash() {
+      ::grpc::Service::MarkMethodRaw(14);
+    }
+    ~WithRawMethod_nfs_crash() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_crash(::grpc::ServerContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestnfs_crash(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1879,6 +1983,31 @@ class NFSFuse final {
     virtual void nfs_utimens(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_nfs_crash : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    ExperimentalWithRawCallbackMethod_nfs_crash() {
+      ::grpc::Service::experimental().MarkMethodRawCallback(14,
+        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+          [this](::grpc::ServerContext* context,
+                 const ::grpc::ByteBuffer* request,
+                 ::grpc::ByteBuffer* response,
+                 ::grpc::experimental::ServerCallbackRpcController* controller) {
+                   this->nfs_crash(context, request, response, controller);
+                 }));
+    }
+    ~ExperimentalWithRawCallbackMethod_nfs_crash() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status nfs_crash(::grpc::ServerContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual void nfs_crash(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_nfs_getattr : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
@@ -2138,7 +2267,27 @@ class NFSFuse final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status Streamednfs_utimens(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::UtimensRequestParams,::nfsFuse::VoidMessage>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_nfs_getattr<WithStreamedUnaryMethod_nfs_mkdir<WithStreamedUnaryMethod_nfs_rmdir<WithStreamedUnaryMethod_nfs_create<WithStreamedUnaryMethod_nfs_open<WithStreamedUnaryMethod_nfs_read<WithStreamedUnaryMethod_nfs_write<WithStreamedUnaryMethod_nfs_commit<WithStreamedUnaryMethod_nfs_recommit<WithStreamedUnaryMethod_nfs_unlink<WithStreamedUnaryMethod_nfs_mknod<WithStreamedUnaryMethod_nfs_rename<WithStreamedUnaryMethod_nfs_utimens<Service > > > > > > > > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_nfs_crash : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithStreamedUnaryMethod_nfs_crash() {
+      ::grpc::Service::MarkMethodStreamed(14,
+        new ::grpc::internal::StreamedUnaryHandler< ::nfsFuse::CrashRequestParams, ::nfsFuse::CrashResponseParams>(std::bind(&WithStreamedUnaryMethod_nfs_crash<BaseClass>::Streamednfs_crash, this, std::placeholders::_1, std::placeholders::_2)));
+    }
+    ~WithStreamedUnaryMethod_nfs_crash() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status nfs_crash(::grpc::ServerContext* context, const ::nfsFuse::CrashRequestParams* request, ::nfsFuse::CrashResponseParams* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status Streamednfs_crash(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::nfsFuse::CrashRequestParams,::nfsFuse::CrashResponseParams>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_nfs_getattr<WithStreamedUnaryMethod_nfs_mkdir<WithStreamedUnaryMethod_nfs_rmdir<WithStreamedUnaryMethod_nfs_create<WithStreamedUnaryMethod_nfs_open<WithStreamedUnaryMethod_nfs_read<WithStreamedUnaryMethod_nfs_write<WithStreamedUnaryMethod_nfs_commit<WithStreamedUnaryMethod_nfs_recommit<WithStreamedUnaryMethod_nfs_unlink<WithStreamedUnaryMethod_nfs_mknod<WithStreamedUnaryMethod_nfs_rename<WithStreamedUnaryMethod_nfs_utimens<WithStreamedUnaryMethod_nfs_crash<Service > > > > > > > > > > > > > > StreamedUnaryService;
   template <class BaseClass>
   class WithSplitStreamingMethod_nfs_readdir : public BaseClass {
    private:
@@ -2160,7 +2309,7 @@ class NFSFuse final {
     virtual ::grpc::Status Streamednfs_readdir(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::nfsFuse::ReadDirRequestParams,::nfsFuse::ReadDirResponseParams>* server_split_streamer) = 0;
   };
   typedef WithSplitStreamingMethod_nfs_readdir<Service > SplitStreamedService;
-  typedef WithStreamedUnaryMethod_nfs_getattr<WithSplitStreamingMethod_nfs_readdir<WithStreamedUnaryMethod_nfs_mkdir<WithStreamedUnaryMethod_nfs_rmdir<WithStreamedUnaryMethod_nfs_create<WithStreamedUnaryMethod_nfs_open<WithStreamedUnaryMethod_nfs_read<WithStreamedUnaryMethod_nfs_write<WithStreamedUnaryMethod_nfs_commit<WithStreamedUnaryMethod_nfs_recommit<WithStreamedUnaryMethod_nfs_unlink<WithStreamedUnaryMethod_nfs_mknod<WithStreamedUnaryMethod_nfs_rename<WithStreamedUnaryMethod_nfs_utimens<Service > > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_nfs_getattr<WithSplitStreamingMethod_nfs_readdir<WithStreamedUnaryMethod_nfs_mkdir<WithStreamedUnaryMethod_nfs_rmdir<WithStreamedUnaryMethod_nfs_create<WithStreamedUnaryMethod_nfs_open<WithStreamedUnaryMethod_nfs_read<WithStreamedUnaryMethod_nfs_write<WithStreamedUnaryMethod_nfs_commit<WithStreamedUnaryMethod_nfs_recommit<WithStreamedUnaryMethod_nfs_unlink<WithStreamedUnaryMethod_nfs_mknod<WithStreamedUnaryMethod_nfs_rename<WithStreamedUnaryMethod_nfs_utimens<WithStreamedUnaryMethod_nfs_crash<Service > > > > > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace nfsFuse
