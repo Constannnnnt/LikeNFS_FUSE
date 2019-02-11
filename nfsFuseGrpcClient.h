@@ -38,6 +38,8 @@ class nfsFuseGrpcClient {
 	    Status status = stub_->nfs_create(&ctx, request, &response);
 	    // crash etc.
 	    while (!status.ok()) {
+		cout << "Sleep for 1 seconds and recall grpc" << endl; 
+		usleep(1000000);
 	        ClientContext _ctx;
 		// new attemps
 		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
@@ -60,6 +62,8 @@ class nfsFuseGrpcClient {
 	    Status status = stub_->nfs_open(&ctx, request, &response);
 	    // crash etc.
 	    while (!status.ok()) {
+		cout << "Sleep for 1 seconds and recall grpc" << endl; 
+		usleep(1000000);
 	        ClientContext _ctx;
 		// new attemps
 		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
@@ -83,6 +87,9 @@ class nfsFuseGrpcClient {
 	    Status status = stub_->nfs_read(&ctx, request, &response);
 	    // crash etc.
 	    while (!status.ok()) {
+		cout << "Sleep for 1 seconds and recall grpc" << endl; 
+		usleep(1000000);
+
 	        ClientContext _ctx;
 		// new attemps
 		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
@@ -110,6 +117,8 @@ class nfsFuseGrpcClient {
 	    Status status = stub_->nfs_write(&ctx, request, &response);
 	    // crash etc.
 	    while (!status.ok()) {
+		cout << "Sleep for 1 seconds and recall grpc" << endl; 
+		usleep(1000000);
 	        ClientContext _ctx;
 		// new attemps
 		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
@@ -135,6 +144,8 @@ class nfsFuseGrpcClient {
     	    Status status = stub_->nfs_getattr(&context, path, &new_response);
 	    // crash etc.
 	    while (!status.ok()) {
+		cout << "Sleep for 1 seconds and recall grpc" << endl; 
+		usleep(1000000);
 	        ClientContext _ctx;
 		// new attemps
 		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
@@ -208,6 +219,8 @@ class nfsFuseGrpcClient {
 	    Status status = stub_->nfs_mkdir(&ccontext, dir_request, &vmsg);
 	    // crash etc.
 	    while (!status.ok()) {
+		cout << "Sleep for 1 seconds and recall grpc" << endl; 
+		usleep(1000000);
 	        ClientContext _ctx;
 		// new attemps
 		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
@@ -231,6 +244,8 @@ class nfsFuseGrpcClient {
 	    Status status = stub_->nfs_rmdir(&ccontext, dir_request, &vmsg);
 	    // crash etc.
 	    while (!status.ok()) {
+		cout << "Sleep for 1 seconds and recall grpc" << endl; 
+		usleep(1000000);
 	        ClientContext _ctx;
 		// new attemps
 		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
@@ -294,6 +309,8 @@ class nfsFuseGrpcClient {
 	    
 	    Status status = stub_->nfs_commit(&ctx, request, &response);
 	    while (!status.ok()) {
+		cout << "Sleep for 1 seconds and recall grpc" << endl; 
+		usleep(1000000);
 		cout << "Enter Resend Commit until Success" << endl;
 	        ClientContext _ctx;
 		_options.nfsFuseClient = new nfsFuseGrpcClient(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()));
