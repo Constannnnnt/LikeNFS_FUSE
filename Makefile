@@ -36,12 +36,15 @@ PROTOS_PATH = protos
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check nfsFuseClient nfsFuseServer
+all: system-check nfsFuseClient nfsFuseServer batchWrite
 
-nfsFuseClient: nfsFuse.pb.o nfsFuse.grpc.pb.o nfsFuseClient.o helper.o
+nfsFuseClient: nfsFuse.pb.o nfsFuse.grpc.pb.o nfsFuseClient.o 
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-nfsFuseServer: nfsFuse.pb.o nfsFuse.grpc.pb.o nfsFuseServer.o helper.o
+nfsFuseServer: nfsFuse.pb.o nfsFuse.grpc.pb.o nfsFuseServer.o 
+	$(CXX) $^ $(LDFLAGS) -o $@
+
+batchWrite: batchWrite.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 %.grpc.pb.cc: %.proto
@@ -51,7 +54,7 @@ nfsFuseServer: nfsFuse.pb.o nfsFuse.grpc.pb.o nfsFuseServer.o helper.o
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h nfsFuseClient nfsFuseServer
+	rm -f *.o *.pb.cc *.pb.h nfsFuseClient nfsFuseServer batchWrite
 
 
 # The following is to test your system and ensure a smoother experience.
