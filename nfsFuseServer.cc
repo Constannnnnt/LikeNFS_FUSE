@@ -50,18 +50,18 @@ class nfsFuseImpl final : public NFSFuse::Service {
         explicit nfsFuseImpl() {}  
         Status nfs_getattr(ServerContext* context, const GetAttrRequestParams* request, GetAttrResponseParams* response) override  {
             // print out the client path 
-	    cout<<"Get Attribute:"<<endl;
+	    // cout<<"Get Attribute:"<<endl;
 
             // translate the server path
             char server_path[512] = {0};
             translatePath(request->path().c_str(), server_path);
-            std::cout<<"\tclient path: "<<request->path().c_str()<<"\tserver path:"<<server_path<<endl;
+            // std::cout<<"\tclient path: "<<request->path().c_str()<<"\tserver path:"<<server_path<<endl;
 
 	    struct stat status;
             int lstat_result = lstat(server_path, &status);
 
             if(lstat_result == -1){
-		std::cout<<"errno: "<<errno<<std::endl;
+		// std::cout<<"errno: "<<errno<<std::endl;
                 // perror(strerror(errno));
                 response->set_err(errno);
             } else {
@@ -77,7 +77,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
                 response->set_mtime(status.st_mtime);
                 response->set_ctime(status.st_ctime);
                 response->set_err(0);
-                cout<<"dev:"<<response->dev()<<" inode:"<<response->inode()<<" mode"<<response->mode()<<" nlink"<<response->nlink()<<" uid"<<response->uid()<<" guid"<<response->guid()<<endl;
+                // cout<<"dev:"<<response->dev()<<" inode:"<<response->inode()<<" mode"<<response->mode()<<" nlink"<<response->nlink()<<" uid"<<response->uid()<<" guid"<<response->guid()<<endl;
             }
 	
  	    return Status::OK;
@@ -85,24 +85,24 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
     
         Status nfs_readdir(ServerContext* context, const ReadDirRequestParams* request, ServerWriter<ReadDirResponseParams>* response) override {
-            cout<<"Read Attr"<<endl;
+            // cout<<"Read Attr"<<endl;
         
 	    DIR *dp;
 	    struct dirent *de;
 	    ReadDirResponseParams dir_response;
 	    char server_path[512] = {0};
 	    translatePath(request->path().c_str(), server_path);
-            cout<< " print server path: " << server_path << endl;
+            // cout<< " print server path: " << server_path << endl;
 	    dp = opendir(server_path);
   	    if (dp == NULL){
-		cout<<"dp == NULL"<<endl;
+		// cout<<"dp == NULL"<<endl;
 	        perror(strerror(errno));
 	        dir_response.set_err(errno);
                 return Status::OK;
 	    }
 
 	    while((de = readdir(dp)) != NULL) {
-		cout<<"\[while] read:"<<de->d_name<<endl;
+		// cout<<"\[while] read:"<<de->d_name<<endl;
 	        dir_response.set_dinode(de->d_ino);
 	        dir_response.set_dname(de->d_name);
 	        dir_response.set_dtype(de->d_type);
@@ -115,7 +115,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
         }
 
         Status nfs_mkdir(ServerContext* context, const MkDirRequestParams* in_dir, VoidMessage* vmsg) override {
-            cout<<"Mkdir"<<endl;
+            // cout<<"Mkdir"<<endl;
 
 	    char server_path[512] = {0};
 	    translatePath(in_dir->path().c_str(), server_path);
@@ -133,7 +133,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
         };
 
         Status nfs_rmdir(ServerContext* context, const RmDirRequestParams* in_dir, VoidMessage* vmsg) override {
-            cout<<"Rmdir" <<endl;
+            // cout<<"Rmdir" <<endl;
 
 	    char server_path[512] = {0};
             translatePath(in_dir->path().c_str(), server_path);
@@ -150,14 +150,14 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	}
         
 	Status nfs_create(ServerContext* context, const CreateRequestParams* request, CreateResponseParams* response)override {
-	    cout << "[DEBUG] CREATE Client's Path: " << request->path() << endl;
-	    cout << "[DEBUG] CREATE Client's Flag: " << request->flags() << endl;
-	    cout << "[DEBUG] CREATE Client's Mode: " << request->mode() << endl;
+	    // cout << "[DEBUG] CREATE Client's Path: " << request->path() << endl;
+	    // cout << "[DEBUG] CREATE Client's Flag: " << request->flags() << endl;
+	    // cout << "[DEBUG] CREATE Client's Mode: " << request->mode() << endl;
 	
 	    // const char* serverpath = request->path().c_str();
 	    char serverpath[512] = {0};
 	    translatePath(request->path().c_str(), serverpath);
-            std::cout<<"\tclient path: "<<request->path().c_str()<<"\tserver path:"<<serverpath<<endl;
+            // std::cout<<"\tclient path: "<<request->path().c_str()<<"\tserver path:"<<serverpath<<endl;
 	    
 	    int res = open(serverpath, request->flags(), request->mode());
 	    if (res == -1) {
@@ -172,8 +172,8 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	}
 
 	Status nfs_open(ServerContext* context, const OpenRequestParams* request, OpenResponseParams* response) override {
-	    cout << "[DEBUG] OPEN Client's Path: " << request->path() << endl;
-	    cout << "[DEBUG] OPEN Client's Flag: " << request->flags() << endl;
+	    // cout << "[DEBUG] OPEN Client's Path: " << request->path() << endl;
+	    // cout << "[DEBUG] OPEN Client's Flag: " << request->flags() << endl;
 
 	    // const char* serverpath = request->path().c_str();
 	    char serverpath[512] = {0};
@@ -191,9 +191,9 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	}
 	
 	Status nfs_read(ServerContext* context, const ReadRequestParams* request, ReadResponseParams* response) override {
-	    cout << "[DEBUG] READ Client's Path: " << request->path() << endl;
-	    cout << "[DEBUG] READ Client's size: " << request->size() << endl;
-	    cout << "[DEBUG] READ Client's offset " << request->offset() << endl;
+	    // cout << "[DEBUG] READ Client's Path: " << request->path() << endl;
+	    // cout << "[DEBUG] READ Client's size: " << request->size() << endl;
+	    // cout << "[DEBUG] READ Client's offset " << request->offset() << endl;
 
 	    // const char* serverpath = request->path().c_str();
 	    char serverpath[512] = {0};
@@ -262,7 +262,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    return Status::OK;
 	    */
 
-	    cout << "[DEBUG] nfs_write" << endl;
+	    // cout << "[DEBUG] nfs_write" << endl;
 	    WriteRequestParams _request(*request);
 
             StagedWrites.push_back(_request);
@@ -275,7 +275,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
 	Status nfs_commit(ServerContext* context, const CommitRequestParams* request, CommitResponseParams* response) override {
 	
-            cout << "[DEBUG] nfs_commit" << endl;
+            // cout << "[DEBUG] nfs_commit" << endl;
 	    int res;
 	    string buf;
 	    int buflength = 0;
@@ -284,14 +284,15 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
 	    int stagedWritesSize = StagedWrites.size();
 	    int reStagedWritesSize = reStagedWrites.size();
+	    cout << stagedWritesSize << " " << reStagedWritesSize << endl;
 
 	    // read, then append nothing
 	    if (StagedWrites.size() == 0 && _read) {
-	        cout << "[DEBUG] nfs_commit read" << endl;
+	        //  cout << "[DEBUG] nfs_commit read" << endl;
 		close(request->fh());
 		response->set_err(0);
                 _read = false;
-		cout << "[DEBUG] nfs_commit read finished" << endl;
+		// cout << "[DEBUG] nfs_commit read finished" << endl;
                 return Status::OK;		
 	    }
 
@@ -301,9 +302,9 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	        response->set_err(-2);
 		response->set_serverstatus(request->endoffset());
 		return Status::OK;
-	    } else if (stagedWritesSize != 0 && reStagedWritesSize != 0) {
-	        // recommit some files, update these buffer
-		cout << "[DEBUG] recommit" << endl;
+	    } else if (reStagedWritesSize != 0) {
+	        // reach here after recommit all 
+		// cout << "[DEBUG] recommit" << endl;
 		translatePath(reStagedWrites.begin()->path().c_str(), serverpath);
 	        offset = reStagedWrites.begin()->offset();
 		for (int i = 0; i < reStagedWritesSize; i ++) {
@@ -311,14 +312,14 @@ class nfsFuseImpl final : public NFSFuse::Service {
 		    buflength += reStagedWrites.at(i).bufferlength();
 		}
 	    } else if (request->offset() != StagedWrites.begin()->offset()) {
-	        // crash but not recommit
-		cout << "[DEBUG] commit resend" << endl;
+	        // crash during writing the data
+		// cout << "[DEBUG] commit resend" << endl;
 		response->set_err(-1);
 		response->set_serverstatus(StagedWrites.begin()->offset());
 		return Status::OK;
 	    } else {
 	        // not crash
-		cout << "[DEBUG] not crash" << endl;
+		// cout << "[DEBUG] not crash" << endl;
 		translatePath(StagedWrites.begin()->path().c_str(), serverpath);
 		offset = StagedWrites.begin()->offset();
 	    }
@@ -343,32 +344,32 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
             // synchronize file contents
             fsync(fd);
-            cout << "[DEBUG] Commit sync fd: " << fd << endl;
+            // cout << "[DEBUG] Commit sync fd: " << fd << endl;
             if (fd > 0) {
                 close(fd);
             }
-	    cout << "[DEBUG] Commit finish sync" << endl;
-	    cout << "[DEBUG] staged writes size: " << stagedWritesSize << endl;
-	    cout << "[DEBUG] restaged writes size: " << reStagedWritesSize << endl;
+	    // cout << "[DEBUG] Commit finish sync" << endl;
+	    // cout << "[DEBUG] staged writes size: " << stagedWritesSize << endl;
+	    // cout << "[DEBUG] restaged writes size: " << reStagedWritesSize << endl;
 	    
 	    for (int i = 0; i < stagedWritesSize; i++ ) {
 	        StagedWrites.pop_back();
 	    }
 
-	    cout << "pop staged " << stagedWritesSize << endl;
+	    // cout << "pop staged " << stagedWritesSize << endl;
 
 	    for (int i = 0; i < reStagedWritesSize; i++) {
 	        reStagedWrites.pop_back();
 	    }
 
-	    cout << " pop reStaged" << reStagedWritesSize << endl;
+	    // cout << " pop reStaged" << reStagedWritesSize << endl;
 
 	    response->set_err(0);
 	    return Status::OK;
 	}
 	
 	Status nfs_recommit(ServerContext* context, const WriteRequestParams* request, WriteResponseParams* response) override {
-            cout << "[DEBUG] nfs_recommit" << endl;
+            // cout << "[DEBUG] nfs_recommit" << endl;
 	    WriteRequestParams _request(*request);
 
 	    reStagedWrites.push_back(_request);
@@ -379,13 +380,13 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	} 
     
 	Status nfs_unlink(ServerContext* context, const UnlinkRequestParams* request, VoidMessage* vmsg) override {
-	    cout << "[DEBUG] Unlink path:" << request->path().c_str() << endl;
+	    // cout << "[DEBUG] Unlink path:" << request->path().c_str() << endl;
 	    char server_path[512] = {0};
 	    translatePath(request->path().c_str(), server_path);
 	    
 	    int result = unlink(server_path);
 	    if (result == -1) {
-		cout<< "Unlink fails." << endl;
+		// cout<< "Unlink fails." << endl;
 	        perror(strerror(errno));
 		vmsg->set_err(errno);
 		return Status::OK;
@@ -396,7 +397,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	}
 
 	Status nfs_mknod(ServerContext* context, const MknodRequestParams* request, VoidMessage* vmsg) override {
-	    cout << "[DEBUG] mknode path:" << request->path().c_str() << endl;
+	    // cout << "[DEBUG] mknode path:" << request->path().c_str() << endl;
             char server_path[512] = {0};
 	    translatePath(request->path().c_str(), server_path);
 	    
@@ -411,7 +412,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 	    }
 
 	    if (result == -1) {
-                cout<< "Unlink fails." << endl;
+                // cout<< "Unlink fails." << endl;
                 perror(strerror(errno));
                 vmsg->set_err(errno);
                 return Status::OK;
@@ -424,7 +425,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
 	
     Status nfs_rename(ServerContext* context, const RenameRequestParams* request, VoidMessage* vmsg) override {
-        cout << "[DEBUG] rename from path:" << request->fp().c_str() << " to: " << request->tp().c_str() << endl;
+        // cout << "[DEBUG] rename from path:" << request->fp().c_str() << " to: " << request->tp().c_str() << endl;
 	char from_path[512] = {0};
 	char to_path[512] = {0};
 	translatePath(request->fp().c_str(), from_path);

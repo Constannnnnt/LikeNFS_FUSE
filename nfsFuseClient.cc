@@ -47,29 +47,29 @@ static void *client_init(struct fuse_conn_info *conn, struct fuse_config *cfg) {
 }
 
 static int client_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
-    cout<<"client getattr in cc file:"<<path<<endl;
+    // cout<<"client getattr in cc file:"<<path<<endl;
     // memset(stbuf, 0, sizeof(struct stat));      
-    cout << "[DEBUG] Path: " << path << endl; 
+    // cout << "[DEBUG] Path: " << path << endl; 
     return options.nfsFuseClient->rpc_getattr(path, stbuf);
 }
 
 static int client_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
-    std::cout << "[DEBUG] create: " << endl;
+    // std::cout << "[DEBUG] create: " << endl;
     int ret;
     ret = options.nfsFuseClient->nfs_create(path, mode, fi);
-    std::cout << "[DEBUG] create end: " << endl;
+    // std::cout << "[DEBUG] create end: " << endl;
     return ret;
 }
 
 static int client_open(const char *path, struct fuse_file_info *fi) {
-    std::cout << "[DEBUG] open: " << endl;
+    // std::cout << "[DEBUG] open: " << endl;
     int ret;
     ret = options.nfsFuseClient->nfs_open(path, fi);
     return ret;
 }
 
 static int client_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
-    std::cout << "[DEBUG] read: " << endl;
+    // std::cout << "[DEBUG] read: " << endl;
     (void) fi;
     int ret;
     ret = options.nfsFuseClient->nfs_read(path, buf, size, offset);
@@ -77,11 +77,11 @@ static int client_read(const char *path, char *buf, size_t size, off_t offset, s
 }
 
 static int client_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
-    std::cout << "[DEBUG] write: " << endl;
+    // std::cout << "[DEBUG] write: " << endl;
     (void) fi;
     // crash_times += 1;
     // cout << "crash times: " << crash_times << endl;
-    // if (crash_times % 50 == 0) {
+    // if (crash_times % 5121 == 0) {
     //     int t = options.nfsFuseClient->nfs_crash();
     // }
     int ret;
@@ -91,52 +91,56 @@ static int client_write(const char *path, const char *buf, size_t size, off_t of
 
 static int client_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, 
     struct fuse_file_info *fi, enum fuse_readdir_flags flags) {
-    cout<<"client readdir in cc file"<<path<<endl;
+    // cout<<"client readdir in cc file"<<path<<endl;
     return options.nfsFuseClient->rpc_readdir(path, buf, filler);
 }
 
 static int client_mkdir(const char *path, mode_t mode) {
-    cout<<"client mkdir in cc file"<<path<<endl;
+    // cout<<"client mkdir in cc file"<<path<<endl;
     return options.nfsFuseClient->rpc_mkdir(path, mode);
 }
 
 static int client_rmdir(const char *path) {
-    cout<<"client rmdir in cc file"<<path<<endl;
+    // cout<<"client rmdir in cc file"<<path<<endl;
     return options.nfsFuseClient->rpc_rmdir(path);
 }
 
 static int client_commit(const char *path, struct fuse_file_info *fi) {
-    cout << "[DEBUG] Fuse Commit" << endl;
+    // cout << "[DEBUG] Fuse Commit" << endl;
     (void) path;
     int ret;
+    if (crash_times == 0) {
+        crash_times += 1;
+        int t = options.nfsFuseClient->nfs_crash();
+    }
     if (StagedWrites.begin() == StagedWrites.end()) {
         return 0;
     }
     ret = options.nfsFuseClient->nfs_commit(fi->fh, StagedWrites.begin()->offset(), StagedWrites.end()->offset());
-    cout << "[DEBUG] Fuse Committed!" << endl;
+    // cout << "[DEBUG] Fuse Committed!" << endl;
     return ret;
 }
 
 static int client_flush(const char *path, struct fuse_file_info *fi) {
-    cout << "[DEBUG] Fuse Flush" << endl;
+    // cout << "[DEBUG] Fuse Flush" << endl;
     int ret;
     (void) path;
     return 0;
 }
 
 static int client_unlink(const char *path) {
-   cout<<"client unlink:" << path << endl;
+   // cout<<"client unlink:" << path << endl;
    return options.nfsFuseClient->rpc_unlink(path);
 }
 
 
 static int client_mknod(const char* path, mode_t mode, dev_t rdev) {
-   cout<<"client mknod:" << path << endl;
+   // cout<<"client mknod:" << path << endl;
    return options.nfsFuseClient->rpc_mknod(path, mode, rdev);
 }
 
 static int client_rename(const char* from, const char* to, unsigned int flags) {
-   cout << "client rename from:" << from << " to: " << to << endl;
+   // cout << "client rename from:" << from << " to: " << to << endl;
    return options.nfsFuseClient->rpc_rename(from, to, flags);
 }
 
