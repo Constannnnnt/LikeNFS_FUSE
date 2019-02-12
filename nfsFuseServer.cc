@@ -284,7 +284,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
 	    int stagedWritesSize = StagedWrites.size();
 	    int reStagedWritesSize = reStagedWrites.size();
-	    cout << stagedWritesSize << " " << reStagedWritesSize << endl;
+	    // cout << stagedWritesSize << " " << reStagedWritesSize << endl;
 
 	    // read, then append nothing
 	    if (StagedWrites.size() == 0 && _read) {
@@ -298,7 +298,7 @@ class nfsFuseImpl final : public NFSFuse::Service {
 
 	    // totally lost, when reach the commit stage
 	    if (stagedWritesSize == 0 && reStagedWritesSize == 0) {
-		cout << "[DEBUG] commit lost" << endl;
+		// cout << "[DEBUG] commit lost" << endl;
 	        response->set_err(-2);
 		response->set_serverstatus(request->endoffset());
 		return Status::OK;

@@ -3,6 +3,7 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <vector>
@@ -329,8 +330,14 @@ class nfsFuseGrpcClient {
 	    } else {
 	        // some errors happen at the server side
 		int serverstatus = response.serverstatus();
-		int res;
+		struct timeval tv;
+                unsigned long t1, t2;
+                float elapse_time;
+                int res;
 		// cout << "Crash Error" << endl;
+
+		gettimeofday(&tv, NULL);
+                t1 = 1000000*tv.tv_sec + tv.tv_usec;
 
 		if (response.err() == -1) {
 		    // crash during transmission, resend writes to Server Side
@@ -347,6 +354,11 @@ class nfsFuseGrpcClient {
 
 		// Commit Again to match the original wirtes and resent writes
 		res = this->nfs_commit(fh, firstWrite_offset, lastWrite_offset);
+		gettimeofday(&tv, NULL);
+                t2 = 1000000*tv.tv_sec + tv.tv_usec;
+                elapse_time = (float) (t2-t1) / (1000);
+
+                cout << "Elapsed time: " << elapse_time << " milliseconds" << endl;
 		if (res != 0) {
 		    // not match
 		    return -1;

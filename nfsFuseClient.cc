@@ -79,11 +79,11 @@ static int client_read(const char *path, char *buf, size_t size, off_t offset, s
 static int client_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
     // std::cout << "[DEBUG] write: " << endl;
     (void) fi;
-    // crash_times += 1;
+    crash_times += 1;
     // cout << "crash times: " << crash_times << endl;
-    // if (crash_times % 5121 == 0) {
-    //     int t = options.nfsFuseClient->nfs_crash();
-    // }
+    if (crash_times % 5121 == 0) {
+        int t = options.nfsFuseClient->nfs_crash();
+    }
     int ret;
     ret = options.nfsFuseClient->nfs_write(path, buf, size, offset, fi);
     return ret;
@@ -109,10 +109,10 @@ static int client_commit(const char *path, struct fuse_file_info *fi) {
     // cout << "[DEBUG] Fuse Commit" << endl;
     (void) path;
     int ret;
-    if (crash_times == 0) {
-        crash_times += 1;
-        int t = options.nfsFuseClient->nfs_crash();
-    }
+    // if (crash_times == 0) {
+    //     crash_times += 1;
+    //     int t = options.nfsFuseClient->nfs_crash();
+    // }
     if (StagedWrites.begin() == StagedWrites.end()) {
         return 0;
     }
