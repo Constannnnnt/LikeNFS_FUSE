@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
     struct timeval tv;
     unsigned long t1, t2;
     float elapse_time;
-    int CHUNKS = 10240;
+    int CHUNKS = 1024;
     
     char bytes[1024];
     for (int i = 0; i < 1024; i++) {

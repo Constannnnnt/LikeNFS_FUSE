@@ -18,7 +18,7 @@ class nfsFuseGrpcClient {
     public:
         nfsFuseGrpcClient(std::shared_ptr<Channel> channel):stub_(NFSFuse::NewStub(channel)) {}
         int nfs_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
-	    cout << "[DEBUG] nfs_create" << endl;
+	    // cout << "[DEBUG] nfs_create" << endl;
 	    ClientContext ctx;
             CreateRequestParams request;
 	    CreateResponseParams response;
@@ -26,17 +26,17 @@ class nfsFuseGrpcClient {
 	    request.set_mode(mode);
 	    request.set_flags(fi->flags);
 
-	    cout << "[DEBUG] Before Send" << endl;
+	    // cout << "[DEBUG] Before Send" << endl;
 	    Status status = stub_->nfs_create(&ctx, request, &response);
-	    cout << "[DEBUG] After Sent" << endl;
+	    // cout << "[DEBUG] After Sent" << endl;
 	    if (response.err() == 0) {
 	        fi->fh = response.fh();
-	        cout << "[DEBUG] nfs_create finished without err" << endl;
+	       //  cout << "[DEBUG] nfs_create finished without err" << endl;
 	    }
 	    return -response.err();
 	}
 	int nfs_open(const char *path, struct fuse_file_info *fi) {
-	    cout << "[DEBUG] nfs_open" << endl;
+	    // cout << "[DEBUG] nfs_open" << endl;
 	    ClientContext ctx;
 	    OpenRequestParams request;
 	    OpenResponseParams response;
@@ -51,7 +51,7 @@ class nfsFuseGrpcClient {
 	    return -response.err();
 	}
 	int nfs_read(const char *path, char* buf, size_t size, off_t offset) {
-	    cout << "[DEBUG] nfs_read" << endl;
+	    // cout << "[DEBUG] nfs_read" << endl;
 	    ClientContext ctx;
 	    ReadRequestParams request;
 	    ReadResponseParams response;
@@ -68,7 +68,7 @@ class nfsFuseGrpcClient {
 	    }
 	}
 	int nfs_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
-	    cout << "[DEBUG] nfs_write" << endl;
+	    // cout << "[DEBUG] nfs_write" << endl;
 	    ClientContext ctx;
 	    WriteRequestParams request;
 	    WriteResponseParams response;
@@ -86,16 +86,16 @@ class nfsFuseGrpcClient {
 	}
  
     int rpc_getattr(std::string in_path, struct stat* response) {
-    	cout<<"** rpc client get attr **"<<endl;
+    	// cout<<"** rpc client get attr **"<<endl;
 	GetAttrResponseParams new_response;
     	ClientContext context;
 	GetAttrRequestParams path;
-        cout<<"\tin_path:"<<in_path<<endl;
+        // cout<<"\tin_path:"<<in_path<<endl;
     	path.set_path(in_path);
     	memset(response, 0, sizeof(GetAttrResponseParams));
 
     	Status status = stub_->nfs_getattr(&context, path, &new_response);
-	cout << "[DEBUG] Error Code: " << new_response.err() << endl;
+	// cout << "[DEBUG] Error Code: " << new_response.err() << endl;
 
     	if(new_response.err() != 0){
             return -new_response.err();
@@ -127,13 +127,13 @@ class nfsFuseGrpcClient {
 	
 	std::unique_ptr<ClientReader<ReadDirResponseParams> >reader(
 			stub_->nfs_readdir(&ccontext, request));
-        cout<<"** rpc client read dir **"<<endl;       
+        // cout<<"** rpc client read dir **"<<endl;       
 	
         // cout<<"!!!reader:"<<reader->Read(&response)<<" respoonse dname:"<<response.dname()<<"\tres dinode():"<<response.dinode()<<" response dtype:"<<response.dtype()<<endl;
         
 	
 	while (reader->Read(&response)) {
-            cout<<" -> in while ";
+           //  cout<<" -> in while ";
 	    struct stat sta;
 	    memset(&sta, 0, sizeof(sta));
 	    dir.d_ino = response.dinode();
@@ -143,13 +143,13 @@ class nfsFuseGrpcClient {
 	    //sta.st_mode = dir.d_type << 12;
             sta.st_mode = dir.d_type;
 	    if (filler(buf, dir.d_name, &sta, 0, static_cast <fuse_fill_dir_flags>(0))) {
-	        cout<<"[break] break by filler"<<endl;
+	      //   cout<<"[break] break by filler"<<endl;
 	        break;
 	    }
 	}
         
 	status = reader->Finish();
-        cout<<"<before return>"<<endl;       
+        // cout<<"<before return>"<<endl;       
 	return -response.err();
     }
 
@@ -164,7 +164,7 @@ class nfsFuseGrpcClient {
 	Status status = stub_->nfs_mkdir(&ccontext, dir_request, &vmsg);
 	
 	if (vmsg.err() != 0) {
-            std::cout << "Error: mkdir fails" << std::endl;
+            // std::cout << "Error: mkdir fails" << std::endl;
         }
 
         return vmsg.err();
@@ -180,7 +180,7 @@ class nfsFuseGrpcClient {
 	Status status = stub_->nfs_rmdir(&ccontext, dir_request, &vmsg);
 
 	if (vmsg.err() != 0) {
-	    std::cout << "Error: rmdir fails" << endl;
+	    // std::cout << "Error: rmdir fails" << endl;
 	}
 
 	return vmsg.err();
@@ -196,7 +196,7 @@ class nfsFuseGrpcClient {
         Status status = stub_->nfs_unlink(&ccontext, dir_request, &vmsg);
 
         if (vmsg.err() != 0) {
-	    cout << "Error: unlink fails" << endl;
+	     // cout << "Error: unlink fails" << endl;
 	}	 
 
 	return vmsg.err();
@@ -214,7 +214,7 @@ class nfsFuseGrpcClient {
 	Status status = stub_->nfs_mknod(&ccontext, dir_request, &vmsg);
 
 	if (vmsg.err() != 0) {
-	    cout << "Error: mknod fails" << endl;
+	    // cout << "Error: mknod fails" << endl;
 	} 
 
 	return vmsg.err();
@@ -232,7 +232,7 @@ class nfsFuseGrpcClient {
 
         Status status = stub_->nfs_rename(&ccontext, request, &vmsg);
 	if (vmsg.err() != 0) {
-	    cout << "Error: rename fails" << endl;
+	    // cout << "Error: rename fails" << endl;
 	}
 
 	return vmsg.err();
